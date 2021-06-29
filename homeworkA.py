@@ -41,6 +41,7 @@ def pullFileFromAllRepos(repositories, fileToPull):
 		reposFile = reposFileWithGit[0]
 		reposLinkWithGit = reposURL.split(".git")
 		reposLink = reposLinkWithGit[0]
+		tagList = fetchTagList(reposURL) #uses URL for a function that analyzes json file to get list of tags that exist for repo
 		if os.path.exists(reposFile):
 			rootDir = os.getcwd()
 			os.chdir(str(rootDir + "/" + reposFile))
@@ -49,7 +50,10 @@ def pullFileFromAllRepos(repositories, fileToPull):
 			process = subprocess.run(["git", "checkout", fileToPull], check=True, stdout=subprocess.PIPE).stdout
 			os.chdir(rootDir)
 		else:
-			process = subprocess.run(["git", "clone", str(reposURL)], check=True, stdout=subprocess.PIPE).stdout
+			if 'final_ver' in tagList and 'graded_ver' not in tagList:
+				#clones the directory only if final tag exists and it hasn't been graded yet
+				#assuming the tags are named this - could change though
+				process = subprocess.run(["git", "clone", str(reposURL)], check=True, stdout=subprocess.PIPE).stdout
 
 def putGradesInRepos(rootDirGrades, fileName, userList, rootDirRepos, hwName):
 	for user in userlist:
@@ -67,6 +71,8 @@ def pushChangeToRepos(rootPath, fileName, userList, hwName):
 			subprocess.run(["git", "add", srcPath], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "commit", "-m", str("Grades updated for " + hwName + ".")], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "push"], check=True, stdout=subprocess.PIPE).stdout
+			subprocess.run(["git", "tag", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #adds graded version tag
+			subprocess.run(["git", "push", "origin", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #need to push the tag specifically, will not update tag with just a general push command
 		else:
 			print("The directory " + srcPath + " does not exist.")
 
