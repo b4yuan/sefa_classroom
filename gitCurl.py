@@ -27,7 +27,7 @@ def fetchTags(orgName, repoName, authName, authKey):
     tagList = []
     for entry in response.json():
         tagList.append(entry["name"])
-    print(tagList)
+    return tagList
 
 def fetchLists(jsonFile):
 
