@@ -15,23 +15,11 @@ def getFlagFromJSON(JSONFile, flag):
 	return flag
 
 def getRepoNamesFromJSON(JSONFile):
-	usernames = []
-	with open(JSONFile, "r") as JFile:
-		extractRawJSON = json.load(JFile)
-		for dictionaries in extractRawJSON:
-			for flags in dictionaries:
-				if(flags == "names"):
-					usernames.append(dictionaries[flags])
+	usernames = getFlagFromJSON(JSONFile, "names")
 	return usernames
 
 def getRepoCloneURLSFromJSON(JSONFile):
-	repositoryURLS = []
-	with open(JSONFile, "r") as JFile:
-		extractRawJSON = json.load(JFile)
-		for dictionaries in extractRawJSON:
-			for flags in dictionaries:
-				if(flags == "clone_url"):
-					repositoryURLS.append(dictionaries[flags])
+	repositoryURLS = getFlagFromJSON(JSONFile, "clone_url")
 	return repositoryURLS
 
 def pullFileFromAllRepos(repositories, fileToPull):
