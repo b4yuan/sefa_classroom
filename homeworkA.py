@@ -3,6 +3,7 @@ import json
 import os
 import re
 import shutil
+import calcHoursLate.py
 
 def getFlagFromJSON(JSONFile, flag):
 	flag = []
@@ -63,6 +64,11 @@ def pushChangeToRepos(rootPath, fileName, userList, hwName):
 			subprocess.run(["git", "push", "origin", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #need to push the tag specifically, will not update tag with just a general push command
 		else:
 			print("The directory " + srcPath + " does not exist.")
+def getTagsFromFile(JSONFile, dueDate):
+	tags = getFlagFromJSON(JSONFile, "tag")
+	timesLate = []
+	for tag in tags:
+		timesLate = calcHoursLate(tag, dueDate)
 
 def deleteAllRepos(repoFileNames):
 	for repos in repoFileNames:
