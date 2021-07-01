@@ -76,6 +76,9 @@ def pushChangeToRepos(rootPath, fileName, userList, hwName):
 		else:
 			print("The directory " + srcPath + " does not exist.")
 
+def deleteAllRepos(repoFileNames):
+	for repos in repoFileNames:
+			subprocess.run(["rm", repoFileNames], check=True, stdout=subprocess.PIPE).stdout 
 def startGradingProcess(runFilePath):
 	subprocess.run(["python3", "pas_backend/run_grader.py"], check=True, stdout=subprocess.PIPE).stdout
 	
