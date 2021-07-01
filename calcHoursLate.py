@@ -9,4 +9,10 @@ def calcHoursLate(subDate, dueDate):
     timeDiff = datetime.strptime(dueDate, FMT) - datetime.strptime(subDate, FMT) #calculate time difference
     timeDiff = timedelta.total_seconds(timeDiff) #convert difference to seconds
     timeDiff = timeDiff / 3600 #convert difference to hours
-    return timeDiff
+    
+    #timeDiff is positive if submitted before deadline and negative if after deadline
+    if (timeDiff >= 0):
+        #not late
+        return 0
+    else:
+        return timeDiff * -1
