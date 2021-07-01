@@ -24,6 +24,7 @@ def getRepoCloneURLSFromJSON(JSONFile):
 	return repositoryURLS
 
 def pullFileFromAllRepos(repositories, fileToPull):
+    hoursLateArr = []
 	for reposURL in repositories:
 		splitURL = reposURL.split("/")
 		reposFileWithGit = splitURL[len(splitURL) - 1].split(".")
@@ -41,8 +42,15 @@ def pullFileFromAllRepos(repositories, fileToPull):
 		else:
 			if 'final_ver' in tagList and 'graded_ver' not in tagList:
 				#clones the directory only if final tag exists and it hasn't been graded yet
-				#assuming the tags are named this - could change though
 				process = subprocess.run(["git", "clone", str(reposURL)], check=True, stdout=subprocess.PIPE).stdout
+                
+                os.chdir(reposURL) #navigate to cloned repo
+                info = subprocess.check_output('git log -1 --format=%ai ver_1').decode()
+                subDate =info.split(' ')[0] + ' ' + info.split(' ')[1]
+                hoursLate = calcHoursLate(subDate, dueDate) #still need to get the due date from somewhere
+                hoursLateArr.append([reposURL, hoursLate]) #2d array with repository URL and number of hours late
+
+    return hoursLateArr
 
 def putGradesInRepos(rootDirGrades, fileName, userList, rootDirRepos, hwName):
 	for user in userlist:
