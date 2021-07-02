@@ -46,14 +46,12 @@ def fetchLists(jsonFile):
             studentSet.add(match[2])
     students = list(studentSet)
     hws = list(hwSet)
-    return students.sort(), hws.sort()
-
-#def updateDF(hws, students, df):
-    #if (df == None):
-    #    df = pd.DataFrame(columns = students, index = hws)
-    #print(df)
-
+    students.sort()
+    hws.sort()
+    return students, hws
 
 if __name__ == "__main__":
     [students, hws] = fetchLists(fetchRepos("cam2testclass", "myers395", "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"))
+    print(students)
+    print(hws)
     fetchTags("cam2testclass", "hw02sort-lvy15", "myers395", "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")
