@@ -14,26 +14,27 @@ def updateDF(hws, students, df):
 
     else:
         for student1 in students:
+            presentFlag = False
             for student2 in list(df["GitHub Username"]):
                 if (student1 == student2):
-                    students.remove(student1)
+                    presentFlag = True
+            if (presentFlag == False):
+                newStudent= [{"GitHub Username":student1}]
+                for i in range(1, len(df.columns)):
+                    newStudent[0][df.columns[i]]= 0
+                df= df.append(newStudent, ignore_index= True, sort= True)
 
         oldHws = list(df.columns)
         oldHws.remove("GitHub Username")
         for hw1 in hws:
+            presentFlag = False
             for hw2 in oldHws:
                 if (hw1 == hw2):
-                    hws.remove(hw1)
+                    presentFlag = True
+            if (presentFlag == False):
+                newHw= [0.0] * len(df.index)
+                df[hw1]= newHw
 
-        for student in students:
-            newStudent= [{"GitHub Username":student}]
-            for i in range(1, len(df.columns)):
-                newStudent[0][df.columns[i]]= 0
-            df= df.append(newStudent, ignore_index= True, sort= True)
-
-        for hw in hws:
-            newHw= [0.0] * len(df.index)
-            df[hw]= newHw
     return df
 
 def loadCSV(path):
@@ -53,9 +54,19 @@ def writeCSV(path, df):
     df.to_csv(path)
     return
 
+def editEntry(data, student, hw, df):
+    condition = df["GitHub Username"] == student
+    index = df.index
+    studIndex = index[condition]
+    df.loc[studIndex,hw] = data
+
+    return df
+
 if __name__ == "__main__":
     [students, hws] = gitCurl.fetchLists(gitCurl.fetchRepos("cam2testclass", "myers395", "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"))
 
     #Example call:
 
-    writeCSV(os.getcwd() + "/grades.csv", updateDF(hws, students, loadCSV(os.getcwd() + "/grades.csv")))
+    df = updateDF(hws, students, loadCSV(os.getcwd() + "/grades.csv"))
+    df = editEntry(20.2, "kmerrill16", "hw02sort", df)
+    writeCSV(os.getcwd() + "/grades.csv", df)
