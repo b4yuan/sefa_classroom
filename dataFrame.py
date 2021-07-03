@@ -59,10 +59,16 @@ def editEntry(data, student, hw, df):
     #Takes a student and a homework assignment and assigns data to cooresponding data point
     #Returns updated data frame
 
-    condition = df["GitHub Username"] == student
-    index = df.index
-    studIndex = index[condition]
-    df.loc[studIndex,hw] = data
+    if hw not in df.columns:
+        print("Homework not present in dataframe.")
+    else:
+        condition = df["GitHub Username"] == student
+        index = df.index
+        studIndex = index[condition]
+        if (len(studIndex) != 1):
+            print("Student not present in dataframe.")
+        else:
+            df.loc[studIndex,hw] = data
 
     return df
 
@@ -72,5 +78,5 @@ if __name__ == "__main__":
     #Example call:
 
     df = updateDF(hws, students, loadCSV(os.getcwd() + "/grades.csv"))
-    df = editEntry(20.2, "kmerrill16", "hw02sort", df)
+    df = editEntry(0, "lvy15", "hw02sort", df)
     writeCSV(os.getcwd() + "/grades.csv", df)
