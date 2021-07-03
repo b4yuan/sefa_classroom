@@ -55,6 +55,10 @@ def writeCSV(path, df):
     return
 
 def editEntry(data, student, hw, df):
+
+    #Takes a student and a homework assignment and assigns data to cooresponding data point
+    #Returns updated data frame
+
     condition = df["GitHub Username"] == student
     index = df.index
     studIndex = index[condition]
