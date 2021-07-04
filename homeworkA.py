@@ -80,7 +80,7 @@ def getTimesLateFromFile(JSONFile, dueDate):
         return timesLate
 def deleteAllRepos(repoFileNames):
 	for repos in repoFileNames:
-			subprocess.run(["rm", repoFileNames], check=True, stdout=subprocess.PIPE).stdout 
+			subprocess.run(["rm", repos], check=True, stdout=subprocess.PIPE).stdout 
 def startGradingProcess(runFilePath):
 	subprocess.run(["python3", "pas_backend/run_grader.py"], check=True, stdout=subprocess.PIPE).stdout
 	
