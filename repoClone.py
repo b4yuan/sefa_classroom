@@ -41,5 +41,5 @@ def rmtree(top):
 
 if __name__ == "__main__":
     rmtree('clones')
-    #[students, hws] = gitCurl.fetchLists(gitCurl.fetchRepos("cam2testclass", "myers395", "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")) #modified output since fetchLists outputs students and hws and not repository list
-    #cloneFromRepos("cam2testclass", students, 'hw02sort', "final_ver", "myers395", "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")
+    [students, hws] = gitCurl.fetchLists(gitCurl.fetchRepos("cam2testclass", "myers395", "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")) #modified output since fetchLists outputs students and hws and not repository list
+    cloneFromRepos("cam2testclass", students, 'hw02sort', "final_ver", "myers395", "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")
