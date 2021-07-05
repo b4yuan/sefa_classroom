@@ -5,6 +5,7 @@ import re
 import shutil
 import calcHoursLate
 import gitCurl
+import stat
 
 def cloneFromRepos(org, students, hwName, tagName, authName, authKey): #changed repository to students and added hwName
     hoursLateArr = []
@@ -28,7 +29,17 @@ def cloneFromRepos(org, students, hwName, tagName, authName, authKey): #changed 
             os.chdir(owd)
     print(hoursLateArr)
 
+def rmtree(top):
+    for root, dirs, files in os.walk(top, topdown=False):
+        for name in files:
+            filename = os.path.join(root, name)
+            os.chmod(filename, stat.S_IWUSR)
+            os.remove(filename)
+        for name in dirs:
+            os.rmdir(os.path.join(root, name))
+    os.rmdir(top)   
+
 if __name__ == "__main__":
-    #shutil.rmtree('clones') #this doesnt work
-    [students, hws] = gitCurl.fetchLists(gitCurl.fetchRepos("cam2testclass", "myers395", "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")) #modified output since fetchLists outputs students and hws and not repository list
-    cloneFromRepos("cam2testclass", students, 'hw02sort', "final_ver", "myers395", "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")
+    rmtree('clones')
+    #[students, hws] = gitCurl.fetchLists(gitCurl.fetchRepos("cam2testclass", "myers395", "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")) #modified output since fetchLists outputs students and hws and not repository list
+    #cloneFromRepos("cam2testclass", students, 'hw02sort', "final_ver", "myers395", "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")
