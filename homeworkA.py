@@ -4,7 +4,8 @@ import os
 import re
 import shutil
 #import calcHoursLate
-
+import gitCurl
+import repoClone
 #Important: this file uses the tab convention
 def getFlagFromJSON(JSONFile, flag):
 	flag = []
@@ -17,11 +18,23 @@ def getFlagFromJSON(JSONFile, flag):
 	return flag
 
 def getRepoNamesFromJSON(JSONFile):
-	usernames = getFlagFromJSON(JSONFile, "names")
+	usernames = []
+	with open(JSONFile, "r") as JFile:
+		extractRawJSON = json.load(JFile)
+		for dictionaries in extractRawJSON:
+			for flags in dictionaries:
+				if(flags == "names"):
+					usernames.append(dictionaries[flags])
 	return usernames
 
 def getRepoCloneURLSFromJSON(JSONFile):
-	repositoryURLS = getFlagFromJSON(JSONFile, "clone_url")
+	repositoryURLS = []
+	with open(JSONFile, "r") as JFile:
+		extractRawJSON = json.load(JFile)
+		for dictionaries in extractRawJSON:
+			for flags in dictionaries:
+				if(flags == "clone_url"):
+					repositoryURLS.append(dictionaries[flags])
 	return repositoryURLS
 
 def pullFileFromAllRepos(repositories, fileToPull):
@@ -32,7 +45,7 @@ def pullFileFromAllRepos(repositories, fileToPull):
 		reposFile = reposFileWithGit[0]
 		reposLinkWithGit = reposURL.split(".git")
 		reposLink = reposLinkWithGit[0]
-		tagList = fetchTagList(reposURL) #uses URL for a function that analyzes json file to get list of tags that exist for repo
+		tagList = gitCurl.fetchTags(reposURL) #uses URL for a function that analyzes json file to get list of tags that exist for repo
 		if os.path.exists(reposFile):
 			rootDir = os.getcwd()
 			os.chdir(str(rootDir + "/" + reposFile))
@@ -41,7 +54,7 @@ def pullFileFromAllRepos(repositories, fileToPull):
 			process = subprocess.run(["git", "checkout", fileToPull], check=True, stdout=subprocess.PIPE).stdout
 			os.chdir(rootDir)
 		else:
-			if 'final_ver' in tagList and 'graded_ver' not in tagList:
+			#if 'final_ver' in tagList and 'graded_ver' not in tagList:
 				#clones the directory only if final tag exists and it hasn't been graded yet
 				process = subprocess.run(["git", "clone", str(reposURL)], check=True, stdout=subprocess.PIPE).stdout
                 
@@ -87,16 +100,22 @@ def startGradingProcess(runFilePath):
 	subprocess.run(["python3", runFilePath], check=True, stdout=subprocess.PIPE).stdout
 	testFile = "testJSON.json"
 testFile = "testJSON.json"
-testHW = "HW02Sort"
+testHW = "hw02Sort"
 runFile = "run_grader.py"
 gradeName = "grade.txt"
 gradeRoot = "grades"
+organization = "cam2testclass"
+tagName = "final_ver"
+authName = "myers395"
+authKey = "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"
 repoNames = getRepoNamesFromJSON(testFile)
 userURLS = getRepoCloneURLSFromJSON(testFile)
-pullFileFromAllRepos(userURLS, testHW)
+print(str(repoNames))
+print(str(userURLS))
+lateTimes = repoClone.cloneFromRepos(organization, repoNames, testHW, tagName, authName, authKey)
 #getTimesLateFromFile(testFile, dueDate)
-startGradingProcess(runFile)
-putGradesInRepos(gradeRoot, gradeName, repoNames, repoNames, testHW)
-pushChangeToRepos("repos", gradeName, repoNames, testHW)
-deleteAllRepos(repoNames)
+#startGradingProcess(runFile)
+#putGradesInRepos(gradeRoot, gradeName, repoNames, repoNames, testHW)
+#pushChangeToRepos("repos", "grade.txt", repoNames, "HW02Sort")
+#deleteAllRepos(repoNames)
 	
