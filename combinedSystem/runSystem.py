@@ -25,10 +25,10 @@ rmtree('clones')
 rmtree('grades')
     #removes folder of grades
 
-[students, hws] = fetchLists(fetchRepos(organization, authName, authKey)) 
+[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
 print(students)
     #fetchRepos returns ?, then fetchLists returns list of students in class and lists of homeworks that exist
-hoursLateArr = cloneFromRepos(organization, students, hwName, tagName, authName, authKey)
+hoursLateArr = cloneFromRepos(organization, repos, hwName, tagName, authName, authKey)
     #clones all repositories of students with the specified homework name and tag
 
 

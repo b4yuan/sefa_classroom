@@ -13,13 +13,15 @@ def fetchLists(jsonFile):
     template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$')
     studentSet = set()
     hwSet = set()
+    repos = []
     for repo in repoList:
         match = re.fullmatch(template, repo)
         if match != None:
+            repos.append(match[0])
             hwSet.add(match[1])
             studentSet.add(match[2])
     students = list(studentSet)
     hws = list(hwSet)
     students.sort()
     hws.sort()
-    return students, hws
+    return students, hws, repos
