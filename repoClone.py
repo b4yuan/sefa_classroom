@@ -3,7 +3,7 @@ import json
 import os
 import re
 import shutil
-#import calcHoursLate
+import calcHoursLate
 import gitCurl
 import stat
 
