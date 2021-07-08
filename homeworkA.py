@@ -3,7 +3,7 @@ import json
 import os
 import re
 import shutil
-#import calcHoursLate
+import calcHoursLate
 import gitCurl
 import repoClone
 #Important: this file uses the tab convention
@@ -68,23 +68,27 @@ def pullFileFromAllRepos(repositories, fileToPull):
 
 def putGradesInRepos(rootDirGrades, fileName, userList, rootDirRepos, hwName):
 	for user in userList:
-		srcPath = rootDirGrades + "/" + user + "/" + fileName
-		dstPath = user
-		if os.path.exists(srcPath) and os.path.exists(dstPath):
+		srcPath = str(rootDirGrades + "/" + hwName + "-" + user + "/" + fileName)
+		dstPath = str("clones/" + hwName + "-" + user)
+		if os.path.exists(str(srcPath)) and os.path.exists(str(dstPath)):
 			shutil.copy(srcPath, dstPath)
 		else:
 			print("One of these directories does not exist: " +  str(srcPath) + " or " + str(dstPath))
 
 def pushChangeToRepos(rootPath, fileName, userList, hwName):
 	for user in userList:
-		srcPath = user + "/" + fileName #rootPath + "/" + user + "/" + fileName
+		srcPath = "clones/" + hwName + "-" + user #rootPath + "/" + user + "/" + fileName
 
 		if os.path.exists(srcPath):
-			subprocess.run(["git", "add", srcPath], check=True, stdout=subprocess.PIPE).stdout
+			originalDir = os.getcwd()
+			os.chdir(str(originalDir + "/" + srcPath))	
+			subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "commit", "-m", str("Grades updated for " + hwName + ".")], check=True, stdout=subprocess.PIPE).stdout
-			#subprocess.run(["git", "push"], check=True, stdout=subprocess.PIPE).stdout
+			subprocess.run(["git", "push"], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "tag", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #adds graded version tag
 			subprocess.run(["git", "push", "origin", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #need to push the tag specifically, will not update tag with just a general push command
+			os.chdir(originalDir)
+	
 		else:
 			print("The directory " + srcPath + " does not exist.")
 def getTimesLateFromFile(JSONFile, dueDate):
@@ -93,14 +97,14 @@ def getTimesLateFromFile(JSONFile, dueDate):
 	for tag in tags:
 		timesLate.append(calcHoursLate(tag, dueDate))
 	return timesLate
-def deleteAllRepos(repoFileNames):
+def deleteAllRepos(repoFileNames, hwName):
 	for repos in repoFileNames:
-			subprocess.run(["rm", repos], check=True, stdout=subprocess.PIPE).stdout 
+			subprocess.run(["rm","-rf", "clones/" + hwName + "-" + repos], check=True, stdout=subprocess.PIPE).stdout 
 def startGradingProcess(runFilePath):
 	subprocess.run(["python3", runFilePath], check=True, stdout=subprocess.PIPE).stdout
 	testFile = "testJSON.json"
 testFile = "testJSON.json"
-testHW = "hw02Sort"
+testHW = "hw02sort"
 runFile = "run_grader.py"
 gradeName = "grade.txt"
 gradeRoot = "grades"
@@ -114,8 +118,8 @@ print(str(repoNames))
 print(str(userURLS))
 lateTimes = repoClone.cloneFromRepos(organization, repoNames, testHW, tagName, authName, authKey)
 #getTimesLateFromFile(testFile, dueDate)
-#startGradingProcess(runFile)
-#putGradesInRepos(gradeRoot, gradeName, repoNames, repoNames, testHW)
-#pushChangeToRepos("repos", "grade.txt", repoNames, "HW02Sort")
-#deleteAllRepos(repoNames)
+startGradingProcess(runFile)
+putGradesInRepos(gradeRoot, gradeName, repoNames, repoNames, testHW)
+pushChangeToRepos("repos", "grade.txt", repoNames, testHW)
+#deleteAllRepos(repoNames, testHW)
 	
