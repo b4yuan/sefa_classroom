@@ -50,6 +50,7 @@ def fetchLists(jsonFile):
     hws.sort()
     return students, hws
 
+
 if __name__ == "__main__":
     [students, hws] = fetchLists(fetchRepos("cam2testclass", "myers395", "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"))
     print(students)
