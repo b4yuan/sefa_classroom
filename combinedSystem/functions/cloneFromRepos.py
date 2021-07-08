@@ -10,7 +10,7 @@ def cloneFromRepos(org, repos, hwName, tagName, authName, authKey): #changed rep
         if repo.startswith(hwName):
             tagList = fetchTags(org, repo, authName, authKey)
             print(tagList)
-            if (tagName in tagList): #and ('graded_ver' not in tagList):
+            if (tagName in tagList) and ('graded_ver' not in tagList):
                 reposURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
                 owd = os.getcwd()
                 if os.path.isdir(os.getcwd() + "/clones") == False:

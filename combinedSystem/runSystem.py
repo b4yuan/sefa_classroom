@@ -19,8 +19,6 @@ authName = "myers395"
 authKey = "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"
 
 #running functions
-
-
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
     #fetchRepos returns ?, then fetchLists returns list of students in class and lists of homeworks that exist
 hoursLateArr = cloneFromRepos(organization, repos, hwName, tagName, authName, authKey)
