@@ -12,7 +12,12 @@ PAS has decided to make use of _Github Classroom_ to facilitate the user grading
 _Github Classroom_ is a free online service for educators created by Github to provide storage services that can be used for assignment submission. 
 
 ## _What are "Tags"?_
-Tags are a specific marker used by Github on repositories that serve useful properties relevant to this part of the system. For instance, tags can provide the system with the time of a submission, and can be used to indicate that the repository has been graded. Of course, these tags can be customized to fit the user's purposes. One can read more on the specifics of tags on the official github documentation, or notes taken by Leila Yanni:
+Tags are a specific marker used by Github on repositories that serve useful properties relevant to this part of the system. For instance, tags can provide the system with the time of a submission, and can be used to indicate that the repository has been graded. Of course, these tags can be customized to fit the user's purposes. 
+
+One can read more on the specifics of tags on the official github documentation:
+https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/managing-commits/managing-tags
+
+or specific notes taken by Leila Yanni: https://github.com/PurdueCAM2Project/pas_githubclassroom/blob/combined/Notes%20on%20Tags.md
 ## _Github Commands Used and Their Descriptions_
 ## _Linux Commands Used and Their Descriptions_
 ## _Current Status of Functionality and What Needs to be Done_
