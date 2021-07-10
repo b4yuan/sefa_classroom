@@ -1,5 +1,5 @@
 # **Combined Grading System (Github/Brightspace interactions)**
-_This article is incomplete. You can help by expanding it.
+_This article is incomplete. You can help by expanding it._
 ## _Abstract_
 This section describes the system that governs the interactions between the _Github Classroom_ and the server. This includes pulling, running the grading script, tagging, committing, pushing, deleting the repos afterward, and other pertinent functions such as obtaining the information necessary to run these. These functions are all done by Python scripts that make use of OS and Unix commands/functions.
 
