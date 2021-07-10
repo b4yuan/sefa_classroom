@@ -1,13 +1,13 @@
 import os
 import subprocess
 
-def pushChangeToRepos(rootPath, fileName, userList, hwName):
-	for user in userList:
-		srcPath = "clones/" + hwName + "-" + user #rootPath + "/" + user + "/" + fileName
+def pushChangeToRepos(rootPath, fileName, repos, hwName):
+	for repo in repos:
+		srcPath = os.getcwd() + rootPath + "/" + repo #rootPath + "/" + user + "/" + fileName
 
 		if os.path.exists(srcPath):
 			originalDir = os.getcwd()
-			os.chdir(str(originalDir + "/" + srcPath))	
+			os.chdir(str(srcPath))	
 			subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "commit", "-m", str("Grades updated for " + hwName + ".")], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout

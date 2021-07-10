@@ -1,18 +1,22 @@
 import os
+from functions.fetchDueDate import fetchDueDate
 import subprocess
 from functions.calcHoursLate import calcHoursLate
 from functions.fetchTags import fetchTags
 #inputs: 
 
-def cloneFromRepos(org, repos, hwName, tagName, authName, authKey): #changed repository to students and added hwName
-    hoursLateArr = []
+def cloneFromRepos(org, repos, hwName, tagName, authName, authKey, profPath): #changed repository to students and added hwName
+    hoursLateArr = [] #Cloned repos and their time late
+    clonedRepos = [] #Array of repositories that will be cloned after function
+    newProfPath = os.getcwd() + profPath #must set before looping through repos
+    owd = os.getcwd()
     for repo in repos:
         if repo.startswith(hwName):
+            clonedRepos.append(repo)
             tagList = fetchTags(org, repo, authName, authKey)
             print(tagList)
             if (tagName in tagList) and ('graded_ver' not in tagList):
                 reposURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
-                owd = os.getcwd()
                 if os.path.isdir(os.getcwd() + "/clones") == False:
                     os.mkdir(os.getcwd() + "/clones")
                 os.chdir(os.getcwd() + "/clones")
@@ -22,7 +26,7 @@ def cloneFromRepos(org, repos, hwName, tagName, authName, authKey): #changed rep
                 info = subprocess.check_output(tagStr.split()).decode()
                 subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
                 #print(subDate)
-                hoursLate = calcHoursLate(subDate, "2021-06-30 15:59:59") #still need to get the due date from somewhere
-                hoursLateArr.append([repo, hoursLate]) #2d array with repository URL and number of hours late
+                hoursLate = calcHoursLate(subDate, fetchDueDate(newProfPath, hwName))
+                hoursLateArr.append([repo, hoursLate]) #2d array with repository name and number of hours late
                 os.chdir(owd)
-    return hoursLateArr
+    return clonedRepos, hoursLateArr
