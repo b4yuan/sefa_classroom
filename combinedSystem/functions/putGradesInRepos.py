@@ -1,11 +1,11 @@
 import shutil
 import os
 
-def putGradesInRepos(rootDirGrades, fileName, userList, hwName):
-	for user in userList:
+def putGradesInRepos(rootDirGrades, fileName, repos):
+	for repo in repos:
 		owd = os.getcwd()
-		srcPath = str(owd + rootDirGrades + "/" + hwName + "-" + user + "/" + fileName)
-		dstPath = str(owd + "/clones/" + hwName + "-" + user)
+		srcPath = str(owd + rootDirGrades + "/" + repo + "/" + fileName)
+		dstPath = str(owd + "/clones/" + repo)
 		if os.path.exists(str(srcPath)) and os.path.exists(str(dstPath)):
 			shutil.copy(srcPath, dstPath)
 		else:
