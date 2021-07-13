@@ -22,7 +22,7 @@ def cloneFromRepos(org, students, hwName, tagName, authName, authKey): #changed 
             os.chdir(os.getcwd() + "/" + repo) #navigate to cloned repo
             tagStr = 'git log -1 --format=%ai ' + tagName
             info = subprocess.check_output(tagStr.split()).decode()
-            subDate =info.split(' ')[0] + ' ' + info.split(' ')[1]
+            subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
             #print(subDate)
             hoursLate = calcHoursLate.calcHoursLate(subDate, "2021-06-30 15:59:59") #still need to get the due date from somewhere
             hoursLateArr.append([repo, hoursLate]) #2d array with repository URL and number of hours late
