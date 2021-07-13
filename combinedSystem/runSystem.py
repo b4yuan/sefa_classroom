@@ -11,14 +11,14 @@ from functions.putGradesInCSV import putGradesInCSV
 import os
 
 #variables
-testFile = "testJSON.json"
-hwName = "hw02sort"
-graderFile = "run_grader.py" #file name of grading function
-gradeName = "grade.txt"
-organization = "cam2testclass"
-tagName = "final_ver"
-authName = "myers395"
-authKey = "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"
+hwName = "hw02sort" #input from python script
+
+organization = "cam2testclass" #json file
+authName = "myers395" #json file
+authKey = "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" #json file
+
+tagName = "final_ver" #not changed by professor
+gradeName = "gradeReport.txt" #not changed by professor
 profFiles = "/profFiles"
 gradeRoot = "/grades"
 clonesRoot = "/clones"
