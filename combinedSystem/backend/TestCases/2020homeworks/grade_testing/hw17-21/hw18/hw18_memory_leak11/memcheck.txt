@@ -1,0 +1,141 @@
+==3153011== Memcheck, a memory error detector
+==3153011== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3153011== Using Valgrind-3.15.0-608cb11914-20190413 and LibVEX; rerun with -h for copyright info
+==3153011== Command: ./hw18 inputs/input1 inputs/test1 output1
+==3153011== Parent PID: 3153010
+==3153011== 
+--3153011-- 
+--3153011-- Valgrind options:
+--3153011--    --tool=memcheck
+--3153011--    --log-file=memcheck.txt
+--3153011--    --leak-check=full
+--3153011--    --verbose
+--3153011-- Contents of /proc/version:
+--3153011--   Linux version 5.8.0-50-generic (buildd@lgw01-amd64-030) (gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #56~20.04.1-Ubuntu SMP Mon Apr 12 21:46:35 UTC 2021
+--3153011-- 
+--3153011-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3-ssse3-avx
+--3153011-- Page sizes: currently 4096, max supported 4096
+--3153011-- Valgrind library directory: /usr/lib/x86_64-linux-gnu/valgrind
+--3153011-- Reading syms from /home/chen2855/git/pas_backend/TestCases/2020homeworks/grade_testing/hw17-21/hw18/hw18_memory_leak11/hw18
+--3153011-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-2.31.so
+--3153011--   Considering /usr/lib/x86_64-linux-gnu/ld-2.31.so ..
+--3153011--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--3153011--   Considering /lib/x86_64-linux-gnu/ld-2.31.so ..
+--3153011--   .. CRC mismatch (computed 975d0390 wanted 30bd717f)
+--3153011--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.31.so ..
+--3153011--   .. CRC is valid
+--3153011-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/memcheck-amd64-linux
+--3153011--    object doesn't have a symbol table
+--3153011--    object doesn't have a dynamic symbol table
+--3153011-- Scheduler: using generic scheduler lock implementation.
+--3153011-- Reading suppressions file: /usr/lib/x86_64-linux-gnu/valgrind/default.supp
+==3153011== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-3153011-by-chen2855-on-???
+==3153011== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-3153011-by-chen2855-on-???
+==3153011== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-3153011-by-chen2855-on-???
+==3153011== 
+==3153011== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==3153011== don't want to do, unless you know exactly what you're doing,
+==3153011== or are doing some strange experiment):
+==3153011==   /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=3153011 ...command...
+==3153011== 
+==3153011== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==3153011==   /path/to/gdb ./hw18
+==3153011== and then give GDB the following command
+==3153011==   target remote | /usr/lib/x86_64-linux-gnu/valgrind/../../bin/vgdb --pid=3153011
+==3153011== --pid is optional if only one valgrind process is running
+==3153011== 
+--3153011-- REDIR: 0x4022e10 (ld-linux-x86-64.so.2:strlen) redirected to 0x580c9ce2 (???)
+--3153011-- REDIR: 0x4022be0 (ld-linux-x86-64.so.2:index) redirected to 0x580c9cfc (???)
+--3153011-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_core-amd64-linux.so
+--3153011--    object doesn't have a symbol table
+--3153011-- Reading syms from /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so
+--3153011--    object doesn't have a symbol table
+==3153011== WARNING: new redirection conflicts with existing -- ignoring it
+--3153011--     old: 0x04022e10 (strlen              ) R-> (0000.0) 0x580c9ce2 ???
+--3153011--     new: 0x04022e10 (strlen              ) R-> (2007.0) 0x0483f060 strlen
+--3153011-- REDIR: 0x401f5f0 (ld-linux-x86-64.so.2:strcmp) redirected to 0x483ffd0 (strcmp)
+--3153011-- REDIR: 0x4023370 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4843a20 (mempcpy)
+--3153011-- Reading syms from /usr/lib/x86_64-linux-gnu/libc-2.31.so
+--3153011--   Considering /usr/lib/x86_64-linux-gnu/libc-2.31.so ..
+--3153011--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--3153011--   Considering /lib/x86_64-linux-gnu/libc-2.31.so ..
+--3153011--   .. CRC mismatch (computed 86b78530 wanted e380f01c)
+--3153011--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.31.so ..
+--3153011--   .. CRC is valid
+--3153011-- REDIR: 0x4900600 (libc.so.6:memmove) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff900 (libc.so.6:strncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900930 (libc.so.6:strcasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff220 (libc.so.6:strcat) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff960 (libc.so.6:rindex) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4901dd0 (libc.so.6:rawmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491ce60 (libc.so.6:wmemchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491c9a0 (libc.so.6:wcscmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900760 (libc.so.6:mempcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900590 (libc.so.6:bcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff890 (libc.so.6:strncmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff2d0 (libc.so.6:strcmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x49006c0 (libc.so.6:memset) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491c960 (libc.so.6:wcschr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff7f0 (libc.so.6:strnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff3b0 (libc.so.6:strcspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900980 (libc.so.6:strncasecmp) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff350 (libc.so.6:strcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900ad0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491e0d0 (libc.so.6:wcsnlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491c9e0 (libc.so.6:wcscpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff9a0 (libc.so.6:strpbrk) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff280 (libc.so.6:index) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ff7b0 (libc.so.6:strlen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4908d20 (libc.so.6:memrchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x49009d0 (libc.so.6:strcasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900550 (libc.so.6:memchr) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x491cab0 (libc.so.6:wcslen) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x48ffc60 (libc.so.6:strspn) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x49008d0 (libc.so.6:stpncpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900870 (libc.so.6:stpcpy) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4901e10 (libc.so.6:strchrnul) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4900a20 (libc.so.6:strncasecmp_l) redirected to 0x48311d0 (_vgnU_ifunc_wrapper)
+--3153011-- REDIR: 0x4911a30 (libc.so.6:__strrchr_sse2) redirected to 0x483ea70 (__strrchr_sse2)
+--3153011-- REDIR: 0x48fa260 (libc.so.6:malloc) redirected to 0x483b780 (malloc)
+--3153011-- REDIR: 0x4900120 (libc.so.6:__GI_strstr) redirected to 0x4843ca0 (__strstr_sse2)
+--3153011-- REDIR: 0x48fa850 (libc.so.6:free) redirected to 0x483c9d0 (free)
+--3153011-- REDIR: 0x491bc40 (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4840100 (memcpy@GLIBC_2.2.5)
+==3153011== 
+==3153011== HEAP SUMMARY:
+==3153011==     in use at exit: 7,220 bytes in 18 blocks
+==3153011==   total heap usage: 28 allocs, 10 frees, 32,016 bytes allocated
+==3153011== 
+==3153011== Searching for pointers to 18 not-freed blocks
+==3153011== Checked 74,456 bytes
+==3153011== 
+==3153011== 4 bytes in 1 blocks are definitely lost in loss record 1 of 9
+==3153011==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3153011==    by 0x109423: main (main.c:60)
+==3153011== 
+==3153011== 272 (8 direct, 264 indirect) bytes in 1 blocks are definitely lost in loss record 4 of 9
+==3153011==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3153011==    by 0x10966D: buildTree (tree.c:69)
+==3153011==    by 0x109337: main (main.c:32)
+==3153011== 
+==3153011== 1,000 bytes in 1 blocks are definitely lost in loss record 7 of 9
+==3153011==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3153011==    by 0x109322: main (main.c:31)
+==3153011== 
+==3153011== 1,000 bytes in 1 blocks are definitely lost in loss record 8 of 9
+==3153011==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3153011==    by 0x109374: main (main.c:40)
+==3153011== 
+==3153011== 4,000 bytes in 1 blocks are definitely lost in loss record 9 of 9
+==3153011==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==3153011==    by 0x1092A0: main (main.c:21)
+==3153011== 
+==3153011== LEAK SUMMARY:
+==3153011==    definitely lost: 6,012 bytes in 5 blocks
+==3153011==    indirectly lost: 264 bytes in 11 blocks
+==3153011==      possibly lost: 0 bytes in 0 blocks
+==3153011==    still reachable: 944 bytes in 2 blocks
+==3153011==         suppressed: 0 bytes in 0 blocks
+==3153011== Reachable blocks (those to which a pointer was found) are not shown.
+==3153011== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==3153011== 
+==3153011== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 0 from 0)
