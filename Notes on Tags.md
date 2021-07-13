@@ -19,6 +19,7 @@ if there is no tag it will have an error so we will need to include a catch for 
 ### 3b. get information of date of tag
 	-> git log --tags --simplify-by-decoration --pretty="format:%ai %d" (this will get date of all tags)
 	-> git log -1 --format=%ai [tag name] (date of only specified tag)
+the date of the tag will reflect the date of the commit that the tag refers to, not necessarily the date of the tag creation
 
 **scenario 1:**
 - let's say student submits at 11:30 pm with tag final_ver. tag shows it was created at 11:30 pm
