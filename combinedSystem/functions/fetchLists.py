@@ -1,7 +1,7 @@
 import re
 
 #inputs: json file
-#outputs: list of students, list of homeworks
+#outputs: list of students, list of homeworks, list of repos
 
 def fetchLists(jsonFile):
 
