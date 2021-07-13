@@ -15,7 +15,8 @@ def putGradesInCSV(profFiles, rootDirGrades, fileName, repos, hws, students):
             # srcPath = str(rootDirGrades + "/" + repo + "/" + fileName) for testing
             match = re.fullmatch(template, repo) # match template with repository name
             if os.path.exists(str(srcPath)):
-                grade = open(srcPath, "r").read() # open grade file
+                grade = open(srcPath, "r").readlines()[0] # open grade file, get the first line
+                grade = grade.split(" ")[1].split("%")[0] #retrives just the number from the text file
                 df = editEntry(float(grade), match[2], match[1], df) # add grade to respective hw and student
             else:
                 print("Grade does not exist: " +  str(srcPath))

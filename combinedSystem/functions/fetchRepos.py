@@ -1,11 +1,16 @@
 import requests
 
-#inputs: organization name (ex: cam2testclass), authName (?), authKey (?)
-#outputs: json file of repos
-
 def fetchRepos(orgName, authName, authKey):
+    """Description: Obtains JSON file of repository names for specified organization using GitHub
+    
+    Parameters: 
+    orgName (str): name of classroom
+    authName (str): name of authorized user
+    authKey(str): GPG key
+    
+    Returns:
+    JSONfile: JSON file of repository names"""
 
-    #returns json file of repos for specified organization
 
     url = "https://api.github.com/orgs/" + orgName + "/repos"
     headers = {
