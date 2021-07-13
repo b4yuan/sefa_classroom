@@ -9,9 +9,10 @@ tags must be pushed directly to the server, a push of the repository will not in
 ### 2a. let's say the student tags a version, then edits code and wants to tag again to submit an updated version (still before deadline)
 	-> git tag [tag name] -f (this will force the tag to update)
 	-> git push origin [tag name] -f
-to delete a tag:
+	to delete a tag:
 	-> git tag -d [tag name]
-or 	-> git push -d origin [tag name]
+	or:
+	-> git push -d origin [tag name]
 ### 3. we pull tagged version of student's submission
 	-> git clone -b [tag name] [repository]
 if there is no tag it will have an error so we will need to include a catch for that
