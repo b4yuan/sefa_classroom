@@ -2,7 +2,7 @@ import unittest
 from GradingInterface import interface
 import os
 
-path = os.path.join(os.getcwd(), 'TestCases')
+path = os.getcwd()
 
 def testhw02():
     graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort.zip'),
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     print('start correct homework ----------------------------------')
     print(testhw02())
     print('end correct homework ----------------------------------\n\n')
-
+'''
     print('start nocompile homework ----------------------------------')
     print(testhw02_nocompile())
     print('end nocompile homework ----------------------------------\n\n')
@@ -55,5 +55,5 @@ if __name__ == '__main__':
     print(testhw02_mem())
     print('end mem leak homework ----------------------------------\n\n')
 
-
+'''
     # ......

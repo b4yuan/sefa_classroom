@@ -1,22 +1,40 @@
 import subprocess
 import os
-import random #for testing purposes
+from datetime import datetime
+import functions.GradingInterface.interface as interface
 
-def startGradingProcess(repos):
+def startGradingProcess(repos, hoursLateArr):
+	index = 0
 	for repo in repos:
 		owd = os.getcwd()
+		print("owd: ", owd)
 		path = owd + "/grades/" + repo
+		clonePath = owd + '/clones/' + repo
 		os.makedirs(path) #creates repository folder in grades folder
 		path = path + '/gradeReport.txt'
+		print("calling grade_submission")
+		obj = interface.grade_submission(clonePath, os.path.join(owd, 'profFiles/prof_sort'), int(hoursLateArr[index][1]))
+		#obj = graded.GradedSubmission()
+		grade = obj.get_grade() #returns a float that is rounded to two decimals
+		print("grade for ", repo, 'is ', str(grade))
+		feedback = obj.get_error_list() #returns a list
 
-		#graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort.zip'), os.path.join(path, '2020homeworks/HW02Sort'))
-		#obj = GradedSubmission()
-		grade = 34.34; # obj.get_grade() #returns a float that is rounded to two decimals
-		feedback = ["error on line 2", "something else is wrong"] #obj.get_error_list() #returns a list
-
+		os.chdir(owd)
+		print("in directory: ", owd)
 		file = open(path, "w") #creates grade report file
-		file.write("Grade: ")
+
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		file.write("Current Time is ")
+		file.write(current_time)
+
+		file.write("\nSubmission was ")
+		file.write(str(hoursLateArr[index][1]))
+		file.write(' hours late.')
+
+		file.write("\nGrade: ")
 		file.write(str(grade))
+
 		file.write('%\nFeedback: ')
 		for line in feedback:
 			file.write(line)
@@ -24,4 +42,5 @@ def startGradingProcess(repos):
 		file.close()
 
 		print('gradeReport.txt created at ' + path)
+		index = index + 1
 		#need to write it to a file - grade and feedback in one file

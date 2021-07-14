@@ -87,7 +87,7 @@ class Submission:
 
         :return: None
         """
-        os.system(f'rm -r {self.submission_folder_path}')
+        os.system(f'rm -r -f {self.submission_folder_path}')
 
         return
 
@@ -118,7 +118,8 @@ class TestCase:
     def removefiles(self, submission_dir):
         os.chdir(submission_dir)
         for file in self.files:
-            os.system(f'rm -r {file}')
+            print('deleting: ', file)
+            os.system(f'rm -r -f {file}')
 
     def __str__(self):
         return self.test_case_path
@@ -139,13 +140,11 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
     :type weights: dict
     :return:
     """
-
     user_submission = Submission(submission)  # this holds the path to the zip file
     submission_testcases = TestCase(test_case)
     user_submission.setup()  # unzips submission into a folder and sets folder path
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
-
     if weights is None:  # if no weights given
         for filename in os.listdir(test_case):  # cycle through files in the directory
             if filename.endswith('.json'):  # if json file exists, read it and convert it to a usable format
@@ -190,7 +189,6 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
             return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
 
     os.chdir(user_submission.submission_folder_path)  # change the directory to the path of the student files ready to be graded
-
     ## get the number of test cases so that we can check if the weights dict is correct
     numberoftestcases = 0
     with open("Makefile", 'r') as f:  # open the Makefile
@@ -209,7 +207,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         if numberoftestcases == 0:  # if there are no testcases
             user_feedback = 'error when executing Makefile... contact your professor about this issue (number of test cases is not correct)'
             return GradedSubmission(0, user_feedback)
-    
+
     if weights is None:  # if weights is empty, make it from scratch
         for num in range(1, numberoftestcases + 1):
             weights[f'test{num}'] = 1
@@ -252,12 +250,11 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                 else:  # if the value is not a list
                     user_feedback = f'weights.json includes non integer or float point values (TypeError: {type(weights[key])}), please contact your professor about this issue'
                     return GradedSubmission(0, user_feedback)
-
     keys = list(weights.keys())
     for i in range(1, numberoftestcases + 1):  # get list of test cases and remove ones that get used. list with remaining values is used in the next part
         if f'test{i}' in keys:
             keys.remove(f'test{i}')
-    
+
     for key in keys:  # remove tesecases from weights dict that are not present in the makefile
         if key.startswith('test'):
             weights[key] = 0
@@ -265,10 +262,10 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
     points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
     if points is None:  # returns none if there was something wrong when grading (student side)
-        user_submission.clean_up()  # deletes copied files
+        #user_submission.clean_up()  # deletes copied files
         return GradedSubmission(0, user_feedback)
-
-    user_submission.clean_up()  # deletes copied files
+  
+    #user_submission.clean_up()  # deletes copied files
 
     return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
 

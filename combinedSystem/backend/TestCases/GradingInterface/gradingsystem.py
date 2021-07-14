@@ -112,6 +112,7 @@ def grade(path, weights):
 
         os.system('make clean >/dev/null 2>&1')  # get rid of unwanted
         os.system('make >/dev/null 2>&1')  # run 'make' in the console
+
         #os.system(f'make testcase{i} >/dev/null 2>&1')  # PROF MUST SEND THE OUTPUT OF THE DIFF COMMAND TO grade.txt !!
         # i can't route the output of the diff command, only the output of the testcase command
         # this must be done by the professor
@@ -174,9 +175,9 @@ def grade(path, weights):
     if debugging:
         print('memcheck finished')
 
-    os.system('make clean >/dev/null 2>&1')  # get rid of unwanted files
-    os.remove('grade.txt')  # get rid of file now that grading is complete
-    os.remove('empty.txt')  # get rid of file now that grading is complete
+    #os.system('make clean >/dev/null 2>&1')  # get rid of unwanted files
+    #os.remove('grade.txt')  # get rid of file now that grading is complete
+    #os.remove('empty.txt')  # get rid of file now that grading is complete
 
     # calculate the total grade
     points = 0
@@ -202,7 +203,7 @@ def memcheck(makefile_dir, valgrindstatements):
     """
 
     os.chdir(makefile_dir)  # go to the folder where the makefile and other files are (essentially the project folder)
-    # os.system("make") # >/dev/null 2>&1")  # compiles the code according to the makefile
+    #os.system("make") # >/dev/null 2>&1")  # compiles the code according to the makefile
 
     tempfile = "tempfile.txt"  # name of the tempfile which will store the valgrind output
 
@@ -229,7 +230,7 @@ def memcheck(makefile_dir, valgrindstatements):
             blocks.append(int(match.group(3)))
 
         os.remove(tempfile)  # remove the files we created as they only pertain to this function
-
+        #f.close()
     return bytesInUse, blocks
 
 

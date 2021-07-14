@@ -1,2 +1,0 @@
-Grade: 0%
-Feedback: hw compiled correctly! going to next step.... Test case 1 is wrong.... Test case 2 is wrong.... Test case 3 is wrong.... 0/3 test cases passed!. error when executing Makefile... contact your professor about this issue (valgrind not called correctly, make sure it is installed on the server). 
