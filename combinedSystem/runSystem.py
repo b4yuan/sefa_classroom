@@ -23,10 +23,10 @@ authName = configInputs["authName"] #json file
 authKey = configInputs["authKey"] #json file
 
 tagName = configInputs["tagName"] #not changed by professor
-gradeName = configInputs["gradeName"] #not changed by professor
+gradeFileName = configInputs["gradeName"] #not changed by professor
 profFiles = configInputs["profFiles"]
-gradeRoot = configInputs["grades"]
-clonesRoot = configInputs["clones"]
+gradeRoot = configInputs["gradeRoot"]
+clonesRoot = configInputs["clonesRoot"]
 
 #running functions
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
