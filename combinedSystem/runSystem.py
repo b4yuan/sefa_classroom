@@ -6,21 +6,27 @@ from functions.putGradesInRepos import putGradesInRepos
 from functions.pushChangeToRepos import pushChangeToRepos
 from functions.startGradingProcess import startGradingProcess
 from functions.putGradesInCSV import putGradesInCSV
+from functions.getConfigInputs import getConfigInputs
 
 import os
 
+#Configname
+configJSON = "config.JSON"
+#get variables from JSON config file
+configInputs = getConfigInputs(configJSON)
+
 #variables
-hwName = "hw02sort" #input from python script
+hwName = configInputs["hwName"] #input from python script
 
-organization = "cam2testclass" #json file
-authName = "myers395" #json file
-authKey = "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" #json file
+organization =  configInputs["organization"]  #json file
+authName = configInputs["authName"] #json file
+authKey = configInputs["authKey"] #json file
 
-tagName = "final_ver" #not changed by professor
-gradeFileName = "gradeReport.txt" #not changed by professor
-profFiles = "/profFiles"
-gradeRoot = "/grades"
-clonesRoot = "/clones"
+tagName = configInputs["tagName"] #not changed by professor
+gradeName = configInputs["gradeName"] #not changed by professor
+profFiles = configInputs["profFiles"]
+gradeRoot = configInputs["grades"]
+clonesRoot = configInputs["clones"]
 
 #running functions
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
