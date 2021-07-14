@@ -1,0 +1,40 @@
+# This workflow will run pylint on source files.
+
+name: Run Pylint on source files.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          path: depsfolder/ourfiles
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        sudo python -m pip install --upgrade pip
+        sudo python -m pip install flake8 pytest
+        sudo python -m pip install peewee
+        pip install pylint
+    - name: Check
+      run: |
+        cd ${{github.workspace}}/depsfolder/ourfiles
+        ls
+        which xargs
+    - name: Run Pylint
+      run: |
+        find ${{github.workspace}}/depsfolder/ourfiles -type f -name "*.py" | xargs pylint
