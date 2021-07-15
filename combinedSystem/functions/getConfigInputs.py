@@ -6,7 +6,7 @@ import shutil
 
 def getConfigInputs(JSONFile):
 	dictJSON = {} 
-	with open(JSONFile, "r") as JFile:
+	with open(os.getcwd() + JSONFile, "r") as JFile:
 		dictJSON = json.load(JFile)
 	return dictJSON
 
