@@ -5,15 +5,21 @@
 	-> git tag [tag name]
 	-> (git show) shows all tags in use
 	-> git push origin [tag name]
+tags must be pushed directly to the server, a push of the repository will not include the tags.
 ### 2a. let's say the student tags a version, then edits code and wants to tag again to submit an updated version (still before deadline)
 	-> git tag [tag name] -f (this will force the tag to update)
 	-> git push origin [tag name] -f
+	to delete a tag:
+	-> git tag -d [tag name]
+	or:
+	-> git push -d origin [tag name]
 ### 3. we pull tagged version of student's submission
 	-> git clone -b [tag name] [repository]
 if there is no tag it will have an error so we will need to include a catch for that
 ### 3b. get information of date of tag
 	-> git log --tags --simplify-by-decoration --pretty="format:%ai %d" (this will get date of all tags)
 	-> git log -1 --format=%ai [tag name] (date of only specified tag)
+the date of the tag will reflect the date of the commit that the tag refers to, not necessarily the date of the tag creation
 
 **scenario 1:**
 - let's say student submits at 11:30 pm with tag final_ver. tag shows it was created at 11:30 pm
