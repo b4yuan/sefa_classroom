@@ -2,6 +2,19 @@ import os
 import re
 import json
 
+def verifyHomework(HWDirectory):
+	dirNames = []
+	for roots, dirs, files in os.walk(HWDirectory, topdown = False): #Find all directories
+		for dir in dirs:
+			dirNames.append(dir)
+	directoryFileFormat = re.compile(r"HW.*")
+	HWDirNames = []
+	for dir in dirNames: #Narrow directories down just to HW Names
+		doesMatch = directoryFileFormat.match(dir)
+		if(doesMatch != None):
+			HWDirNames.append(doesMatch.group())
+	return dirNames
+
 def findDirsWithoutJSON(HWDirectory): #Returns directories without JSON Files (returns theoretical path that includes JSON file for these directories)
 	dirNames = []
 	for roots, dirs, files in os.walk(HWDirectory, topdown = False): #Find all directories
