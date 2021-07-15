@@ -11,7 +11,7 @@ def startGradingProcess(repos, hoursLateArr, hwName):
 		path = owd + "/grades/" + repo
 
 		clonePath = owd + '/clones/' + repo #path to student directory
-		profPath = owd + '/profFiles' + hwName #path to professor directory
+		profPath = owd + '/profFiles/' + hwName #path to professor directory
 
 		os.makedirs(path) #creates repository folder in grades folder
 		path = path + '/gradeReport.txt'

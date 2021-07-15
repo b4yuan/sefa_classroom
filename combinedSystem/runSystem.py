@@ -8,7 +8,13 @@ from functions.startGradingProcess import startGradingProcess
 from functions.putGradesInCSV import putGradesInCSV
 from functions.getConfigInputs import getConfigInputs
 
-import os
+import argparse
+
+parser = argparse.ArgumentParser("Specify homework name")
+parser.add_argument("--hw_name", type = str, help="please specify the name of the homework to grade.")
+args = parser.parse_args()
+hwName = args.hw_name
+print('Grading : ', hwName)
 
 #Configname
 configJSON = "config.JSON"
@@ -16,8 +22,6 @@ configJSON = "config.JSON"
 configInputs = getConfigInputs(configJSON)
 
 #variables
-hwName = configInputs["hwName"] #input from python script
-
 organization =  configInputs["organization"]  #json file
 authName = configInputs["authName"] #json file
 authKey = configInputs["authKey"] #json file
