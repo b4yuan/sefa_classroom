@@ -1,6 +1,6 @@
 import os
-from functions.fetchDueDate import fetchDueDate
 import subprocess
+from functions.fetchDueDate import fetchDueDate
 from functions.calcHoursLate import calcHoursLate
 from functions.fetchTags import fetchTags
 #inputs: 
