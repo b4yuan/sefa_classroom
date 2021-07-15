@@ -1,5 +1,4 @@
 #!!--------Imports-----------!!
-from combinedSystem.functions.createJSONFiles import getHomeworkList
 from functions.fetchLists import fetchLists
 from functions.fetchRepos import fetchRepos
 from functions.fetchTags import fetchTags
@@ -9,7 +8,7 @@ from functions.pushChangeToRepos import pushChangeToRepos
 from functions.startGradingProcess import startGradingProcess
 from functions.putGradesInCSV import putGradesInCSV
 from functions.getConfigInputs import getConfigInputs
-from functions.createJSONFiles import getHomeworkList
+from functions.argParse import argParse
 from functions.rmtree import rmtree
 
 import argparse
@@ -35,8 +34,6 @@ gradeRoot = "/grades"
 clonesRoot = "/clones"
 
 #!!----------Set Up Command Line Flag Input--------!!
-homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + profFiles))
-
 parser = argparse.ArgumentParser("specify homework assignments to grade")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--hw_name", type = str, help= "specify the name of the homework to grade. example: python3 runSystem.py --hw_name hw02sort")
@@ -45,27 +42,16 @@ group.add_argument("--grade_all", action="store_true", help = "specify this opti
 parser.add_argument("-d", "--delete", action ="store_false", help="specify this option if you would like to NOT delete clones and grades folders after running. default is true")
 args = parser.parse_args()
 
-if args.grade_all == True:
-    print('Grading a range of hws')
-    startIndex = 0
-    endIndex = len(homeworkMasterList) - 1
-elif args.hw_range is not None:
-    print('Grading a range of hws')
-    startIndex = homeworkMasterList.index(args.hw_range[0])
-    endIndex = homeworkMasterList.index(args.hw_range[1])
-else:
-    startIndex = homeworkMasterList.index(args.hw_name)
-    endIndex = startIndex
-
+[startIndex, endIndex, homeworkMasterList] = argParse(args, profFiles)
+print(startIndex, endIndex)
 
 #!!----------Set Up File For Collecting Output------!!
 f = open('filteredOutput.txt', 'w')
 f.write("Ran on ")
 f.write(datetime.now().strftime("%m-%d %H:%M:%S"))
 
-
 #!!----------Run Actual System--------!!
-for x in range(startIndex, endIndex+1):
+for x in range(startIndex, endIndex + 1):
     hwName = 'hw02sort'#homeworkMasterList[x]
     f.write('\n\nCurrently grading : '+ hwName)
 

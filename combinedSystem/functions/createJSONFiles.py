@@ -3,26 +3,30 @@ import re
 import json
 
 def isAValidHomework(HWDirectory, inputHW):
+	print('input hw: ', inputHW)
 	HWList = getHomeworkList(HWDirectory)
-	print(HWList)
+	#print(HWList)
 	isAHomework = False
+	index = -1
 	catchDigit = re.compile(r"(\d)+")
 	getRegexMatchInput = catchDigit.search(inputHW)
 	if(getRegexMatchInput != None):	
 		HWDigit = int(getRegexMatchInput.group())
 	else:
 		print("Something's wrong with your HW input! We couldn't find a number in your input.")
-		return isAHomework
-	for HW in HWList:
-		getRegexMatchDir = catchDigit.search(HW)
+		return isAHomework, -1
+	for x in range(0, len(HWList)):
+		getRegexMatchDir = catchDigit.search(HWList[x])
 		if(getRegexMatchDir != None):
 			HWDirDigit = int(getRegexMatchDir.group())
-			print(str(HWDirDigit))
+			#print(str(HWDirDigit))
 			if(HWDirDigit == HWDigit): 
 				isAHomework = True
+				index = x
+				print('Your input was', HWList[x])
 		else:
 			print("One of the homeworks in the directory does not have a number!")
-	return isAHomework
+	return isAHomework, index
 
 def getHomeworkList(HWDirectory):
 	dirNames = []
