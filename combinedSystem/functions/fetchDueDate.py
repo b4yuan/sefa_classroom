@@ -1,6 +1,6 @@
 import os
-import json
-from functions.hwNameHelper import matchHw
+import json 
+from functions.hwNameHelper import matchHW
 
 def fetchDueDate(profFiles, hwNum):
     if os.path.exists(profFiles + "/assignmentData.json"):
@@ -9,7 +9,6 @@ def fetchDueDate(profFiles, hwNum):
             if matchHW(hwNum, entry["name"]): #check name
                 date = entry["due"] #assign the due date
                 break
-        print("Homework not found")
     else:
         print("Professor files path does not exist:" + str(profFiles))
     return date

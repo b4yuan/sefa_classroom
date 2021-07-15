@@ -3,7 +3,6 @@ import re
 import json
 
 def isAValidHomework(HWDirectory, inputHW):
-	print('input hw: ', inputHW)
 	HWList = getHomeworkList(HWDirectory)
 	#print(HWList)
 	isAHomework = False
@@ -23,7 +22,6 @@ def isAValidHomework(HWDirectory, inputHW):
 			if(HWDirDigit == HWDigit): 
 				isAHomework = True
 				index = x
-				print('Your input was', HWList[x])
 		else:
 			print("One of the homeworks in the directory does not have a number!")
 	return isAHomework, index

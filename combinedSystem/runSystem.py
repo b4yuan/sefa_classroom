@@ -34,6 +34,11 @@ profFiles = "/profFiles"
 gradeRoot = "/grades"
 clonesRoot = "/clones"
 
+#!!----------Set Up File For Collecting Output------!!
+f = open('filteredOutput.txt', 'w')
+f.write("Ran on ")
+f.write(datetime.now().strftime("%m-%d %H:%M:%S"))
+
 #!!----------Set Up Command Line Flag Input--------!!
 parser = argparse.ArgumentParser("specify homework assignments to grade")
 group = parser.add_mutually_exclusive_group()
@@ -43,16 +48,11 @@ group.add_argument("--grade_all", action="store_true", help = "specify this opti
 parser.add_argument("-d", "--delete", action ="store_false", help="specify this option if you would like to NOT delete clones and grades folders after running. default is true")
 args = parser.parse_args()
 
-[startIndex, endIndex, homeworkMasterList] = argParse(args, profFiles)
-print(startIndex, endIndex)
-
-#!!----------Set Up File For Collecting Output------!!
-f = open('filteredOutput.txt', 'w')
-f.write("Ran on ")
-f.write(datetime.now().strftime("%m-%d %H:%M:%S"))
+[startIndex, endIndex, homeworkMasterList] = argParse(args, profFiles, f)
 
 #!!----------Run Actual System--------!!
 for x in range(startIndex, endIndex + 1):
+    hwName = homeworkMasterList[x]
     hwNum = stripHW(hwName)
     f.write('\n\nCurrently grading : '+ hwName)
 
@@ -79,7 +79,7 @@ for x in range(startIndex, endIndex + 1):
     f.write('\nSuccessfully ran putGradesInCSV\n')
 
     #!!---------Push Grade File to Student Repos--------!!
-    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, hwNum, organization)
+    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, organization)
         #also adds graded_ver tag
     f.write('\nSuccessfully ran pushChangeToRepos\n')
 

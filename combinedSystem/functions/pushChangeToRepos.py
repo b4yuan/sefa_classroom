@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-def pushChangeToRepos(rootPath, fileName, repos, hwName, organization):
+def pushChangeToRepos(rootPath, fileName, repos, organization):
 	sys.stderr = open('stdOutput.txt', 'a')
 	for repo in repos:
 		srcPath = os.getcwd() + rootPath + "/" + repo #rootPath + "/" + user + "/" + fileName
@@ -12,7 +12,7 @@ def pushChangeToRepos(rootPath, fileName, repos, hwName, organization):
 			os.chdir(str(srcPath))	
 			repoName = 'git@github.com:' + organization + '/' + repo + '.git'
 			subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
-			message = "Grades updated for " + hwName + "."
+			message = "Grades updated for your homework."
 			subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
 			subprocess.run(["git", "tag", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #adds graded version tag
