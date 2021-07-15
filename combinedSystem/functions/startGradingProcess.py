@@ -1,13 +1,12 @@
-import subprocess
 import os
+import sys
 from datetime import datetime
 import functions.GradingInterface.interface as interface
 
-def startGradingProcess(repos, hoursLateArr, hwName):
+def startGradingProcess(repos, hoursLateArr, hwName, f):
 	index = 0
 	for repo in repos:
 		owd = os.getcwd()
-		print("owd: ", owd)
 		path = owd + "/grades/" + repo
 
 		clonePath = owd + '/clones/' + repo #path to student directory
@@ -15,35 +14,29 @@ def startGradingProcess(repos, hoursLateArr, hwName):
 
 		os.makedirs(path) #creates repository folder in grades folder
 		path = path + '/gradeReport.txt'
-		print("calling grade_submission")
+		f.write('\n\nFor repo: ' + repo)
+		f.write("\n--Calling grade_submission.py")
 		obj = interface.grade_submission(clonePath, profPath, int(hoursLateArr[index][1]))
 		#obj = graded.GradedSubmission()
 		grade = obj.get_grade() #returns a float that is rounded to two decimals
-		print("grade for ", repo, 'is ', str(grade))
+		f.write("\n--Grade is " + str(grade))
 		feedback = obj.get_error_list() #returns a list
 
 		os.chdir(owd)
-		print("in directory: ", owd)
-		file = open(path, "w") #creates grade report file
+		gradefile = open(path, "w") #creates grade report file
 
-		now = datetime.now()
-		current_time = now.strftime("%H:%M:%S")
-		file.write("Current Time is ")
-		file.write(current_time)
+		gradefile.write("Graded on " + datetime.now().strftime("%m-%d %H:%M:%S"))
 
-		file.write("\nSubmission was ")
-		file.write(str(hoursLateArr[index][1]))
-		file.write(' hours late.')
+		gradefile.write("\nSubmission was " + str(hoursLateArr[index][1]) + ' hours late.')
 
-		file.write("\nGrade: ")
-		file.write(str(grade))
+		gradefile.write("\nGrade: " + str(grade))
 
-		file.write('%\nFeedback: ')
+		gradefile.write('%\nFeedback: ')
 		for line in feedback:
-			file.write(line)
-			file.write(". ")
-		file.close()
+			gradefile.write(line)
+			gradefile.write(". ")
+		gradefile.close()
 
-		print('gradeReport.txt created at ' + path)
+		f.write('\n--gradeReport.txt created')
 		index = index + 1
 		#need to write it to a file - grade and feedback in one file

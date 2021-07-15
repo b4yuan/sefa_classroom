@@ -1,0 +1,19 @@
+Ran on 07-15 16:02:17
+ * Cloned hw02sort-kmerrill16
+ * Cloned hw02sort-lvy15
+
+For repo: hw02sort-kmerrill16
+--Calling grade_submission.py
+--Grade is 100.0
+--gradeReport.txt created
+
+For repo: hw02sort-lvy15
+--Calling grade_submission.py
+--Grade is 0.0
+--gradeReport.txt created
+
+Successfully ran startGradingProcess
+
+Successfully ran putGradesInRepos
+
+Successfully ran putGradesInCSV

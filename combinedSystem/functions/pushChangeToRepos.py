@@ -1,14 +1,15 @@
 import os
 import subprocess
+import sys
 
 def pushChangeToRepos(rootPath, fileName, repos, hwName, organization):
+	sys.stderr = open('stdOutput.txt', 'a')
 	for repo in repos:
 		srcPath = os.getcwd() + rootPath + "/" + repo #rootPath + "/" + user + "/" + fileName
 
 		if os.path.exists(srcPath):
 			originalDir = os.getcwd()
 			os.chdir(str(srcPath))	
-			print('in directory: ', os.getcwd())
 			repoName = 'git@github.com:' + organization + '/' + repo + '.git'
 			subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
 			message = "Grades updated for " + hwName + "."
@@ -20,3 +21,4 @@ def pushChangeToRepos(rootPath, fileName, repos, hwName, organization):
 	
 		else:
 			print("The directory " + srcPath + " does not exist.")
+	sys.stderr.close()

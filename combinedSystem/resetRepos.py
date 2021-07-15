@@ -22,12 +22,11 @@ for student in students:
     srcPath = "clones/" + hwName + "-" + student
     originalDir = os.getcwd()
     if os.path.exists(originalDir + "/" + srcPath):
-        print('in directory: ', originalDir + "/" + srcPath)
         os.chdir(str(originalDir + "/" + srcPath))
         repoName = hwName + '-' + student
         tagList = fetchTags(organization, repoName, authName, authKey)
         print("user: ", student, "taglist:", tagList)
-        repoName = 'git@github.com:' + organization + '/' + repoName + '.git'
+        repoName = "https://" + authKey + '@github.com/' + organization + '/' + repoName + '.git'
         if 'graded_ver' in tagList:
             subprocess.run(["git", "push", "-d", repoName, "graded_ver"], check=True, stdout=subprocess.PIPE).stdout
         #removes grade.txt if it exists on remote repository
@@ -37,11 +36,14 @@ for student in students:
             subprocess.run(["git", "add", "gradeReport.txt"], check=True, stdout=subprocess.PIPE).stdout
             subprocess.run(["git", "commit", "-m", "deleted gradeReport.txt"], stdout=subprocess.PIPE).stdout
             subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
+            print('Deleted grade file for', student)
         os.chdir(originalDir)
         
 if os.path.exists('clones'):
     rmtree('clones') 
+    print('Deleted clones')
         #removes all cloned folders
 if os.path.exists('grades'):
     rmtree('grades')
+    print('Deleted grades')
         #removes folder of grades
