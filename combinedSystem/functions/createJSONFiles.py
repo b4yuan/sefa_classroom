@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-def findDirsWithoutJSON(HWDirectory): #Returns directories without JSON Files (returns theoretical path that includes JSON file for these directories)
+def findDirs(HWDirectory, desiredDir): #Returns directories without JSON Files (returns theoretical path that includes JSON file for these directories)
 	dirNames = []
 	for roots, dirs, files in os.walk(HWDirectory, topdown = False): #Find all directories
 		for dir in dirs:
@@ -18,7 +18,12 @@ def findDirsWithoutJSON(HWDirectory): #Returns directories without JSON Files (r
 	for dir in pathOfJSONS: #Get the final paths for directories that do not have JSON
 		if(os.path.exists(HWDirectory + "/" + dir) == False):
 			dirsWithoutJSON.append(HWDirectory + "/" + dir)
-	return dirsWithoutJSON
+	if desiredDir == 'dirsWithoutJSON':
+		return dirsWithoutJSON
+	if desiredDir == 'HWDirNames':
+		return HWDirNames
+	else:
+		return []
 
 def createJSONFiles(HWDirectory): # Uses findDirsWithoutJSON
 	dirsWithoutJSON = findDirsWithoutJSON(HWDirectory)
@@ -72,6 +77,7 @@ def checkForJSONFile(HWDirectory):#Simple function to figure out which directori
 		print("All files have their respective weights.json.")
 
 #If you want to run this file by itself, this file automatically adds the pertinent information
-HWDirectory = "../backend/TestCases/2020homeworks"
-print(str(deleteSpecificJSONFiles(HWDirectory)))
+#HWDirectory = os.getcwd() + "/profFiles/"
+#print(findDirsWithoutJSON(HWDirectory))
+#print(str(deleteSpecificJSONFiles(HWDirectory)))
 
