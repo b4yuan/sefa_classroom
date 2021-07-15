@@ -7,6 +7,7 @@ To use this program, enter command like:
 python3 jsonfile_generator.py --HW_name ECE264-HW2 --case_num 5 --mem_coef 1 --late-coef 10
 '''
 
+
 def get_args():
     parser = argparse.ArgumentParser("please add weights here")
     parser.add_argument("--HW_name", type=str, default="weights",
@@ -50,7 +51,7 @@ def generate_json_file(params):
     test_params["grade_late_work"] = params.grade_late_work
     for item in test_params:
         value = test_params[item]
-        json_text['weights'].append({item: [value]}, )
+        json_text['weights'].append({item: value}, )
     json_data = json.dumps(json_text, indent=4, separators=(',', ': '))  # Make Json file looks better
     filename = name + '.json'
     os.chdir(params.destination)
