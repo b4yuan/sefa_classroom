@@ -7,9 +7,7 @@ from functions.fetchTags import fetchTags
 from functions.hwNameHelper import matchHW
 #inputs: 
 
-def cloneFromRepos(org, repos, hwNum, tagName, authName, authKey, profPath, clonePath, f): #changed repository to students and added hwName
-    sys.stderr = open('stdOutput.txt', 'w')
-    
+def cloneFromRepos(org, repos, hwNum, tagName, authName, authKey, profPath, clonePath, f): #changed repository to students and added hwName    
     hoursLateArr = [] #Cloned repos and their time late
     clonedRepos = [] #Array of repositories that will be cloned after function
     newProfPath = os.getcwd() + profPath #must set before looping through repos
@@ -38,5 +36,4 @@ def cloneFromRepos(org, repos, hwNum, tagName, authName, authKey, profPath, clon
                 
                 os.chdir(owd)
                 f.write('\n * Cloned ' + repo)
-    sys.stderr.close()
     return clonedRepos, hoursLateArr

@@ -3,7 +3,6 @@ import subprocess
 import sys
 
 def pushChangeToRepos(rootPath, fileName, repos, organization):
-	sys.stderr = open('stdOutput.txt', 'a')
 	for repo in repos:
 		srcPath = os.getcwd() + rootPath + "/" + repo #rootPath + "/" + user + "/" + fileName
 
@@ -21,4 +20,3 @@ def pushChangeToRepos(rootPath, fileName, repos, organization):
 	
 		else:
 			print("The directory " + srcPath + " does not exist.")
-	sys.stderr.close()

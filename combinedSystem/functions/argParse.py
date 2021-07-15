@@ -30,7 +30,7 @@ def argParse(args, profFiles, f):
     else:
         if isAValidHomework(os.getcwd() + profFiles, args.hw_name)[0]:
             startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_name)[1]
-            f.write('Grading ' + homeworkMasterList[startIndex])
+            f.write('\nGrading ' + homeworkMasterList[startIndex])
         else:
             print('Your homework name was not valid')
             raise Exception('Invalid Homework Name')
