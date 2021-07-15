@@ -10,6 +10,7 @@ from functions.putGradesInCSV import putGradesInCSV
 from functions.getConfigInputs import getConfigInputs
 from functions.argParse import argParse
 from functions.rmtree import rmtree
+from functions.hwNameHelper import stripHW
 
 import argparse
 import os
@@ -52,14 +53,14 @@ f.write(datetime.now().strftime("%m-%d %H:%M:%S"))
 
 #!!----------Run Actual System--------!!
 for x in range(startIndex, endIndex + 1):
-    hwName = 'hw02sort'#homeworkMasterList[x]
+    hwNum = stripHW(hwName)
     f.write('\n\nCurrently grading : '+ hwName)
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
     
     #!!----------Clone Appropriate Repositories--------!!
-    [clonedRepos, hoursLateArr] = cloneFromRepos(organization, repos, hwName, tagName, authName, authKey, profFiles, clonesRoot, f)
+    [clonedRepos, hoursLateArr] = cloneFromRepos(organization, repos, hwNum, tagName, authName, authKey, profFiles, clonesRoot, f)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
 
@@ -78,7 +79,7 @@ for x in range(startIndex, endIndex + 1):
     f.write('\nSuccessfully ran putGradesInCSV\n')
 
     #!!---------Push Grade File to Student Repos--------!!
-    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, hwName, organization)
+    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, hwNum, organization)
         #also adds graded_ver tag
     f.write('\nSuccessfully ran pushChangeToRepos\n')
 

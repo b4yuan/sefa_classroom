@@ -4,9 +4,10 @@ import sys
 from functions.fetchDueDate import fetchDueDate
 from functions.calcHoursLate import calcHoursLate
 from functions.fetchTags import fetchTags
+from functions.hwNameHelper import matchHW
 #inputs: 
 
-def cloneFromRepos(org, repos, hwName, tagName, authName, authKey, profPath, clonePath, f): #changed repository to students and added hwName
+def cloneFromRepos(org, repos, hwNum, tagName, authName, authKey, profPath, clonePath, f): #changed repository to students and added hwName
     sys.stderr = open('stdOutput.txt', 'w')
     
     hoursLateArr = [] #Cloned repos and their time late
@@ -15,7 +16,7 @@ def cloneFromRepos(org, repos, hwName, tagName, authName, authKey, profPath, clo
     owd = os.getcwd()
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
     for repo in repos:
-        if repo.startswith(hwName):
+        if matchHW(hwNum, repo):
             tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
             if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
                 clonedRepos.append(repo) 
@@ -32,7 +33,7 @@ def cloneFromRepos(org, repos, hwName, tagName, authName, authKey, profPath, clo
                 tagStr = 'git log -1 --format=%ai ' + tagName
                 info = subprocess.check_output(tagStr.split()).decode()
                 subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
-                hoursLate = calcHoursLate(subDate, fetchDueDate(newProfPath, hwName))
+                hoursLate = calcHoursLate(subDate, fetchDueDate(newProfPath, hwNum))
                 hoursLateArr.append([repo, hoursLate]) #2d array with repository name and number of hours late
                 
                 os.chdir(owd)
