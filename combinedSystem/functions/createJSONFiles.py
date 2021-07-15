@@ -2,24 +2,42 @@ import os
 import re
 import json
 
-<<<<<<< HEAD
-def findDirs(HWDirectory, desiredDir): #Returns directories without JSON Files (returns theoretical path that includes JSON file for these directories)
-=======
-def verifyHomework(HWDirectory):
+def isAValidHomework(HWDirectory, inputHW):
+	HWList = getHomeworkList(HWDirectory)
+	print(HWList)
+	isAHomework = False
+	catchDigit = re.compile(r"(\d)+")
+	getRegexMatchInput = catchDigit.search(inputHW)
+	if(getRegexMatchInput != None):	
+		HWDigit = int(getRegexMatchInput.group())
+	else:
+		print("Something's wrong with your HW input! We couldn't find a number in your input.")
+		return isAHomework
+	for HW in HWList:
+		getRegexMatchDir = catchDigit.search(HW)
+		if(getRegexMatchDir != None):
+			HWDirDigit = int(getRegexMatchDir.group())
+			print(str(HWDirDigit))
+			if(HWDirDigit == HWDigit): 
+				isAHomework = True
+		else:
+			print("One of the homeworks in the directory does not have a number!")
+	return isAHomework
+
+def getHomeworkList(HWDirectory):
 	dirNames = []
 	for roots, dirs, files in os.walk(HWDirectory, topdown = False): #Find all directories
 		for dir in dirs:
 			dirNames.append(dir)
-	directoryFileFormat = re.compile(r"HW.*")
+	directoryFileFormat = re.compile(r"((hw)|(HW)).*")
 	HWDirNames = []
 	for dir in dirNames: #Narrow directories down just to HW Names
 		doesMatch = directoryFileFormat.match(dir)
 		if(doesMatch != None):
 			HWDirNames.append(doesMatch.group())
-	return dirNames
+	return HWDirNames
 
 def findDirsWithoutJSON(HWDirectory): #Returns directories without JSON Files (returns theoretical path that includes JSON file for these directories)
->>>>>>> 89d3b256709ffb6ecd56e9c477b1c04065413065
 	dirNames = []
 	for roots, dirs, files in os.walk(HWDirectory, topdown = False): #Find all directories
 		for dir in dirs:
@@ -35,12 +53,7 @@ def findDirsWithoutJSON(HWDirectory): #Returns directories without JSON Files (r
 	for dir in pathOfJSONS: #Get the final paths for directories that do not have JSON
 		if(os.path.exists(HWDirectory + "/" + dir) == False):
 			dirsWithoutJSON.append(HWDirectory + "/" + dir)
-	if desiredDir == 'dirsWithoutJSON':
-		return dirsWithoutJSON
-	if desiredDir == 'HWDirNames':
-		return HWDirNames
-	else:
-		return []
+	return dirsWithoutJSON
 
 def createJSONFiles(HWDirectory): # Uses findDirsWithoutJSON
 	dirsWithoutJSON = findDirsWithoutJSON(HWDirectory)
@@ -94,7 +107,4 @@ def checkForJSONFile(HWDirectory):#Simple function to figure out which directori
 		print("All files have their respective weights.json.")
 
 #If you want to run this file by itself, this file automatically adds the pertinent information
-#HWDirectory = os.getcwd() + "/profFiles/"
-#print(findDirsWithoutJSON(HWDirectory))
-#print(str(deleteSpecificJSONFiles(HWDirectory)))
 
