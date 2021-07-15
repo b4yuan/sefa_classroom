@@ -36,7 +36,7 @@ print(students)
     #[repos cloned to the server at this step, each repo and its hours late]
     #clones all repositories of students with the specified homework name and tag
 
-startGradingProcess(clonedRepos, hoursLateArr)
+startGradingProcess(clonedRepos, hoursLateArr, hwName)
     #fake grading function that just creates grade.txt file in the a grades folder
 print('\nran startGradingProcess\n')
 

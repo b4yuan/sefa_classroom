@@ -3,17 +3,20 @@ import os
 from datetime import datetime
 import functions.GradingInterface.interface as interface
 
-def startGradingProcess(repos, hoursLateArr):
+def startGradingProcess(repos, hoursLateArr, hwName):
 	index = 0
 	for repo in repos:
 		owd = os.getcwd()
 		print("owd: ", owd)
 		path = owd + "/grades/" + repo
-		clonePath = owd + '/clones/' + repo
+
+		clonePath = owd + '/clones/' + repo #path to student directory
+		profPath = owd + '/profFiles' + hwName #path to professor directory
+
 		os.makedirs(path) #creates repository folder in grades folder
 		path = path + '/gradeReport.txt'
 		print("calling grade_submission")
-		obj = interface.grade_submission(clonePath, os.path.join(owd, 'backend/pas_backend-main/TestCases/2020homeworks/HW03Cake'), int(hoursLateArr[index][1]))
+		obj = interface.grade_submission(clonePath, profPath, int(hoursLateArr[index][1]))
 		#obj = graded.GradedSubmission()
 		grade = obj.get_grade() #returns a float that is rounded to two decimals
 		print("grade for ", repo, 'is ', str(grade))
