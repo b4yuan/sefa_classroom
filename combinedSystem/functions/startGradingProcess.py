@@ -13,7 +13,7 @@ def startGradingProcess(repos, hoursLateArr):
 		os.makedirs(path) #creates repository folder in grades folder
 		path = path + '/gradeReport.txt'
 		print("calling grade_submission")
-		obj = interface.grade_submission(clonePath, os.path.join(owd, 'profFiles/prof_sort'), int(hoursLateArr[index][1]))
+		obj = interface.grade_submission(clonePath, os.path.join(owd, 'backend/pas_backend-main/TestCases/2020homeworks/HW03Cake'), int(hoursLateArr[index][1]))
 		#obj = graded.GradedSubmission()
 		grade = obj.get_grade() #returns a float that is rounded to two decimals
 		print("grade for ", repo, 'is ', str(grade))
