@@ -11,7 +11,7 @@ from functions.getConfigInputs import getConfigInputs
 import argparse
 
 parser = argparse.ArgumentParser("Specify homework name")
-parser.add_argument("--hw_name", type = str, help="please specify the name of the homework to grade.")
+parser.add_argument("--hw_name", type = str, help="please specify the name of the homework to grade. an example is python3 runSystem.py --hw_name hw02sort")
 args = parser.parse_args()
 hwName = args.hw_name
 print('Grading : ', hwName)
