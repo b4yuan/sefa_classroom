@@ -37,7 +37,7 @@ clonesRoot = "/clones"
 #!!----------Set Up File For Collecting Output------!!
 f = open('filteredOutput.txt', 'w')
 f.write("Ran on ")
-f.write(datetime.now().strftime("%m-%d %H:%M:%S"))
+f.write(datetime.now().strftime("%m-%d %H:%M:%S") + "\n")
 
 #!!----------Set Up Command Line Flag Input--------!!
 parser = argparse.ArgumentParser("specify homework assignments to grade")
