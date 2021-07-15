@@ -1,4 +1,5 @@
 #!!--------Imports-----------!!
+from combinedSystem.functions.createJSONFiles import getHomeworkList
 from functions.fetchLists import fetchLists
 from functions.fetchRepos import fetchRepos
 from functions.fetchTags import fetchTags
@@ -8,7 +9,7 @@ from functions.pushChangeToRepos import pushChangeToRepos
 from functions.startGradingProcess import startGradingProcess
 from functions.putGradesInCSV import putGradesInCSV
 from functions.getConfigInputs import getConfigInputs
-from functions.createJSONFiles import findDirs
+from functions.createJSONFiles import getHomeworkList
 from functions.rmtree import rmtree
 
 import argparse
@@ -34,7 +35,7 @@ gradeRoot = "/grades"
 clonesRoot = "/clones"
 
 #!!----------Set Up Command Line Flag Input--------!!
-homeworkMasterList = findDirs(os.path.join(os.getcwd() + profFiles), 'HWDirNames')
+homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + profFiles))
 
 parser = argparse.ArgumentParser("specify homework assignments to grade")
 group = parser.add_mutually_exclusive_group()
