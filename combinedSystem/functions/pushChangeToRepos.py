@@ -9,7 +9,7 @@ def pushChangeToRepos(rootPath, fileName, repos, organization):
 		if os.path.exists(srcPath):
 			originalDir = os.getcwd()
 			os.chdir(str(srcPath))	
-			repoName = 'git@github.com:' + organization + '/' + repo + '.git'
+			#repoName = 'git@github.com:' + organization + '/' + repo + '.git'
 			subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
 			message = "Grades updated for your homework."
 			subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout

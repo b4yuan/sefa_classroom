@@ -13,6 +13,7 @@ def stripHW(hwName):
         return int(match[2])
     else:
         print("Invalid hw name format")
+        return None
 
 def matchHW(num, hwName):
 
