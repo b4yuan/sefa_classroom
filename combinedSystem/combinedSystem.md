@@ -27,10 +27,10 @@ The combined grading system has not been fully implemented. The Github interacti
 As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
 ### Running runSystem.py
 This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running.
-- Grade a single homework: Call the file with the tag --hw_name and the name of the homework. The name of the homework can be the full name or even just the number. 
-`python3 runSystem.py --hw_name HW02Sort`
-`python3 runSystem.py --hw_name hw02sort`
-`python3 runSystem.py --hw_name 2`
+- Grade a single homework: Call the file with the tag --hw_name and the name of the homework. The name of the homework can be the full name or even just the number.  
+`python3 runSystem.py --hw_name HW02Sort`  
+`python3 runSystem.py --hw_name hw02sort`  
+`python3 runSystem.py --hw_name 2`  
 - Grade a range of homeworks:
-- Grade all homeworks: Call the file with the tag --grade_all. This will grade all homeworks for which a professor-created example folder exists in the professor directory. 
+- Grade all homeworks: Call the file with the tag --grade_all. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
