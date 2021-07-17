@@ -35,5 +35,5 @@ def argParse(args, profFiles, f):
             print('Your homework name was not valid')
             raise Exception('Invalid Homework Name')
         endIndex = startIndex
-    
+    f.write('\n')
     return startIndex, endIndex, homeworkMasterList

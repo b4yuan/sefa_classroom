@@ -54,7 +54,7 @@ args = parser.parse_args()
 for x in range(startIndex, endIndex + 1):
     hwName = homeworkMasterList[x]
     hwNum = stripHW(hwName)
-    f.write('\n\nCurrently grading : '+ hwName)
+    f.write('\n[[Currently grading : '+ hwName + ']]')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
