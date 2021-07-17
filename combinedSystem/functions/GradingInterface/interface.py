@@ -58,9 +58,13 @@ class Submission:
         if submission_path.endswith('.zip'):
             self.submission_zip_path = submission_path
             self.submission_folder_path = None  # The path to unzipped submission
+            self.files = None
         else:
             self.submission_zip_path = None
             self.submission_folder_path = submission_path  # The path to unzipped submission
+            self.files = os.listdir(submission_path)
+            self.files.append('gradeReport.txt')
+            self.files = [os.path.join(submission_path, file) for file in self.files]
 
     def setup(self):
         """
@@ -87,7 +91,12 @@ class Submission:
 
         :return: None
         """
-        os.system(f'rm -r -f {self.submission_folder_path}')
+        if self.files is None:
+            os.system(f'rm -r -f {self.submission_folder_path}')
+        else:
+            for file in os.listdir(self.submission_folder_path):
+                if file not in self.files:
+                    os.system(f'rm -r -f {file}')
 
         return
 
@@ -270,5 +279,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
 
     #user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
+    points = round(points - weights['late_coef'] * hourslate, 2)
+
+    return GradedSubmission(points if points >= 0 else 0, user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
 
