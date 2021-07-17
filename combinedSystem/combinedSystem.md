@@ -25,12 +25,22 @@ The combined grading system has not been fully implemented. The Github interacti
 
 ## _Running the System_
 As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
+
 ### Running runSystem.py
 This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running.
-- Grade a single homework: Call the file with the tag --hw_name and the name of the homework. The name of the homework can be the full name or even just the number.  
+
+- Grade a single homework: Call the file with the tag `--hw_name` and the name of the homework. The name of the homework can be the full name or even just the number.  
 `python3 runSystem.py --hw_name HW02Sort`  
 `python3 runSystem.py --hw_name hw02sort`  
 `python3 runSystem.py --hw_name 2`  
-- Grade a range of homeworks:
-- Grade all homeworks: Call the file with the tag --grade_all. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
+
+- Grade a range of homeworks: Call the file with the tag `--hw_range` and two homework names/numbers to specify the start and end of the range. The start and end indexes are inclusive.  
+`python3 runSystem.py --hw_range hw02sort hw10cake2`  
+`python3 runSystem.py --hw_range 4 15`  
+`python3 runSystem.py --hw_range hw03cake 20`
+
+- Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
+
+- Don't delete folders of cloned repositories and grades after running: The `-d` tag will tell the system to _not_ delete the directory of cloned repositories and the directory in which the grades are stored.  
+`python3 runSystem.py --hw_range 2 4 -d`  
