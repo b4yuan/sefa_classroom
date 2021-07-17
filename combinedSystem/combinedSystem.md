@@ -25,6 +25,8 @@ The combined grading system has not been fully implemented. The Github interacti
 
 ## _Running the System_
 As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
+### Configuration
+Certain variables should be specified by the professor in the _config.JSON_ file. These are the organization name, authentication username, and authentication key. Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_
 
 ### Running runSystem.py
 This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running. At least one option of the three grade options _must_ be specified for the program to run.
