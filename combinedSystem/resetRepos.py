@@ -60,8 +60,6 @@ else:
 #!!----Get lists----!!
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
 
-print(startIndex, endIndex)
-
 for x in range(startIndex, endIndex + 1):
     hwName = homeworkMasterList[x]
     hwNum = stripHW(hwName)
@@ -82,7 +80,7 @@ for x in range(startIndex, endIndex + 1):
                 subprocess.run(["git", "clone", "-b", tagName, str(repoURL)]) #clone repo
 
             os.chdir(owd + dirPath)
-
+            print('In directory:', os.getcwd())
             #!!----Delete graded tag-----!!
             tagList = fetchTags(organization, repo, authName, authKey)
             if 'graded_ver' in tagList:

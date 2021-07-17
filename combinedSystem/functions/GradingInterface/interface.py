@@ -274,10 +274,10 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
     points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
 
     if points is None:  # returns none if there was something wrong when grading (student side)
-        #user_submission.clean_up()  # deletes copied files
+        user_submission.clean_up()  # deletes copied files
         return GradedSubmission(0, user_feedback)
 
-    #user_submission.clean_up()  # deletes copied files
+    user_submission.clean_up()  # deletes copied files
 
     points = round(points - weights['late_coef'] * hourslate, 2)
 

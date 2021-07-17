@@ -79,7 +79,7 @@ for x in range(startIndex, endIndex + 1):
     f.write('\nSuccessfully ran putGradesInCSV\n')
 
     #!!---------Push Grade File to Student Repos--------!!
-    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, organization)
+    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, f)
         #also adds graded_ver tag
     f.write('\nSuccessfully ran pushChangeToRepos\n')
 
