@@ -19,6 +19,7 @@ from datetime import datetime
 
 #!!--------Set Up Variables From JSON File-----------!! 
 #Configname
+configJSON = "/profFiles/config.json"
 #get variables from JSON config file
 configInputs = getConfigInputs(configJSON)
 
@@ -32,7 +33,6 @@ gradeFileName = "gradeReport.txt"
 profFiles = "/profFiles"
 gradeRoot = "/grades"
 clonesRoot = "/clones"
-configJSON = profFiles + "/config.json"
 
 #!!----------Set Up File For Collecting Output------!!
 f = open('filteredOutput.txt', 'w')
