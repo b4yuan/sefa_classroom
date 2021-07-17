@@ -27,7 +27,7 @@ The combined grading system has not been fully implemented. The Github interacti
 As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
 
 ### Running runSystem.py
-This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running.
+This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running. At least one option of the three grade options _must_ be specified for the program to run.
 
 - Grade a single homework: Call the file with the tag `--hw_name` and the name of the homework. The name of the homework can be the full name or even just the number.  
 `python3 runSystem.py --hw_name HW02Sort`  
@@ -44,3 +44,14 @@ This file should be run from a command line in a Linux based system. It will not
 
 - Don't delete folders of cloned repositories and grades after running: The `-d` tag will tell the system to _not_ delete the directory of cloned repositories and the directory in which the grades are stored.  
 `python3 runSystem.py --hw_range 2 4 -d`  
+
+### What the System Does
+The system works in a loop where each homework, if a range is specified, is graded one at a time. For example, all steps are completed for HW2 before moving on to HW3 and so on.
+1. The first step of the system is cloning all appropriate repositories. For the specified homework, all student repositories that have the specified submission tag and _don't_ have the graded tag will be cloned. In this step, the submission date of the homework is also collected and the number of hours late that it was submitted is calculated. 
+2. Next, the homeworks are graded. Using the GradingInterface, test cases are ran and other tests are performed to calculate a grade for the homework. The grade and feedback are written to a text file that is placed in the grades directory.
+3. The grade report text file is copied from the grades directory to the cloned repositories.
+4. The grade, without any feedback, is added to a CSV file for easy reference of the professor.
+5. Changes are pushed to the student repositories. The first change is the addition of the grade report text file. The second change is the addition of a new tag that specifies that the repository has been graded. 
+6. The cloned repositories and the grade folder are deleted from the local computer.
+
+Throughout this process, feedback messages are written to a text file (filteredOutput.txt) for easy reference. 
