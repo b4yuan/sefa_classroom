@@ -80,6 +80,7 @@ for x in range(startIndex, endIndex + 1):
                 subprocess.run(["git", "clone", "-b", tagName, str(repoURL)]) #clone repo
 
             os.chdir(owd + dirPath)
+            print(subprocess.check_output(['git','remote','-v']))
             print('In directory:', os.getcwd())
             #!!----Delete graded tag-----!!
             tagList = fetchTags(organization, repo, authName, authKey)
