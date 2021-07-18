@@ -1,4 +1,4 @@
-Ran on 07-18 16:38:41
+Ran on 07-18 16:55:10
 
 Grading hw02sort
 
@@ -15,7 +15,7 @@ Successfully ran startGradingProcess
 Successfully ran putGradesInRepos
 
 Successfully ran putGradesInCSV
-In directory: /home/jack/Documents/pas/Fortest/pas_githubclassroom/combinedSystem/clones/hw02sort-kmerrill16
+In directory: /mnt/c/Users/leila/Documents/githubclassroom/combinedSystem/clones/hw02sort-kmerrill16
 Successfully ran pushChangeToRepos
 
  * Cloned hw02sort-lvy15
@@ -30,7 +30,7 @@ Successfully ran startGradingProcess
 Successfully ran putGradesInRepos
 
 Successfully ran putGradesInCSV
-In directory: /home/jack/Documents/pas/Fortest/pas_githubclassroom/combinedSystem/clones/hw02sort-lvy15
+In directory: /mnt/c/Users/leila/Documents/githubclassroom/combinedSystem/clones/hw02sort-lvy15
 Successfully ran pushChangeToRepos
 
 ***Finished grading process***

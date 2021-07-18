@@ -36,9 +36,9 @@ gradeRoot = "/grades"
 clonesRoot = "/clones"
 
 #!!----------Set Up File For Collecting Output------!!
-f = open('filteredOutput.txt', 'w')
-f.write("Ran on ")
-f.write(datetime.now().strftime("%m-%d %H:%M:%S") + "\n")
+outputFile = open('filteredOutput.txt', 'w')
+outputFile.write("Ran on ")
+outputFile.write(datetime.now().strftime("%m-%d %H:%M:%S") + "\n")
 
 #!!----------Set Up Command Line Flag Input--------!!
 parser = argparse.ArgumentParser("specify homework assignments to grade")
@@ -49,13 +49,13 @@ group.add_argument("--grade_all", action="store_true", help = "specify this opti
 parser.add_argument("-d", "--delete", action ="store_false", help="specify this option if you would like to NOT delete clones and grades folders after running. default is true")
 args = parser.parse_args()
 
-[startIndex, endIndex, homeworkMasterList] = argParse(args, profFiles, f)
+[startIndex, endIndex, homeworkMasterList] = argParse(args, profFiles, outputFile)
 
 #!!----------Run Actual System--------!!
-for x in range(startIndex, endIndex + 1):
+for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = stripHW(hwName)
-    f.write('\n[[Currently grading : '+ hwName + ']]')
+    outputFile.write('\n[[Currently grading : '+ hwName + ']]')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
@@ -64,37 +64,36 @@ for x in range(startIndex, endIndex + 1):
     writeCSV(os.getcwd() + profFiles + "/masterGrades.csv", df)
 
     #!!----------Clone Appropriate Repositories--------!!
-    for repo in repos:
-        [graded, hoursLateArr] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profFiles, clonesRoot, f)
+    for repo in repos: #for each repo
+        [needsToBeGraded, hoursLateArr] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profFiles, clonesRoot, outputFile)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
 
-        if (graded == True):
+        if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
-            startGradingProcess(repo, hoursLateArr, homeworkMasterList[x], f)
-            f.write('\n\nSuccessfully ran startGradingProcess\n')
+            startGradingProcess(repo, hoursLateArr, homeworkMasterList[x], outputFile)
+            outputFile.write('\n\nSuccessfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!
             putGradesInRepos(gradeRoot, gradeFileName, repo)
-            f.write('\nSuccessfully ran putGradesInRepos\n')
+            outputFile.write('\nSuccessfully ran putGradesInRepos\n')
 
             #!!---------Add Grades to CSV For Prof Access--------!!
             putGradesInCSV(profFiles, gradeRoot, gradeFileName, repo)
                 #adds new hws and students to a csv
                 #uses the grade directory to modify data points
-            f.write('\nSuccessfully ran putGradesInCSV\n')
+            outputFile.write('\nSuccessfully ran putGradesInCSV\n')
 
             #!!---------Push Grade File to Student Repos--------!!
-            pushChangeToRepos(clonesRoot, gradeFileName, repo, f)
+            pushChangeToRepos(clonesRoot, gradeFileName, repo)
                 #also adds graded_ver tag
-            f.write('\nSuccessfully ran pushChangeToRepos\n')
+            outputFile.write('\nSuccessfully ran pushChangeToRepos\n')
 
             #!!---------Remove Local Repository--------!!
             if args.delete != False:
                 repoPath = os.getcwd() + clonesRoot + "/" + repo
                 if os.path.exists(repoPath):
                     rmtree(repoPath)
-
 
 #!!----------Delete Clones and Grades Folders--------!!
 if args.delete != False: #it defaults to true
@@ -108,5 +107,5 @@ if args.delete != False: #it defaults to true
             #removes folder of grades
 
 #!!----------Close Output File--------!!
-f.write('\n***Finished grading process***')
-f.close()
+outputFile.write('\n***Finished grading process***')
+outputFile.close()

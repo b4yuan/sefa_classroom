@@ -290,7 +290,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         user_submission.clean_up()  # deletes copied files
         return GradedSubmission(0, user_feedback)
 
-    #user_submission.clean_up()  # deletes copied files
+    user_submission.clean_up()  # deletes copied files
 
     return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback,
                             dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied

@@ -60,12 +60,12 @@ else:
 #!!----Get lists----!!
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey)) 
 
-for x in range(startIndex, endIndex + 1):
+for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = stripHW(hwName)
     print('\nResetting hw ', hwName, '\n')
 
-    for repo in repos:
+    for repo in repos: #for each repository
         if matchHW(hwNum, repo):
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
