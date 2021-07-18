@@ -11,6 +11,7 @@ from functions.getConfigInputs import getConfigInputs
 from functions.argParse import argParse
 from functions.rmtree import rmtree
 from functions.hwNameHelper import stripHW
+from functions.dataFrameHelper import *
 
 import argparse
 import os
@@ -58,30 +59,43 @@ for x in range(startIndex, endIndex + 1):
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
-    
+    df = loadCSV(os.getcwd() + profFiles + "/masterGrades.csv")
+    df = updateDF(hws, students, df) # adding rows and columns based on new students and hws in the class
+    writeCSV(os.getcwd() + profFiles + "/masterGrades.csv", df)
+
     #!!----------Clone Appropriate Repositories--------!!
-    [clonedRepos, hoursLateArr] = cloneFromRepos(organization, repos, hwNum, tagName, authName, authKey, profFiles, clonesRoot, f)
+    for repo in repos:
+        print(repo)
+        [graded, hoursLateArr] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profFiles, clonesRoot, f)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
 
-    #!!---------Run Grading Script--------!!
-    startGradingProcess(clonedRepos, hoursLateArr, homeworkMasterList[x], f)
-    f.write('\n\nSuccessfully ran startGradingProcess\n')
+        if (graded == True):
+            #!!---------Run Grading Script--------!!
+            startGradingProcess(repo, hoursLateArr, homeworkMasterList[x], f)
+            f.write('\n\nSuccessfully ran startGradingProcess\n')
 
-    #!!---------Put Grade Text File Into Cloned Repos--------!!
-    putGradesInRepos(gradeRoot, gradeFileName, clonedRepos)
-    f.write('\nSuccessfully ran putGradesInRepos\n')
+            #!!---------Put Grade Text File Into Cloned Repos--------!!
+            putGradesInRepos(gradeRoot, gradeFileName, repo)
+            f.write('\nSuccessfully ran putGradesInRepos\n')
 
-    #!!---------Add Grades to CSV For Prof Access--------!!
-    putGradesInCSV(profFiles, gradeRoot, gradeFileName, clonedRepos, hws, students)
-        #adds new hws and students to a csv
-        #uses the grade directory to modify data points
-    f.write('\nSuccessfully ran putGradesInCSV\n')
+            #!!---------Add Grades to CSV For Prof Access--------!!
+            putGradesInCSV(profFiles, gradeRoot, gradeFileName, repo)
+                #adds new hws and students to a csv
+                #uses the grade directory to modify data points
+            f.write('\nSuccessfully ran putGradesInCSV\n')
 
-    #!!---------Push Grade File to Student Repos--------!!
-    pushChangeToRepos(clonesRoot, gradeFileName, clonedRepos, f)
-        #also adds graded_ver tag
-    f.write('\nSuccessfully ran pushChangeToRepos\n')
+            #!!---------Push Grade File to Student Repos--------!!
+            pushChangeToRepos(clonesRoot, gradeFileName, repo, f)
+                #also adds graded_ver tag
+            f.write('\nSuccessfully ran pushChangeToRepos\n')
+
+            #!!---------Remove Local Repository--------!!
+            if args.delete != False:
+                repoPath = os.getcwd() + clonesRoot + "/" + repo
+                if os.path.exists(repoPath):
+                    rmtree(repoPath)
+
 
 #!!----------Delete Clones and Grades Folders--------!!
 if args.delete != False: #it defaults to true
