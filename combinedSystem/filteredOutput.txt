@@ -1,15 +1,24 @@
-Ran on 07-17 18:32:41
+Ran on 07-18 15:32:20
 
-Grading HW02Sort
+Grading hw02sort
 
-[[Currently grading : HW02Sort]]
+[[Currently grading : hw02sort]]
  * Cloned hw02sort-kmerrill16
- * Cloned hw02sort-lvy15
 
 For repo: hw02sort-kmerrill16
 --Calling grade_submission.py
 --Grade is 100.0
 --gradeReport.txt created
+
+Successfully ran startGradingProcess
+
+Successfully ran putGradesInRepos
+
+Successfully ran putGradesInCSV
+In directory: /home/jack/Documents/pas/forMerge/pas_githubclassroom/combinedSystem/clones/hw02sort-kmerrill16
+Successfully ran pushChangeToRepos
+
+ * Cloned hw02sort-lvy15
 
 For repo: hw02sort-lvy15
 --Calling grade_submission.py
@@ -21,4 +30,7 @@ Successfully ran startGradingProcess
 Successfully ran putGradesInRepos
 
 Successfully ran putGradesInCSV
-In directory: /mnt/c/Users/leila/Documents/githubclassroom/combinedSystem/clones/hw02sort-kmerrill16
+In directory: /home/jack/Documents/pas/forMerge/pas_githubclassroom/combinedSystem/clones/hw02sort-lvy15
+Successfully ran pushChangeToRepos
+
+***Finished grading process***
