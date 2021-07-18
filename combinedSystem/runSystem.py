@@ -65,12 +65,12 @@ for x in range(startIndex, endIndex + 1):
 
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos:
-        print(repo)
         [graded, hoursLateArr] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profFiles, clonesRoot, f)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
 
         if (graded == True):
+            print(repo)
             #!!---------Run Grading Script--------!!
             startGradingProcess(repo, hoursLateArr, homeworkMasterList[x], f)
             f.write('\n\nSuccessfully ran startGradingProcess\n')
