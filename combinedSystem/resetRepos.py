@@ -69,6 +69,9 @@ for x in range(startIndex, endIndex + 1): #for each homework
         if matchHW(hwNum, repo):
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
+
+            print('Resetting repo', repo)
+            
             dirPath = "/clones/" + repo
             repoURL = "https://" + authKey + '@github.com/' + organization + '/' + repo + '.git'
 
@@ -76,12 +79,13 @@ for x in range(startIndex, endIndex + 1): #for each homework
                 os.mkdir(owd + '/clones')
             
             os.chdir(owd + '/clones')
-            if not os.path.exists(owd + dirPath):
-                subprocess.run(["git", "clone", "-b", tagName, str(repoURL)]) #clone repo
 
-            os.chdir(owd + dirPath)
-            print(subprocess.check_output(['git','remote','-v']))
-            print('In directory:', os.getcwd())
+            tagList = fetchTags(organization, repo, authName, authKey)
+
+            if not os.path.exists(owd + dirPath) and 'final_ver' in tagList:
+                subprocess.run(["git", "clone", "-b", tagName, str(repoURL)]) #clone repo
+                os.chdir(owd + dirPath)
+
             #!!----Delete graded tag-----!!
             tagList = fetchTags(organization, repo, authName, authKey)
             if 'graded_ver' in tagList:
