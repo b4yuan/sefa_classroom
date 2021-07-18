@@ -70,7 +70,6 @@ for x in range(startIndex, endIndex + 1):
         #clones all repositories of students with the specified homework name and tag
 
         if (graded == True):
-            print(repo)
             #!!---------Run Grading Script--------!!
             startGradingProcess(repo, hoursLateArr, homeworkMasterList[x], f)
             f.write('\n\nSuccessfully ran startGradingProcess\n')
