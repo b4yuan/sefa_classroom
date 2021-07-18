@@ -5,6 +5,7 @@ from .gradingsystem import grade
 from .equation import calculate_grade
 import json
 
+
 # This is a python module. Outside of this directory:
 # from GradingInterface import interface
 
@@ -17,6 +18,7 @@ class GradedSubmission:
     :param error_file: Path to file containing error output from grading process, optional
     :type error_file: str
     """
+
     def __init__(self, graded_score, error_file=None, dictionary=None):
 
         self.graded_score = graded_score
@@ -58,9 +60,13 @@ class Submission:
         if submission_path.endswith('.zip'):
             self.submission_zip_path = submission_path
             self.submission_folder_path = None  # The path to unzipped submission
+            self.files = None
         else:
             self.submission_zip_path = None
             self.submission_folder_path = submission_path  # The path to unzipped submission
+            self.files = os.listdir(submission_path)
+            self.files.append('gradeReport.txt')
+            self.files = [os.path.join(submission_path, file) for file in self.files]
 
     def setup(self):
         """
@@ -87,7 +93,12 @@ class Submission:
 
         :return: None
         """
-        os.system(f'rm -r {self.submission_folder_path}')
+        if self.files is None:
+            os.system(f'rm -r -f {self.submission_folder_path}')
+        else:
+            for file in [os.path.join(self.submission_folder_path, file_) for file_ in os.listdir(self.submission_folder_path)]:
+                if file not in self.files:
+                    os.system(f'rm -r -f {file}')
 
         return
 
@@ -151,7 +162,8 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
             if filename.endswith('.json'):  # if json file exists, read it and convert it to a usable format
                 with open(os.path.join(test_case, filename)) as f:  # open the json file
                     weights = json.load(f)['weights']  # read the wieghts part from the json
-                    weights = {list(elem.keys())[0]: elem[list(elem.keys())[0]] for elem in weights}  # combine the dictionaries (json file params are each their own dict)
+                    weights = {list(elem.keys())[0]: elem[list(elem.keys())[0]] for elem in
+                               weights}  # combine the dictionaries (json file params are each their own dict)
 
                     for key in weights.keys():  # make sure each value is a float
                         try:
@@ -161,7 +173,8 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                             return GradedSubmission(0, user_feedback)
                         except TypeError:  # if the value is a list, reduce the list to a single float
                             if type(weights[key]) is list:
-                                while type(weights[key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
+                                while type(weights[
+                                               key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
                                     try:
                                         weights[key] = float(weights[key][0])
                                     except ValueError:  # if non integer characters are in the value fields
@@ -180,16 +193,18 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
             else:  # if the file is not a json file, move on to the next one
                 continue
 
-
     if 'grade_late_work' not in weights.keys():  # if grade_late_work is not in weights, add it and set it to False
         weights['grade_late_work'] = False
-    if weights['grade_late_work'] is False:  # if grade_late_work is False then don't grade the work if it's too late to get a non-zero score
+    if weights[
+        'grade_late_work'] is False:  # if grade_late_work is False then don't grade the work if it's too late to get a non-zero score
         if 'late_coef' not in weights.keys():  # if late_coef isn't in weights, add it and set it to 5 (defualt value)
             weights['late_coef'] = 5
-        if weights['late_coef'] * hourslate >= 100:  # if the penalty is already greater than 100% (will get a 0 no matter what)
+        if weights[
+            'late_coef'] * hourslate >= 100:  # if the penalty is already greater than 100% (will get a 0 no matter what)
             return GradedSubmission(0, f'submission submitted {hourslate} hours past the deadline resulting in a 0%')
 
-    os.chdir(user_submission.submission_folder_path)  # change the directory to the path of the student files ready to be graded
+    os.chdir(
+        user_submission.submission_folder_path)  # change the directory to the path of the student files ready to be graded
 
     ## get the number of test cases so that we can check if the weights dict is correct
     numberoftestcases = 0
@@ -209,7 +224,7 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
         if numberoftestcases == 0:  # if there are no testcases
             user_feedback = 'error when executing Makefile... contact your professor about this issue (number of test cases is not correct)'
             return GradedSubmission(0, user_feedback)
-    
+
     if weights is None:  # if weights is empty, make it from scratch
         for num in range(1, numberoftestcases + 1):
             weights[f'test{num}'] = 1
@@ -221,15 +236,17 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
             if f'test{num}' not in keys:
                 the_sum = sum([abs(weights[f'test{z}']) for z in range(1, num)])  # get total weight of point so far
                 if the_sum == 0:
-                    weights[f'test{num}'] = 1  # add missing test case with weight of 1 because we can't find the average as the sum is 0
+                    weights[
+                        f'test{num}'] = 1  # add missing test case with weight of 1 because we can't find the average as the sum is 0
                 else:
-                    weights[f'test{num}'] = the_sum / (num - 1)  # add missing testcase with weight of the average test case so far
+                    weights[f'test{num}'] = the_sum / (
+                                num - 1)  # add missing testcase with weight of the average test case so far
         if 'mem_coef' not in keys:  # if mem_coef doesn't exist yet, add it
             weights['mem_coef'] = 1
         if 'late_coef' not in keys:  # # if late_coef doesn't exist yet, add it
             weights['late_coef'] = 5
 
-        for key in keys: # make sure each value is a float
+        for key in keys:  # make sure each value is a float
             try:
                 weights[key] = float(abs(weights[key]))
             except ValueError:  # if non integer characters are in the value fields
@@ -237,7 +254,8 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                 return GradedSubmission(0, user_feedback)
             except TypeError:  # if the value is a list, reduce the list to a single float
                 if type(weights[key]) is list:
-                    while type(weights[key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
+                    while type(weights[
+                                   key]) is list:  # keep convertinr it from a list to a float until it's a float (incase it's a nested list)
                         try:
                             weights[key] = float(weights[key][0])
                         except ValueError:  # if non integer characters are in the value fields
@@ -254,15 +272,17 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
                     return GradedSubmission(0, user_feedback)
 
     keys = list(weights.keys())
-    for i in range(1, numberoftestcases + 1):  # get list of test cases and remove ones that get used. list with remaining values is used in the next part
+    for i in range(1,
+                   numberoftestcases + 1):  # get list of test cases and remove ones that get used. list with remaining values is used in the next part
         if f'test{i}' in keys:
             keys.remove(f'test{i}')
-    
+
     for key in keys:  # remove tesecases from weights dict that are not present in the makefile
         if key.startswith('test'):
             weights[key] = 0
 
-    points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path, weights)  # grades submission and gets point values
+    points, user_feedback, testcases_dict = grade(user_submission.submission_folder_path,
+                                                  weights)  # grades submission and gets point values
 
     if points is None:  # returns none if there was something wrong when grading (student side)
         user_submission.clean_up()  # deletes copied files
@@ -270,5 +290,6 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
+    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback,
+                            dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
 

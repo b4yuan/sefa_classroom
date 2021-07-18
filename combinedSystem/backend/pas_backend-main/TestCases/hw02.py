@@ -5,28 +5,28 @@ import os
 path = os.path.join(os.getcwd(), 'TestCases')
 
 def testhw02():
-    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort.zip'),
+    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort'),
                                         os.path.join(path, '2020homeworks/HW02Sort'))
     print(f'grade for hw02 is {graded.get_grade()}')
 
     return graded.get_error_list()
 
 def testhw02_nocompile():
-    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_nocompile.zip'),
+    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_nocompile'),
                                         os.path.join(path, '2020homeworks/HW02Sort'))
     print(f'grade for hw02 is {graded.get_grade()}')
 
     return graded.get_error_list()
 
 def testhw02_incorrect():
-    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_wrong.zip'),
+    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_wrong'),
                                         os.path.join(path, '2020homeworks/HW02Sort'))
     print(f'grade for hw02 is {graded.get_grade()}')
 
     return graded.get_error_list()
 
 def testhw02_mem():
-    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_mem.zip'),
+    graded = interface.grade_submission(os.path.join(path, '2020homeworks/grade_testing/hw1-8/sort_mem'),
                                         os.path.join(path, '2020homeworks/HW02Sort'))
     print(f'grade for hw02 is {graded.get_grade()}')
 
