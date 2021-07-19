@@ -29,7 +29,7 @@ def splitRepo(cloneRoot, repoURL, orgName, authKey, authName):
     contents = os.listdir()
     hws = []
     for file in contents:
-        if (os.path.isdir(file)) and (stripHW(str(file)) != None):
+        if ((fetchHWInfo(None, str(file))[1]) != None):
             hws.append(file)
     hws.sort()
     os.chdir(owd + cloneRoot)
@@ -80,4 +80,4 @@ def createTemplateRepo(orgName, repoName, authKey, authName):
     response = requests.post('https://api.github.com/orgs/' + orgName + '/repos', headers=headers, data=data, auth=(authName, authKey))
 
 if __name__ == "__main__":
-    splitRepo("/masterClone","https://github.com/PurdueECE264/2020FallProblems-Lu.git", "Deletethis", "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", "myers395")
+    splitRepo("/masterClone","https://github.com/PurdueECE264/2020FallProblems-Lu.git", "blahblajh", "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", "myers395")

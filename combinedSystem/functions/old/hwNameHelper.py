@@ -12,19 +12,11 @@ def fetchHWInfo(num, hwName):
     match = re.fullmatch(template, hwName)
     if match != None:
         if (num == None):
-            return int(match[2])
+            return True, int(match[2])
         elif (num == int(match[2])):
-            return True
+            return True, None
         else:
-            return False
+            return False, None
     else:
         print("Invalid hw name format")
-        return False
-
-if __name__ == "__main__":
-    #stripHW("HW15BinaryTree1")
-    #stripHW("15")
-    #stripHW("hw15binarytree1")
-    #stripHW("HW05Sum")
-    #stripHW("5")
-    print(matchHW(5, "HW05Sum"))
+        return False, None

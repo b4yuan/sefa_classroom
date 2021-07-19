@@ -11,7 +11,7 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
     newProfPath = os.getcwd() + profPath #must set before looping through repos
     owd = os.getcwd()
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    if fetchHWInfo(hwNum, repo):
+    if fetchHWInfo(hwNum, repo)[0]:
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             reposURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
