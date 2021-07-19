@@ -1,9 +1,9 @@
 #!!--------Imports-----------!!
-from combinedSystem.functions.setup import getConfigInputs, argParse
-from combinedSystem.functions.fetch import fetchLists, fetchRepos, fetchHWInfo
-from combinedSystem.functions.dataFrameHelper import updateDF, loadCSV, writeCSV
-from combinedSystem.functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
-from combinedSystem.functions.rmtree import rmtree
+from functions.setup import getConfigInputs, argParse
+from functions.fetch import fetchLists, fetchRepos, fetchHWInfo
+from functions.dataFrameHelper import updateDF, loadCSV, writeCSV
+from functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
+from functions.rmtree import rmtree
 
 import argparse, os
 from datetime import datetime

@@ -1,6 +1,6 @@
-from combinedSystem.functions.setup import getConfigInputs, isAValidHomework, getHomeworkList
-from combinedSystem.functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchTags
-from combinedSystem.functions.rmtree import rmtree
+from functions.setup import getConfigInputs, isAValidHomework, getHomeworkList
+from functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchTags
+from functions.rmtree import rmtree
 
 import argparse, os, subprocess
 

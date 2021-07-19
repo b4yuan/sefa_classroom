@@ -64,15 +64,17 @@ def fetchTags(orgName, repoName, authName, authKey):
     return tagList
 
 def fetchDueDate(profFiles, hwNum):
-    if os.path.exists(profFiles + "/assignmentData.json"):
-        jsonFile = json.load(open(profFiles + "/assignmentData.json")) #open Json
-        for entry in jsonFile: #look through each homework
-            if fetchHWInfo(hwNum, entry["name"]): #check name
-                date = entry["due"] #assign the due date
-                break
+    if os.path.exists(profFiles):
+        files = os.listdir(profFiles)
+        hws = [file for file in files if (os.path.isdir(profFiles + "/" + file) and fetchHWInfo(None, file)[1] == hwNum)]
+        if (len(hws) == 1):
+            jsonFile = json.load(open(profFiles + "/" + hws[0] + "/weights.json")) #open Json
+            return(jsonFile["due"])
+        else:
+            return None
     else:
-        print("Professor files path does not exist:" + str(profFiles))
-    return date
+        print("HW not present or profFiles doesn't exist: " + str(profFiles))
+    return None
 
 def fetchHoursLate(subDate, dueDate):
     #date format: year, month, day, hour, minute, second
@@ -101,11 +103,11 @@ def fetchHWInfo(num, hwName):
     match = re.fullmatch(template, hwName)
     if match != None:
         if (num == None):
-            return int(match[2])
+            return True, int(match[2])
         elif (num == int(match[2])):
-            return True
+            return True, None
         else:
-            return False
+            return False, None
     else:
         print("Invalid hw name format")
-        return False
+        return False, None
