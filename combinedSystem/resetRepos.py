@@ -1,15 +1,6 @@
-from functions.setup import getConfigInputs, isAValidHomework, getHomeworkList
-from functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchTags
-from functions.rmtree import rmtree
-<<<<<<< HEAD
-=======
-from functions.fetchLists import fetchLists
-from functions.fetchRepos import fetchRepos
-from functions.fetchTags import fetchTags
-from functions.getConfigInputs import getConfigInputs
-from functions.createJSONFiles import getHomeworkList, isAValidHomework
-from functions.hwNameHelper import fetchHWInfo
->>>>>>> b3f170665275055fad48c31e8bbaf8fab45df46e
+from combinedSystem.functions.setup import getConfigInputs, isAValidHomework, getHomeworkList
+from combinedSystem.functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchTags
+from combinedSystem.functions.rmtree import rmtree
 
 import argparse, os, subprocess
 
@@ -65,19 +56,11 @@ else:
 
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
-<<<<<<< HEAD
-    hwNum = fetchHWInfo(None, hwName)
-    print('\nResetting hw ', hwName, '\n')
-
-    for repo in repos: #for each repository
-        if fetchHWInfo(hwNum, repo):
-=======
     hwNum = fetchHWInfo(None, hwName)[1]
     print('\nResetting hw ', hwName, '\n')
 
     for repo in repos: #for each repository
         if fetchHWInfo(hwNum, repo)[0]:
->>>>>>> b3f170665275055fad48c31e8bbaf8fab45df46e
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
 

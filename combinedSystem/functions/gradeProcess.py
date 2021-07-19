@@ -1,8 +1,8 @@
 import os, subprocess, shutil, re
 from datetime import datetime
-from functions.fetch import fetchHWInfo, fetchTags, fetchHoursLate, fetchDueDate
-from functions.GradingInterface import interface
-from functions.dataFrameHelper import loadCSV, writeCSV, editEntry
+from combinedSystem.functions.fetch import fetchHWInfo, fetchTags, fetchHoursLate, fetchDueDate
+from combinedSystem.functions.GradingInterface import interface
+from combinedSystem.functions.dataFrameHelper import loadCSV, writeCSV, editEntry
 
 #THIS FILE CONTAINS
 #cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos

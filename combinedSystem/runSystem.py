@@ -1,14 +1,9 @@
 #!!--------Imports-----------!!
-from functions.setup import getConfigInputs, argParse
-from functions.fetch import fetchLists, fetchRepos, fetchHWInfo
-from functions.dataFrameHelper import updateDF, loadCSV, writeCSV
-from functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
-from functions.rmtree import rmtree
-<<<<<<< HEAD
-=======
-from functions.hwNameHelper import fetchHWInfo
-from functions.dataFrameHelper import *
->>>>>>> b3f170665275055fad48c31e8bbaf8fab45df46e
+from combinedSystem.functions.setup import getConfigInputs, argParse
+from combinedSystem.functions.fetch import fetchLists, fetchRepos, fetchHWInfo
+from combinedSystem.functions.dataFrameHelper import updateDF, loadCSV, writeCSV
+from combinedSystem.functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
+from combinedSystem.functions.rmtree import rmtree
 
 import argparse, os
 from datetime import datetime
@@ -49,11 +44,7 @@ args = parser.parse_args()
 #!!----------Run Actual System--------!!
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
-<<<<<<< HEAD
-    hwNum = fetchHWInfo(None, hwName)
-=======
     hwNum = fetchHWInfo(None, hwName)[1]
->>>>>>> b3f170665275055fad48c31e8bbaf8fab45df46e
     outputFile.write('\n[[Currently grading : '+ hwName + ']]')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
