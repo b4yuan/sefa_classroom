@@ -1,14 +1,8 @@
+from functions.setup import getConfigInputs, isAValidHomework, getHomeworkList
+from functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchTags
 from functions.rmtree import rmtree
-from functions.fetchLists import fetchLists
-from functions.fetchRepos import fetchRepos
-from functions.fetchTags import fetchTags
-from functions.getConfigInputs import getConfigInputs
-from functions.createJSONFiles import getHomeworkList, isAValidHomework
-from functions.hwNameHelper import stripHW, matchHW
 
-import argparse
-import os
-import subprocess
+import argparse, os, subprocess
 
 #!!--------Set Up Variables From JSON File-----------!! 
 #Configname
@@ -62,11 +56,11 @@ else:
 
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
-    hwNum = stripHW(hwName)
+    hwNum = fetchHWInfo(None, hwName)
     print('\nResetting hw ', hwName, '\n')
 
     for repo in repos: #for each repository
-        if matchHW(hwNum, repo):
+        if fetchHWInfo(hwNum, repo):
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
 

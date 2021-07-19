@@ -5,6 +5,7 @@ import functions.GradingInterface.interface as interface
 
 def startGradingProcess(repo, hoursLateArr, hwName, f):
 	owd = os.getcwd()
+	print('-----HOURS LATE', hoursLateArr)
 	path = owd + "/grades/" + repo
 	clonePath = owd + '/clones/' + repo #path to student directory
 	profPath = owd + '/profFiles/' + hwName #path to professor directory
