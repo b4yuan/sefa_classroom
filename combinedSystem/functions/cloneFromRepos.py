@@ -4,14 +4,14 @@ import sys
 from functions.fetchDueDate import fetchDueDate
 from functions.calcHoursLate import calcHoursLate
 from functions.fetchTags import fetchTags
-from functions.hwNameHelper import matchHW
+from functions.hwNameHelper import fetchHWInfo
 #inputs: 
 
 def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clonePath, f): #changed repository to students and added hwName 
     newProfPath = os.getcwd() + profPath #must set before looping through repos
     owd = os.getcwd()
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    if matchHW(hwNum, repo):
+    if fetchHWInfo(hwNum, repo):
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             reposURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"

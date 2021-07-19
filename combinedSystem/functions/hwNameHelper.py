@@ -1,21 +1,6 @@
 import re
 
-def stripHW(hwName):
-
-    # INPUTS:
-    #   hwName: string of homework to match
-    # RETURNS:
-    #   int: number associated with homework
-
-    template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)')
-    match = re.fullmatch(template, hwName)
-    if match != None:
-        return int(match[2])
-    else:
-        print("Invalid hw name format")
-        return None
-
-def matchHW(num, hwName):
+def fetchHWInfo(num, hwName):
 
     # INPUTS:
     #   num: number of homework
@@ -26,14 +11,15 @@ def matchHW(num, hwName):
     template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)')
     match = re.fullmatch(template, hwName)
     if match != None:
-        if (num == int(match[2])):
+        if (num == None):
+            return int(match[2])
+        elif (num == int(match[2])):
             return True
         else:
             return False
     else:
         print("Invalid hw name format")
         return False
-
 
 if __name__ == "__main__":
     #stripHW("HW15BinaryTree1")
