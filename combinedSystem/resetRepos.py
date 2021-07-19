@@ -4,7 +4,7 @@ from functions.fetchRepos import fetchRepos
 from functions.fetchTags import fetchTags
 from functions.getConfigInputs import getConfigInputs
 from functions.createJSONFiles import getHomeworkList, isAValidHomework
-from functions.hwNameHelper import stripHW, matchHW
+from functions.hwNameHelper import fetchHWInfo
 
 import argparse
 import os
@@ -62,11 +62,11 @@ else:
 
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
-    hwNum = stripHW(hwName)
+    hwNum = fetchHWInfo(None, hwName)[1]
     print('\nResetting hw ', hwName, '\n')
 
     for repo in repos: #for each repository
-        if matchHW(hwNum, repo):
+        if fetchHWInfo(hwNum, repo)[0]:
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
 

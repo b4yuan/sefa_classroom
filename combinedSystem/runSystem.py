@@ -10,7 +10,7 @@ from functions.putGradesInCSV import putGradesInCSV
 from functions.getConfigInputs import getConfigInputs
 from functions.argParse import argParse
 from functions.rmtree import rmtree
-from functions.hwNameHelper import stripHW
+from functions.hwNameHelper import fetchHWInfo
 from functions.dataFrameHelper import *
 
 import argparse
@@ -54,7 +54,7 @@ args = parser.parse_args()
 #!!----------Run Actual System--------!!
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
-    hwNum = stripHW(hwName)
+    hwNum = fetchHWInfo(None, hwName)[1]
     outputFile.write('\n[[Currently grading : '+ hwName + ']]')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
