@@ -19,24 +19,23 @@ def fetchLists(jsonFile):
     repoList = []
     for entry in jsonFile:
         repoList.append(entry["name"])
-
+    
     template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$')
     studentSet = set()
     hwSet = set()
     repos = []
-
+    
     for repo in repoList:
         match = re.fullmatch(template, repo)
         if match != None:
             repos.append(match[0])
             hwSet.add(match[1])
             studentSet.add(match[2])
-
+    
     students = list(studentSet)
     hws = list(hwSet)
     students.sort()
     hws.sort()
-
     return students, hws, repos
 
 def fetchRepos(orgName, authName, authKey):
@@ -55,6 +54,11 @@ def fetchRepos(orgName, authName, authKey):
         'Accept': 'application/vnd.github.v3+json',
     }
     response = requests.get(url, auth=(authName, authKey))
+
+    file = open('temp.json','w')
+    file.write(json.dumps(response.json(), indent =4))
+    file.close
+
     return response.json()
 
 def fetchTags(orgName, repoName, authName, authKey):

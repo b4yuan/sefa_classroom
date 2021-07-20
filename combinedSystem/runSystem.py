@@ -87,11 +87,11 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
 #!!----------Delete Clones and Grades Folders--------!!
 if args.delete != False: #it defaults to true
-    if os.path.exists(clonesDir):
+    if os.path.exists(os.getcwd() + clonesDir):
         rmtree('clones') 
         outputFile.write('\nRemoved clones')
             #removes all cloned folders
-    if os.path.exists(gradesDir):
+    if os.path.exists(os.getcwd() + gradesDir):
         rmtree('grades')
         outputFile.write('\nRemoved grades')
             #removes folder of grades

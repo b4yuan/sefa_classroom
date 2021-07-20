@@ -1,0 +1,15 @@
+Ran on 07-20 18:43:31
+
+Grading HW06Word
+
+[[Currently grading : HW06Word]]Checking 6 and hw02-lvy15
+Checking 6 and hw03-lvy15
+Checking 6 and hw04-lvy15
+Checking 6 and hw05-lvy15
+Checking 6 and hw02-saulevans12
+Checking 6 and hw03-saulevans12
+Checking 6 and hw04-saulevans12
+Checking 6 and hw05-saulevans12
+Checking 6 and hw02-kmerrill16
+
+***Finished grading process***
