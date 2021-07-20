@@ -1,8 +1,8 @@
 import os, subprocess, shutil, re
 from datetime import datetime
-from combinedSystem.functions.fetch import fetchHWInfo, fetchTags, fetchHoursLate, fetchDueDate
-from combinedSystem.functions.GradingInterface import interface
-from combinedSystem.functions.dataFrameHelper import loadCSV, writeCSV, editEntry
+from functions.fetch import fetchHWInfo, fetchTags, fetchHoursLate, fetchDueDate
+from functions.GradingInterface import interface
+from functions.dataFrameHelper import loadCSV, writeCSV, editEntry
 
 #THIS FILE CONTAINS
 #cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
@@ -12,7 +12,6 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
     owd = os.getcwd()
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-
     if fetchHWInfo(hwNum, repo):
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         
@@ -32,7 +31,7 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
             info = subprocess.check_output(tagStr.split()).decode()
             subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
             hoursLate = fetchHoursLate(subDate, fetchDueDate(newProfPath, hwNum))
-        
+
             os.chdir(owd)
             
             outputFile.write('\n * Cloned ' + repo)
@@ -64,8 +63,8 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     gradefile = open(gradePath, "w") #creates grade report file
     gradefile.write("Graded on " + datetime.now().strftime("%m-%d %H:%M:%S"))
     gradefile.write("\nGrade: " + str(grade))
-    gradefile.write("\nSubmission was " + str(hoursLate) + ' hours late.')
-    gradefile.write('%\nFeedback: ')
+    gradefile.write("%\nSubmission was " + str(hoursLate) + ' hours late.')
+    gradefile.write('\nFeedback: ')
     for line in feedback:
         gradefile.write(line)
         gradefile.write(". ")

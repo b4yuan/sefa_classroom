@@ -150,5 +150,5 @@ def fetchHWInfo(num, hwName):
         else:
             return False, None
     else:
-        print("Invalid hw name format")
+        #print("Invalid hw name format:")
         return False, None
