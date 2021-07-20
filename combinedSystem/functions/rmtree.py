@@ -8,6 +8,15 @@ import os, stat
 #removes directory tree
 
 def rmtree(top):
+    """Description: Deletes directory of folders and files
+    
+    Parameters: 
+    top (str): path of top folder to delete
+    
+    Returns:
+    None
+    """
+
     for root, dirs, files in os.walk(top, topdown=False):
         for name in files:
             filename = os.path.join(root, name)
