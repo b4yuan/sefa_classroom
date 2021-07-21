@@ -38,8 +38,28 @@ def fetchLists(jsonFile):
     hws.sort()
     return students, hws, repos
 
+def fetchRepoPage(orgName, authName, authKey, pageNum):
+    """Description: Obtains JSON file of repository names for specified organization page using GitHub
+    
+    Parameters: 
+    orgName (str): name of classroom
+    authName (str): name of authorized user
+    authKey(str): GPG key
+    page (num): page number to fetch
+    
+    Returns:
+    JSONfile: JSON file of repository names"""
+
+    url = "https://api.github.com/orgs/" + orgName + "/repos?per_page=100&page=" + str(pageNum)
+    headers = {
+        'Accept': 'application/vnd.github.v3+json',
+    }
+    response = requests.get(url, headers=headers, auth=(authName, authKey))
+
+    return response.json()
+
 def fetchRepos(orgName, authName, authKey):
-    """Description: Obtains JSON file of repository names for specified organization using GitHub
+    """Description: Obtains JSON file of all repository names for specified organization using GitHub
     
     Parameters: 
     orgName (str): name of classroom
@@ -48,18 +68,16 @@ def fetchRepos(orgName, authName, authKey):
     
     Returns:
     JSONfile: JSON file of repository names"""
-
-    url = "https://api.github.com/orgs/" + orgName + "/repos"
-    headers = {
-        'Accept': 'application/vnd.github.v3+json',
-    }
-    response = requests.get(url, auth=(authName, authKey))
-
-    file = open('temp.json','w')
-    file.write(json.dumps(response.json(), indent =4))
-    file.close
-
-    return response.json()
+    
+    pageNum = 1
+    fullJson = fetchRepoPage(orgName, authName, authKey, pageNum)
+    pageJson = fullJson
+    while (pageJson != []):
+        pageNum += 1
+        pageJson = fetchRepoPage(orgName, authName, authKey, pageNum)
+        for entry in pageJson:
+            fullJson.append(entry)
+    return fullJson
 
 def fetchTags(orgName, repoName, authName, authKey):
     """Description: Provides list of tags that exist for specified repository
@@ -156,3 +174,8 @@ def fetchHWInfo(num, hwName):
     else:
         #print("Invalid hw name format:")
         return False, None
+
+if __name__ == "__main__":
+    jsonFile = fetchRepos("cam3testclass", "myers395", "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")
+    for entry in jsonFile:
+        print(entry["name"])
