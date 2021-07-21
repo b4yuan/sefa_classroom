@@ -68,7 +68,7 @@ def fetchRepos(orgName, authName, authKey):
     
     Returns:
     JSONfile: JSON file of repository names"""
-    
+
     pageNum = 1
     fullJson = fetchRepoPage(orgName, authName, authKey, pageNum)
     pageJson = fullJson
@@ -78,6 +78,24 @@ def fetchRepos(orgName, authName, authKey):
         for entry in pageJson:
             fullJson.append(entry)
     return fullJson
+
+def fetchLimit(authName, authKey):
+    """Description: Provides data on authenticated request limit
+    
+    Parameters: 
+    authName (str): name of authorized user
+    authKey(str): GPG key
+    
+    Returns:
+    used (int): num of requests used this hour
+    remaining (int): num of requests left this hour
+    """
+    headers = {
+        'Accept': 'application/vnd.github.v3+json',
+    }
+
+    response = requests.get('https://api.github.com/rate_limit', headers=headers, auth=(authName, authKey))
+    return response.json()["rate"]["used"], response.json()["rate"]["remaining"]
 
 def fetchTags(orgName, repoName, authName, authKey):
     """Description: Provides list of tags that exist for specified repository
@@ -176,6 +194,7 @@ def fetchHWInfo(num, hwName):
         return False, None
 
 if __name__ == "__main__":
-    jsonFile = fetchRepos("cam3testclass", "myers395", "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")
-    for entry in jsonFile:
-        print(entry["name"])
+    #jsonFile = fetchRepos("cam3testclass", "myers395", "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")
+    #for entry in jsonFile:
+    #    print(entry["name"])
+    print(fetchLimit("myers395", "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"))

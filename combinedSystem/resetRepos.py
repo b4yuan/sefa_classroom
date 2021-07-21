@@ -26,6 +26,7 @@ parser = argparse.ArgumentParser("specify homework assignments to grade")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--hw_name", type = str, help= "specify the name of the homework to grade. example: python3 runSystem.py --hw_name hw02sort")
 group.add_argument("--hw_range", type = str, nargs = 2, help = "specify a range of homeworks to grade. example: python3 runSystem.py --hw_range hw02sort hw04file")
+group.add_argument("--clear_all", action="store_true", help = "specify this option to grade all homeworks. example: python3 runSystem.py --grade_all")
 args = parser.parse_args()
 
 homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + '/profFiles'))
@@ -43,6 +44,9 @@ if args.hw_range is not None:
     else:
         print('Your end range homework name was not valid')
         raise Exception('Invalid Homework Name')
+elif args.clear_all == True:
+    startIndex = 0
+    endIndex = len(homeworkMasterList) - 1
 else: 
     if isAValidHomework(os.getcwd() + profFiles, args.hw_name)[0]:
         startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_name)[1]
