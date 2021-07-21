@@ -12,14 +12,18 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
     owd = os.getcwd()
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    outputFile.write('Checking ' + str(hwNum) + ' and ' + repo + '\n')
     if fetchHWInfo(hwNum, repo)[0]:
+        outputFile.write('\n[Evaluating repo: ' + repo + ']\n')
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         
-        outputFile.write('Tags for ' + repo + ': ')
-        for line in tagList:
-            outputFile.write(line + ',')
-        outputFile.write('\n')
+        outputFile.write('  --Tags for this repo: ')
+        if len(tagList) == 0:
+            outputFile.write('None\n')
+        else: 
+            outputFile.write(tagList[0])
+            for x in range(1, len(tagList)):
+                outputFile.write(', ' + tagList[x])
+            outputFile.write('\n')
 
         if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             repoURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
@@ -40,7 +44,7 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
 
             os.chdir(owd)
             
-            outputFile.write('\n * Cloned ' + repo)
+            outputFile.write('  * Cloned ' + repo)
             return True, hoursLate
     return False, 0
 
@@ -55,14 +59,13 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
 	
     gradePath = gradePath + '/gradeReport.txt'
     
-    outputFile.write('\n\nFor repo: ' + repo)
-    outputFile.write("\n--Calling grade_submission.py")
+    outputFile.write("\n  --Calling grade_submission.py")
     
     obj = interface.grade_submission(clonePath, profPath, int(hoursLate))
     grade = obj.get_grade() #returns a float that is rounded to two decimals
     feedback = obj.get_error_list() #returns a list
 
-    outputFile.write("\n--Grade is " + str(grade))
+    outputFile.write("\n    --Grade is " + str(grade))
     
     os.chdir(owd)
     
@@ -76,7 +79,7 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
         gradefile.write(". ")
     gradefile.close()
     
-    outputFile.write('\n--gradeReport.txt created')
+    outputFile.write('\n    --gradeReport.txt created')
     
 def putGradesInRepos(gradesDir, clonesDir, fileName, repo):
 	owd = os.getcwd()

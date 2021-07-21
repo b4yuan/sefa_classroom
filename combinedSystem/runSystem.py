@@ -48,7 +48,7 @@ args = parser.parse_args()
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = fetchHWInfo(None, hwName)[1]
-    outputFile.write('\n[[Currently grading : '+ hwName + ']]')
+    outputFile.write('\n[[Currently grading : '+ hwName + ']]\n')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     df = loadCSV(os.getcwd() + profDir + "/masterGrades.csv")
@@ -57,6 +57,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos: #for each repo
+
         [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir, clonesDir, outputFile)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
@@ -64,22 +65,23 @@ for x in range(startIndex, endIndex + 1): #for each homework
         if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
             startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir)
-            outputFile.write('\n\nSuccessfully ran startGradingProcess\n')
+            outputFile.write('\n  --Successfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!
             putGradesInRepos(gradesDir, clonesDir, gradeFileName, repo)
-            outputFile.write('\nSuccessfully ran putGradesInRepos\n')
+            outputFile.write('  --Successfully ran putGradesInRepos\n')
 
             #!!---------Add Grades to CSV For Prof Access--------!!
             putGradesInCSV(profDir, gradesDir, gradeFileName, repo)
                 #adds new hws and students to a csv
                 #uses the grade directory to modify data points
-            outputFile.write('\nSuccessfully ran putGradesInCSV\n')
+            outputFile.write('  --Successfully ran putGradesInCSV\n')
 
             #!!---------Push Grade File to Student Repos--------!!
             pushChangeToRepos(clonesDir, gradeFileName, repo)
                 #also adds graded_ver tag
-            outputFile.write('\nSuccessfully ran pushChangeToRepos\n')
+            outputFile.write('  --Successfully ran pushChangeToRepos\n')
+            outputFile.write('[Finished grading ' + repo + ']')            
 
             #!!---------Remove Local Repository--------!!
             if args.delete != False:
@@ -91,17 +93,18 @@ for x in range(startIndex, endIndex + 1): #for each homework
 if args.delete != False: #it defaults to true
     if os.path.exists(os.getcwd() + clonesDir):
         rmtree('clones') 
-        outputFile.write('\nRemoved clones')
+        outputFile.write('\n\nRemoved clones')
             #removes all cloned folders
     if os.path.exists(os.getcwd() + gradesDir):
         rmtree('grades')
         outputFile.write('\nRemoved grades')
             #removes folder of grades
 
+outputFile.write('\n***Finished grading process***')
+
 #!!----------Print Request Limit Info--------!!
 [usedFinal, remaining] = fetchLimit(authName, authKey)
 outputFile.write('\n\nRequests Used this Runtime: ' + str(usedFinal - usedStart) + '\nHourly Requests Left: ' + str(remaining) + '\n')
 
 #!!----------Close Output File--------!!
-outputFile.write('\n***Finished grading process***')
 outputFile.close()

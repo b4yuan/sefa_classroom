@@ -92,9 +92,9 @@ for x in range(startIndex, endIndex + 1): #for each homework
                 print('\nNo tag to delete\n')
                 
             #!!-----Remove grade report----!!
-            if os.path.exists(owd + dirPath + '/' + gradeFileName):
+            if os.path.isfile(owd + dirPath + '/' + gradeFileName):
                 os.remove(owd + dirPath + '/' + gradeFileName)
-                subprocess.run(["git", "add", gradeFileName], check=True, stdout=subprocess.PIPE).stdout
+                subprocess.run(["git", "rm", gradeFileName], check=True, stdout=subprocess.PIPE).stdout
                 subprocess.run(["git", "commit", "-m", "deleted gradeReport.txt"], stdout=subprocess.PIPE).stdout
                 subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
                 print('\nDeleted grade file for', repo, '\n')

@@ -109,15 +109,16 @@ def fetchTags(orgName, repoName, authName, authKey):
     Returns:
     tagList (list of str): list of tag names for that repository
     """
-    
-    url = "https://api.github.com/repos/" + orgName + "/" + repoName + "/tags"
-    headers = {
-        'Accept': 'application/vnd.github.v3+json',
-    }
-    response = requests.get(url, auth=(authName, authKey))
+    repoURL = "https://" + authKey + "@github.com/" + orgName + "/" + repoName + ".git"
+
+    command = "git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' " + repoURL
+    tags = os.popen(command).read()
+
     tagList = []
-    for entry in response.json():
-        tagList.append(entry["name"])
+    tags = tags.split("refs/tags/")
+    for x in range(1, len(tags)):
+        tagList.append(tags[x].split('\n')[0])
+
     return tagList
 
 def fetchDueDate(profDir, hwNum):
