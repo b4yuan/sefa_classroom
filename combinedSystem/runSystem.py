@@ -1,6 +1,6 @@
 #!!--------Imports-----------!!
 from functions.setup import getConfigInputs, argParse
-from functions.fetch import fetchLists, fetchRepos, fetchHWInfo
+from functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchLimit
 from functions.dataFrameHelper import updateDF, loadCSV, writeCSV
 from functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
 from functions.rmtree import rmtree
@@ -42,13 +42,15 @@ args = parser.parse_args()
 [startIndex, endIndex, homeworkMasterList] = argParse(args, profDir, outputFile)
 
 #!!----------Run Actual System--------!!
+[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
+[usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted
+
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = fetchHWInfo(None, hwName)[1]
     outputFile.write('\n[[Currently grading : '+ hwName + ']]')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
-    [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
     df = loadCSV(os.getcwd() + profDir + "/masterGrades.csv")
     df = updateDF(hws, students, df) # adding rows and columns based on new students and hws in the class
     writeCSV(os.getcwd() + profDir + "/masterGrades.csv", df)
@@ -95,6 +97,10 @@ if args.delete != False: #it defaults to true
         rmtree('grades')
         outputFile.write('\nRemoved grades')
             #removes folder of grades
+
+#!!----------Print Request Limit Info--------!!
+[usedFinal, remaining] = fetchLimit(authName, authKey)
+outputFile.write('\n\nRequests Used this Runtime: ' + str(usedFinal - usedStart) + '\nHourly Requests Left: ' + str(remaining) + '\n')
 
 #!!----------Close Output File--------!!
 outputFile.write('\n***Finished grading process***')

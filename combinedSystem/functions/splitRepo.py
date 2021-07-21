@@ -1,10 +1,8 @@
 import os
 import subprocess
-#from functions.hwNameHelper import *
-from hwNameHelper import *
+from fetch import fetchHWInfo
 import requests
 from distutils.dir_util import copy_tree
-#from functions.rmtree import rmtree
 from rmtree import rmtree
 import time
 
