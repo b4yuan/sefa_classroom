@@ -71,3 +71,16 @@ def editEntry(data, student, hw, df):
             df.loc[studIndex,hw] = data
 
     return df
+
+def updateRoster(dfSurvey, df, path):
+    dfSurvey.merge(df, how='left', on='GitHub Username')
+    df = dfSurvey
+    writeCSV(path, df)
+    return df
+
+def getSurveyDataFrame(surveyPath):
+    df = loadCSV(surveyPath)
+    timeStampColumn = df.columns[0]
+    df = df.drop([timeStampColumn], axis=1)
+    df.columns = ['Real Name','GitHub Username']
+    return df
