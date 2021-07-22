@@ -42,8 +42,8 @@ args = parser.parse_args()
 [startIndex, endIndex, homeworkMasterList] = argParse(args, profDir, outputFile)
 
 #!!----------Run Actual System--------!!
-[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
 [usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted
+[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
 
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]

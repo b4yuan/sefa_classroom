@@ -1,0 +1,33 @@
+Ran on 07-22 11:05:22
+
+Grading hw03cake
+
+[[Currently grading : hw03cake]]
+
+[Evaluating repo: hw03-lvy15]
+  --Tags for this repo: final_ver, graded_ver
+
+[Evaluating repo: hw03-saulevans12]
+  --Tags for this repo: final_ver, graded_ver
+
+[Evaluating repo: hw03-kmerrill16]
+  --Tags for this repo: final_ver
+  * Cloned hw03-kmerrill16
+  --Calling grade_submission.py
+    --Grade is 0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw03-kmerrill16]
+[Evaluating repo: hw03-johnr124]
+  --Tags for this repo: None
+
+
+Removed clones
+Removed grades
+***Finished grading process***
+
+Requests Used this Runtime: 0
+Hourly Requests Left: 4998
