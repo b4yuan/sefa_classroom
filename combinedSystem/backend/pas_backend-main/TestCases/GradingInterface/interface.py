@@ -4,6 +4,7 @@ import os
 from .gradingsystem import grade
 from .equation import calculate_grade
 import json
+from shutil import copytree
 
 
 # This is a python module. Outside of this directory:
@@ -125,6 +126,7 @@ class TestCase:
         os.chdir(self.test_case_path)
         for file in self.files:
             os.system(f'cp -r {file} {submission_dir}')
+
 
     def removefiles(self, submission_dir):
         os.chdir(submission_dir)
@@ -290,6 +292,6 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
 
     user_submission.clean_up()  # deletes copied files
 
-    return GradedSubmission(round(points - weights['late_coef'] * hourslate, 2), user_feedback,
-                            dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
+    points = round(points - weights['late_coef'] * hourslate, 2)
 
+    return GradedSubmission(points if points >= 0 else 0, user_feedback, dictionary=testcases_dict)  # returns a GradedSubmission object. this is also where the late penalty is applied
