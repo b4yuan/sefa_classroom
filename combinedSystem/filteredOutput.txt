@@ -1,14 +1,32 @@
-Ran on 07-22 11:05:22
+Ran on 07-23 15:41:28
 
-Grading hw03cake
+Grading a range of homeworks: hw03cake to HW04File
 
 [[Currently grading : hw03cake]]
 
 [Evaluating repo: hw03-lvy15]
-  --Tags for this repo: final_ver, graded_ver
+  --Tags for this repo: final_ver
+  * Cloned hw03-lvy15
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw03-lvy15]
 
 [Evaluating repo: hw03-saulevans12]
-  --Tags for this repo: final_ver, graded_ver
+  --Tags for this repo: final_ver
+  * Cloned hw03-saulevans12
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw03-saulevans12]
 
 [Evaluating repo: hw03-kmerrill16]
   --Tags for this repo: final_ver
@@ -21,13 +39,52 @@ Grading hw03cake
   --Successfully ran putGradesInCSV
   --Successfully ran pushChangeToRepos
 [Finished grading hw03-kmerrill16]
+
 [Evaluating repo: hw03-johnr124]
   --Tags for this repo: None
+
+[[Currently grading : HW04File]]
+
+[Evaluating repo: hw04-lvy15]
+  --Tags for this repo: final_ver
+  * Cloned hw04-lvy15
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw04-lvy15]
+
+[Evaluating repo: hw04-saulevans12]
+  --Tags for this repo: final_ver
+  * Cloned hw04-saulevans12
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw04-saulevans12]
+
+[Evaluating repo: hw04-johnr124]
+  --Tags for this repo: final_ver
+  * Cloned hw04-johnr124
+  --Calling grade_submission.py
+    --Grade is 0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw04-johnr124]
 
 
 Removed clones
 Removed grades
 ***Finished grading process***
 
-Requests Used this Runtime: 0
-Hourly Requests Left: 4998
+Requests Used this Runtime: 2
+Hourly Requests Left: 4984

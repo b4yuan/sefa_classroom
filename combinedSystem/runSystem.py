@@ -81,7 +81,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
             pushChangeToRepos(clonesDir, gradeFileName, repo)
                 #also adds graded_ver tag
             outputFile.write('  --Successfully ran pushChangeToRepos\n')
-            outputFile.write('[Finished grading ' + repo + ']')            
+            outputFile.write('[Finished grading ' + repo + ']\n')            
 
             #!!---------Remove Local Repository--------!!
             if args.delete != False:
