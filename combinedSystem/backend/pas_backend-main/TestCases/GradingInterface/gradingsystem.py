@@ -151,6 +151,7 @@ def grade(path, weights):
 
     # ----------------------------
     # Check memory
+
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
 
     # print(bytesLeaked)

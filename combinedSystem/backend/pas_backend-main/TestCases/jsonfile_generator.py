@@ -37,7 +37,7 @@ def generate_json_file(params):
 
     # if not given specific weight for each testcase, the weights will be equally distributed
     for i in range(case_num):
-        test_params['test%d' % (i + 1)] = 1 / case_num
+        test_params['test%d' % (i + 1)] = 1
 
     '''
     to indicate weight for each testcase, write code like:
