@@ -7,7 +7,8 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed
 
-* * * * * /home/liang636363/research/pas_githubclassroom/combinedSystem/python3 runSystem.py --hw_name 3
+# run everyday at 23:59
+59 23 * * * /home/liang636363/research/pas_githubclassroom/combinedSystem/python3 runSystem.py --hw_name 3
 
 # see current crontab tasks please run:
 # crontab -l
@@ -20,4 +21,3 @@
 # sudo /sbin/service cron start
 # to import crontab please run: 
 # crontab crontab.bak
-
