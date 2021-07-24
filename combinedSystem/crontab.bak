@@ -1,0 +1,23 @@
+# automatically execute every day at 11:59pm. 
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12)
+# |  |  |  |  .---- day of week (0 - 6) 
+# |  |  |  |  |
+# *  *  *  *  * user-name  command to be executed
+
+* * * * * /home/liang636363/research/pas_githubclassroom/combinedSystem/python3 runSystem.py --hw_name 3
+
+# see current crontab tasks please run:
+# crontab -l
+# edit crontab tasks please run: 
+# crontab -e
+# delete crontab tasks please type: 
+# crontab -r
+
+# restart cron please run:
+# sudo /sbin/service cron start
+# to import crontab please run: 
+# crontab crontab.bak
+
