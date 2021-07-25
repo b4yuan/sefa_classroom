@@ -48,7 +48,7 @@ args = parser.parse_args()
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = fetchHWInfo(None, hwName)[1]
-    outputFile.write('\n[[Currently grading : '+ hwName + ']]\n')
+    outputFile.write('\n--[[Currently grading : '+ hwName + ']]--\n')
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     df = loadCSV(os.getcwd() + profDir + "/masterGrades.csv")

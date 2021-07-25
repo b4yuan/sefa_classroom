@@ -1,4 +1,4 @@
-import os, subprocess, shutil, re
+import os, subprocess, shutil, re, sys, traceback
 from datetime import datetime
 from functions.fetch import fetchHWInfo, fetchTags, fetchHoursLate, fetchDueDate
 from functions.GradingInterface import interface
@@ -61,9 +61,14 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     
     outputFile.write("\n  --Calling grade_submission.py")
     
-    obj = interface.grade_submission(clonePath, profPath, int(hoursLate))
-    grade = obj.get_grade() #returns a float that is rounded to two decimals
-    feedback = obj.get_error_list() #returns a list
+    try:
+        obj = interface.grade_submission(clonePath, profPath, int(hoursLate))
+        grade = obj.get_grade() #returns a float that is rounded to two decimals
+        feedback = obj.get_error_list() #returns a list
+    except:
+        grade = 'N/A'
+        feedback = ['An error occured while grading your homework.', traceback.format_exc()]
+        outputFile.write("\n    **An error occured while grading")
 
     outputFile.write("\n    --Grade is " + str(grade))
     
@@ -102,7 +107,10 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
         if os.path.exists(str(srcPath)):
             grade = open(srcPath, "r").readlines()[1] # open grade file, get the first line
             grade = grade.split(" ")[1].split("%")[0] #retrives just the number from the text file
-            df = editEntry(float(grade), match[2], match[1], df) # add grade to respective hw and student
+            if grade == 'N/A':
+                df = editEntry(0, match[2], match[1], df)
+            else:
+                df = editEntry(float(grade), match[2], match[1], df) # add grade to respective hw and student
         else:
             print("Grade does not exist: " +  str(srcPath))
         
