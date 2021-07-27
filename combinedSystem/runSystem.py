@@ -41,8 +41,11 @@ args = parser.parse_args()
 
 [startIndex, endIndex, homeworkMasterList] = argParse(args, profDir, outputFile)
 
-#!!----------Run Actual System--------!!
+#!!----------Data Tracking for Development--------!!
 [usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted
+startTime = datetime.now()
+
+#!!----------Run Actual System--------!!
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
 
 for x in range(startIndex, endIndex + 1): #for each homework
@@ -102,9 +105,15 @@ if args.delete != False: #it defaults to true
 
 outputFile.write('\n***Finished grading process***')
 
-#!!----------Print Request Limit Info--------!!
+#!!----------Data Tracking for Development--------!!
 [usedFinal, remaining] = fetchLimit(authName, authKey)
 outputFile.write('\n\nRequests Used this Runtime: ' + str(usedFinal - usedStart) + '\nHourly Requests Left: ' + str(remaining) + '\n')
+endTime = datetime.now()
+diffTime = endTime - startTime
+totalSeconds = int(diffTime.total_seconds())
+totalMinutes = int(divmod(totalSeconds, 60)[0])
+totalSeconds = totalSeconds - (totalMinutes * 60)
+outputFile.write('Total Runtime in: ' + str(totalMinutes) + ' Minutes and ' + str(totalSeconds) + ' Seconds' '\n')
 
 #!!----------Close Output File--------!!
 outputFile.close()
