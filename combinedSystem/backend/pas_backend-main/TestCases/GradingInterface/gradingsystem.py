@@ -122,7 +122,8 @@ def grade(path, weights):
             list_final.append(f'Test case {i} timed out')
             testcases_dict[f'test{i}']['error_log'] = f'Test case {i} timed out'  # set error_log field for the test[i] dict
             testcases_dict[f'test{i}']['passed'] = False  # set passed field for the test[i] dict
-
+            weights[f'test{i}'] = 0  # change the points earned to 0
+            
             continue
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
