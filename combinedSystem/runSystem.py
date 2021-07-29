@@ -24,6 +24,7 @@ gradeFileName = "gradeReport.txt"
 profDir = "/profFiles"
 gradesDir = "/grades"
 clonesDir = "/clones"
+hwsDir = "/hws"
 
 #!!----------Set Up File For Collecting Output------!!
 outputFile = open('filteredOutput.txt', 'w')
@@ -39,7 +40,7 @@ group.add_argument("--grade_all", action="store_true", help = "specify this opti
 parser.add_argument("-d", "--delete", action ="store_false", help="specify this option if you would like to NOT delete clones and grades folders after running. default is true")
 args = parser.parse_args()
 
-[startIndex, endIndex, homeworkMasterList] = argParse(args, profDir, outputFile)
+[startIndex, endIndex, homeworkMasterList] = argParse(args, profDir + hwsDir, outputFile)
 
 #!!----------Data Tracking for Development--------!!
 [usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted
@@ -61,13 +62,13 @@ for x in range(startIndex, endIndex + 1): #for each homework
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos: #for each repo
 
-        [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir, clonesDir, outputFile)
+        [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir + hwsDir, clonesDir, outputFile)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
 
         if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
-            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir)
+            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir)
             outputFile.write('\n  --Successfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!

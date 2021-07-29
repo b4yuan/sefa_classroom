@@ -17,7 +17,7 @@ authKey = configInputs["authKey"] #json file
 
 tagName = "final_ver"
 gradeFileName = "gradeReport.txt"
-profFiles = "/profFiles"
+hwsDir = "/profFiles/hws"
 gradeRoot = "/grades"
 clonesRoot = "/clones"
 
@@ -33,14 +33,14 @@ homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + '/profFiles'))
 
 #!!------Checking argument inputs-----!!
 if args.hw_range is not None:
-    if isAValidHomework(os.getcwd() + profFiles, args.hw_range[0])[0]: 
-        startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_range[0])[1]
+    if isAValidHomework(os.getcwd() + hwsDir, args.hw_range[0])[0]: 
+        startIndex = isAValidHomework(os.getcwd() + hwsDir, args.hw_range[0])[1]
     else:
         print('Your start range homework name was not valid')
         raise Exception('Invalid Homework Name')
 
-    if isAValidHomework(os.getcwd() + profFiles, args.hw_range[1])[0]: 
-        endIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_range[1])[1]
+    if isAValidHomework(os.getcwd() + hwsDir, args.hw_range[1])[0]: 
+        endIndex = isAValidHomework(os.getcwd() + hwsDir, args.hw_range[1])[1]
     else:
         print('Your end range homework name was not valid')
         raise Exception('Invalid Homework Name')
@@ -48,8 +48,8 @@ elif args.clear_all == True:
     startIndex = 0
     endIndex = len(homeworkMasterList) - 1
 else: 
-    if isAValidHomework(os.getcwd() + profFiles, args.hw_name)[0]:
-        startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_name)[1]
+    if isAValidHomework(os.getcwd() + hwsDir, args.hw_name)[0]:
+        startIndex = isAValidHomework(os.getcwd() + hwsDir, args.hw_name)[1]
     else:
         print('Your homework name was not valid')
         raise Exception('Invalid Homework Name')
