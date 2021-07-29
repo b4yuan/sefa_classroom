@@ -113,7 +113,7 @@ diffTime = endTime - startTime
 totalSeconds = int(diffTime.total_seconds())
 totalMinutes = int(divmod(totalSeconds, 60)[0])
 totalSeconds = totalSeconds - (totalMinutes * 60)
-outputFile.write('Total Runtime in: ' + str(totalMinutes) + ' Minutes and ' + str(totalSeconds) + ' Seconds' '\n')
+outputFile.write('Total Runtime is: ' + str(totalMinutes) + ' Minutes and ' + str(totalSeconds) + ' Seconds' '\n')
 
 #!!----------Close Output File--------!!
 outputFile.close()

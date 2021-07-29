@@ -1,0 +1,74 @@
+Ran on 07-29 10:23:24
+
+Grading hw02sort
+
+--[[Currently grading : hw02sort]]--
+
+[Evaluating repo: hw02-lvy15]
+  --Tags for this repo: final_ver
+  * Cloned hw02-lvy15
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw02-lvy15]
+
+[Evaluating repo: hw02-saulevans12]
+  --Tags for this repo: final_ver
+  * Cloned hw02-saulevans12
+  --Calling grade_submission.py
+    --Grade is 0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw02-saulevans12]
+
+[Evaluating repo: hw02-kmerrill16]
+  --Tags for this repo: final_ver
+  * Cloned hw02-kmerrill16
+  --Calling grade_submission.py
+    --Grade is 0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw02-kmerrill16]
+
+[Evaluating repo: hw02-johnr124]
+  --Tags for this repo: final_ver
+  * Cloned hw02-johnr124
+  --Calling grade_submission.py
+    --Grade is 0.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw02-johnr124]
+
+[Evaluating repo: hw02-dsrasheed]
+  --Tags for this repo: final_ver
+  * Cloned hw02-dsrasheed
+  --Calling grade_submission.py
+    --Grade is 100.0
+    --gradeReport.txt created
+  --Successfully ran startGradingProcess
+  --Successfully ran putGradesInRepos
+  --Successfully ran putGradesInCSV
+  --Successfully ran pushChangeToRepos
+[Finished grading hw02-dsrasheed]
+
+
+Removed clones
+Removed grades
+***Finished grading process***
+
+Requests Used this Runtime: 2
+Hourly Requests Left: 4992
+Total Runtime in: 1 Minutes and 41 Seconds
