@@ -5,8 +5,23 @@ import requests
 from distutils.dir_util import copy_tree
 from rmtree import rmtree
 import time
+from setup import getConfigInputs
 
-def splitRepo(cloneRoot, repoURL, orgName, authKey, authName):
+def splitRepo(cloneRoot, repoURL):
+
+    parentDir = os.path.dirname(os.getcwd())
+    os.chdir(parentDir)
+
+    #Configname
+    configJSON = "/profFiles/config.json"
+    #get variables from JSON config file
+    configInputs = getConfigInputs(configJSON)
+
+    #variables
+    orgName =  configInputs["organization"]  #json file
+    authName = configInputs["authName"] #json file
+    authKey = configInputs["authKey"] #json file
+
     # variable check
     if (repoURL == "") or (repoURL == None): 
         print("No Master Repo HTTPS provided.")
@@ -78,4 +93,9 @@ def createTemplateRepo(orgName, repoName, authKey, authName):
     response = requests.post('https://api.github.com/orgs/' + orgName + '/repos', headers=headers, data=data, auth=(authName, authKey))
 
 if __name__ == "__main__":
-    splitRepo("/masterClone","https://github.com/PurdueECE264/2020FallProblems-Lu.git", "blahblajh", "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", "myers395")
+    https = input("Please Enter HTTPS for Master Repo (Press Enter for Default):")
+    if (https == ""):
+        print("Using https://github.com/PurdueECE264/2020FallProblems-Lu")
+        splitRepo("/masterClone", "https://github.com/PurdueECE264/2020FallProblems-Lu.git")
+    else:
+        splitRepo("/masterClone", https)
