@@ -1,4 +1,4 @@
-Ran on 07-29 10:23:24
+Ran on 07-29 16:23:03
 
 Grading hw02sort
 
@@ -8,7 +8,7 @@ Grading hw02sort
   --Tags for this repo: final_ver
   * Cloned hw02-lvy15
   --Calling grade_submission.py
-    --Grade is 100.0
+    --Grade is 0
     --gradeReport.txt created
   --Successfully ran startGradingProcess
   --Successfully ran putGradesInRepos
@@ -44,7 +44,7 @@ Grading hw02sort
   --Tags for this repo: final_ver
   * Cloned hw02-johnr124
   --Calling grade_submission.py
-    --Grade is 0.0
+    --Grade is 0
     --gradeReport.txt created
   --Successfully ran startGradingProcess
   --Successfully ran putGradesInRepos
@@ -56,7 +56,7 @@ Grading hw02sort
   --Tags for this repo: final_ver
   * Cloned hw02-dsrasheed
   --Calling grade_submission.py
-    --Grade is 100.0
+    --Grade is 0
     --gradeReport.txt created
   --Successfully ran startGradingProcess
   --Successfully ran putGradesInRepos
@@ -70,5 +70,5 @@ Removed grades
 ***Finished grading process***
 
 Requests Used this Runtime: 2
-Hourly Requests Left: 4992
-Total Runtime in: 1 Minutes and 41 Seconds
+Hourly Requests Left: 4996
+Total Runtime is: 1 Minutes and 31 Seconds
