@@ -50,6 +50,7 @@ tag, the submission will not be graded.
 ### Tagging an Assignment
 #### On GitHub.com
 To create a tag, you can click on "create a new release" on the right side bar. The only thing that needs to be specified on this page is "Tag Version", which must be "final_ver". Click "Publish Release" and the tag will be created!
+![createARelease](https://user-images.githubusercontent.com/85317500/128079578-108e24c4-bb19-4c21-8fd4-02f6014de570.png)
 #### From the Command Line
 
 ### Viewing the Grade Report
