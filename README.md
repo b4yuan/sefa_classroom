@@ -48,7 +48,9 @@ must tag their submission as 'final_ver', which tells the grading system it is r
 tag, the submission will not be graded.
  
 ### Tagging an Assignment
-FILL IN
+# On GitHub.com
+To create a tag, you can click on "create a new release" on the right side bar. The only thing that needs to be specified on this page is "Tag Version", which must be "final_ver". Click "Publish Release" and the tag will be created!
+# From the Command Line
 
 ### Viewing the Grade Report
 If students want to see their grade and feedback, they can simply navigate to their assignment repository and view gradeReport.txt.
