@@ -5,14 +5,12 @@ Scripts to handle Github class room based grading!
 This section will go through everything needed to work with GitHub Classroom
 
 ### Setting up GitHub Classroom
-GitHub has extensive documentation to look at. Start here: 
-https://github.blog/2020-03-18-set-up-your-digital-classroom-with-github-classroom/
+GitHub has extensive documentation to look at. Start [here](https://github.blog/2020-03-18-set-up-your-digital-classroom-with-github-classroom/).
 
 ### Setting up an Assignment
 There are 2 ways to go about this using our system: set up a batch of assignments, add a single assignment.
 These methods are outlined below.
-Additionally, the following video can also be used for reference:
-https://www.youtube.com/watch?v=6QzKZ63KLss
+Additionally, the following [video](https://www.youtube.com/watch?v=6QzKZ63KLss) can also be used for reference.
 
 #### Batch of Assignments
 FILL IN
