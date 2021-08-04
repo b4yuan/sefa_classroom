@@ -23,7 +23,7 @@ FILL IN
 
 
 ## Grading
-This section will cover how to grade assignments with the grading system
+This section will cover how to grade assignments with the system.
 
 ### Downloading/Set-Up
 To use the grading system, this repository needs to be cloned to a server (or computer), which can be done using the following terminal command:
@@ -66,6 +66,22 @@ This file should be run from a command line in a Linux based system. It will not
 
 - Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
+
+### What the System Does
+The system works in two loops. The top-level loop grades each homework at a time. All student repositories are graded for one homework at a time. The bottom level loop grades each student at a time. All steps are completed for one student's repository before moving on to the next. 
+_Example:_
+A classroom with 3 students. Two homeworks (HW1 and HW2) are specified to be graded. The order of grading will be:
+> HW1-Student1 -> HW1-Student2 -> HW1-Student3 -> HW2-Student1 -> HW2-Student2 -> HW2-Student3
+
+1. The first step of the system is cloning the student's repository. The student repository will be cloned if it has the specified submission tag and _doesn't_ have the graded tag. In this step, the submission date of the homework is also collected and the number of hours late that it was submitted is calculated. 
+2. Next, the homework is graded. Using the GradingInterface, test cases are ran and memory checks are performed to calculate a grade for the homework. The grade and feedback are written to a text file that is placed in the grades directory.
+3. The grade report text file is copied from the grades directory to the cloned repositories.
+4. The grade, without any feedback, is added to a CSV file for easy reference of the professor.
+5. Changes are pushed to the student repository. The first change is the addition of the grade report text file. The second change is the addition of a new tag that specifies that the repository has been graded. 
+6. The cloned repository is deleted from the local computer.
+Once all homeworks have been graded, the grades directory is also deleted.
+
+Throughout this process, feedback messages are written to a text file in filteredOutput.txt for easy reference. 
 
 ## Student Side
 This section will go over how students will access and submit assignments.
