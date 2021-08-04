@@ -48,11 +48,12 @@ must tag their submission as 'final_ver', which tells the grading system it is r
 tag, the submission will not be graded.
  
 ### Tagging an Assignment
-A tag points to a specific version of your repository. Creating a tag preserves a specific version of your files, so any changes made after the tag will not be reflected in the tagged version. When we pull the "final_ver" of your repository, it will pull whatever the files looked like at the moment you created the tag.
+A tag points to a specific version of your repository. Creating a tag preserves a specific version of your files, so any changes made after the tag will not be reflected in the tagged version. When we pull the "final_ver" of your repository, it will pull whatever the files looked like at the most recent commit before the tag. More info can be found here: https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github/about-releases
 
 We also collect the date of your submission to calculate how late it has been submitted. The date of the submission will be the date and time of whatever commit the "final_ver" tag refers to. 
 
 You can check the date and time for yourself by typing ```git log -1 --format=%ai [tag name]```.
+
 #### On GitHub.com
 To create a tag, you can click on "create a new release" on the right side bar. The only thing that needs to be specified on this page is "Tag Version", which must be "final_ver". Click "Publish Release" and the tag will be created.
 
