@@ -68,7 +68,7 @@ This file should be run from a command line in a Linux based system. It will not
 `python3 runSystem.py --grade_all`
 
 ### What the System Does
-The system works in two loops. The top-level loop grades each homework at a time. All student repositories are graded for one homework at a time. The bottom level loop grades each student at a time. All steps are completed for one student's repository before moving on to the next. 
+The system works in two loops. The top-level loop grades each homework at a time - all student repositories are graded for one homework before moving on to the next homework. The bottom level loop grades each student's repository at a time - all steps are completed for one student's repository before moving on to the next. 
 
 _Example:_
 A classroom with 3 students. Two homeworks (HW1 and HW2) are specified to be graded. The order of grading will be:
