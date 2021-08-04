@@ -2,7 +2,7 @@
 Scripts to handle Github class room based grading!
 
 ## GitHub Classroom
-This section will go through everything needed to work with github classroom
+This section will go through everything needed to work with GitHub Classroom
 
 ### Setting up GitHub Classroom
 GitHub has extensive documentation to look at. Start here: 
@@ -50,7 +50,7 @@ tag, the submission will not be graded.
 ### Tagging an Assignment
 #### On GitHub.com
 To create a tag, you can click on "create a new release" on the right side bar. The only thing that needs to be specified on this page is "Tag Version", which must be "final_ver". Click "Publish Release" and the tag will be created.
-If you want to update your submission, delete and re-add the tag. 
+If you want to update your submission, delete and re-add the tag. Click on the tags icon next to the branch selector. Click on the name of the tag, and there should be an option to delete the tag in the top right. Deleting the release is the same thing as deleting the tag. 
 #### From the Command Line
 To create a tag from the command line, type ```git tag [tag name]```. To show all tags that exist for a repository, ```git show```. Once your tag is created, you must ```git push origin [tag name]```. A normal repository push will not include any tag updates.
 To update your submission, there are two options. You can either ```git tag [tag name] -f ```, which forces the tag to update, and ```git push origin [tag name] -f```. Or, you can ```git push -d origin [tag name]``` to delete the tag, and then re-add the tag. 
