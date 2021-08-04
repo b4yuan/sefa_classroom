@@ -38,14 +38,14 @@ Certain variables need to be specified by the professor in the _config.JSON_ fil
 - Organization name: name of the classroom.
 - Authentication username: The name of the GitHub account with access to the classroom.
 - Authentication key: A token tied to this account that allows for automation of important GitHub API features.
-  - Setting up your GPG key:
-  1. Go to <https://github.com/settings/tokens>
-  2. Click '''Generate new token'''
-  3. Add a Note and check the following scopes:
+  - Setting up your GPG token:
+  - Go to <https://github.com/settings/tokens>
+  - Click '''Generate new token'''
+  - Add a Note and check the following scopes:
     * [x] repo
     * [x] admin:org
-  4. Generate Token copy it
-  5. Paste key into _config.JSON_
+  - Generate and copy the token
+  - Paste token into _config.JSON_
 
 Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_
 
