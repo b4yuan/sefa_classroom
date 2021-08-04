@@ -25,13 +25,36 @@ FILL IN
 ## Grading
 This section will cover how to grade assignments with the grading system
 
-### Deploying the System
+### Downloading/Set-Up
 To use the grading system, this repository needs to be cloned to a server (or computer), which can be done using the following terminal command:
 ```git clone https://github.com/PurdueCAM2Project/pas_githubclassroom```
 
 Then, install all packages needed to run the grading system by running ```pip3 install -r requirements.txt``` in the terminal.
 
 Lastly, install valgrind on ther server or computer you are using. This can be done using ```apt-get install valgrind``` or ```sudo apt-get install valgrind```.
+
+### Variable Configuration
+Certain variables need to be specified by the professor in the _config.JSON_ file. These are the organization name, authentication username, and authentication key. 
+
+Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_
+
+### Running the System
+As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
+
+This file should be run from a command line in a Linux based system. It will not work on Windows. There are a few options that can be specified when running. At least one option of the three grade options _must_ be specified for the program to run.
+
+- Grade a single homework: Call the file with the tag `--hw_name` and the name of the homework. The name of the homework can be the full name or even just the number.  
+`python3 runSystem.py --hw_name HW02Sort`  
+`python3 runSystem.py --hw_name hw02sort`  
+`python3 runSystem.py --hw_name 2`  
+
+- Grade a range of homeworks: Call the file with the tag `--hw_range` and two homework names/numbers to specify the start and end of the range. The start and end indexes are inclusive.  
+`python3 runSystem.py --hw_range hw02sort hw10cake2`  
+`python3 runSystem.py --hw_range 4 15`  
+`python3 runSystem.py --hw_range hw03cake 20`
+
+- Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
+`python3 runSystem.py --grade_all`
 
 ## Student Side
 This section will go over how students will access and submit assignments.
