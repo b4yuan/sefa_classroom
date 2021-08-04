@@ -1,7 +1,7 @@
 import numpy as np, pandas as pd, os
 
 #THIS FILE CONTAINS
-#updateDF, loadCSV, writeCSV, editEntry
+#updateDF, loadCSV, writeCSV, editEntry, updateRoster, getSurveyDataFrame
 
 def updateDF(hws, students, df):
 
