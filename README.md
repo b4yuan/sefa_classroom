@@ -69,10 +69,13 @@ This file should be run from a command line in a Linux based system. It will not
 
 ### What the System Does
 The system works in two loops. The top-level loop grades each homework at a time. All student repositories are graded for one homework at a time. The bottom level loop grades each student at a time. All steps are completed for one student's repository before moving on to the next. 
+
 _Example:_
 A classroom with 3 students. Two homeworks (HW1 and HW2) are specified to be graded. The order of grading will be:
-> HW1-Student1 -> HW1-Student2 -> HW1-Student3 -> HW2-Student1 -> HW2-Student2 -> HW2-Student3
 
+HW1-Student1 -> HW1-Student2 -> HW1-Student3 -> HW2-Student1 -> HW2-Student2 -> HW2-Student3
+
+Grading Steps:
 1. The first step of the system is cloning the student's repository. The student repository will be cloned if it has the specified submission tag and _doesn't_ have the graded tag. In this step, the submission date of the homework is also collected and the number of hours late that it was submitted is calculated. 
 2. Next, the homework is graded. Using the GradingInterface, test cases are ran and memory checks are performed to calculate a grade for the homework. The grade and feedback are written to a text file that is placed in the grades directory.
 3. The grade report text file is copied from the grades directory to the cloned repositories.
