@@ -47,7 +47,7 @@ Certain variables need to be specified by the professor in the _config.JSON_ fil
   - Generate and copy the token
   - Paste token into _config.JSON_
 
-Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_
+Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_. You do not need to change these unless desired.
 
 ### Running the System
 As a user, everything is ran from runSystem.py. This is the core script of the system as it integrates all functions into one process. 
