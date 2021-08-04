@@ -49,13 +49,17 @@ tag, the submission will not be graded.
  
 ### Tagging an Assignment
 A tag points to a specific version of your repository. Creating a tag preserves a specific version of your files, so any changes made after the tag will not be reflected in the tagged version. When we pull the "final_ver" of your repository, it will pull whatever the files looked like at the moment you created the tag.
+
 We also collect the date of your submission to calculate how late it has been submitted. The date of the submission will be the date and time of whatever commit the "final_ver" tag refers to. 
+
 You can check the date and time for yourself by typing ```git log -1 --format=%ai [tag name]```.
 #### On GitHub.com
 To create a tag, you can click on "create a new release" on the right side bar. The only thing that needs to be specified on this page is "Tag Version", which must be "final_ver". Click "Publish Release" and the tag will be created.
+
 If you want to update your submission, delete and re-add the tag. Click on the tags icon next to the branch selector. Click on the name of the tag, and there should be an option to delete the tag in the top right. Deleting the release is the same thing as deleting the tag. 
 #### From the Command Line
 To create a tag from the command line, type ```git tag [tag name]```. To show all tags that exist for a repository, ```git show```. Once your tag is created, you must ```git push origin [tag name]```. A normal repository push will not include any tag updates.
+
 To update your submission, there are two options. You can either ```git tag [tag name] -f ```, which forces the tag to update, and ```git push origin [tag name] -f```. Or, you can ```git push -d origin [tag name]``` to delete the tag, and then re-add the tag. 
 
 ### Viewing the Grade Report
