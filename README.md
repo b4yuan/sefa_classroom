@@ -67,7 +67,7 @@ This file should be run from a command line in a Linux based system. It will not
 - Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
 
-### What the System Does
+### Grading Process
 The system works in two loops. The top-level loop grades each homework at a time - all student repositories are graded for one homework before moving on to the next homework. The bottom level loop grades each student's repository at a time - all steps are completed for one student's repository before moving on to the next. 
 
 _Example:_
@@ -85,6 +85,25 @@ Grading Steps:
 Once all homeworks have been graded, the grades directory is also deleted.
 
 Throughout this process, feedback messages are written to a text file in filteredOutput.txt for easy reference. 
+
+### Assignment Customization
+
+#### Test Case Weights
+_weights.json_ contains information that is used during the grading process. It contains:
+- Weights of each test case
+- Coefficient for deduction for memory leaks
+- Coefficient for deduction for late submissions
+- Whether to grade late work or not
+
+This file can easily be generated using _jsonfile_generator.py_. The user will specify the weight values in the command line call, and the file will be created with the correct format. 
+
+The details of this file are completely up to the professor. The professor can choose to use the same _weights.json_ for every assignment, or can create different ones for different assignments.
+
+The grading script will take care of *** something about how test case weights dont have to add up to 100 ***
+
+*** Where to place the file ***
+
+#### Makefiles
 
 ## Student Side
 This section will go over how students will access and submit assignments.
