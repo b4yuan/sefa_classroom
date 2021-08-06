@@ -26,12 +26,22 @@ FILL IN
 This section will cover how to set up the system and grade assignments.
 
 ### Downloading/Set-Up
+Install necessary packages on the server or computer you are using. This can be done using :
+
+```bash
+sudo apt-get update
+sudo apt-get install valgrind \
+  make \
+  gcc \
+  python3 \
+  python3-pip \
+  git
+```
+
 To use the grading system, this repository needs to be cloned to a server (or computer), which can be done using the following terminal command:
 ```git clone https://github.com/PurdueCAM2Project/pas_githubclassroom```
 
 Then, install all packages needed to run the grading system by running ```pip3 install -r requirements.txt``` in the terminal.
-
-Lastly, install valgrind on the server or computer you are using. This can be done using ```apt-get install valgrind``` or ```sudo apt-get install valgrind```.
 
 ### Variable Configuration
 Certain variables need to be specified by the professor in the _config.JSON_ file. 
