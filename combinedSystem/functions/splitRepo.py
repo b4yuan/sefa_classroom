@@ -47,13 +47,13 @@ def splitRepo(cloneRoot, repoURL):
     hws.sort()
     os.chdir(owd + cloneRoot)
 
-    # Create stageing dir
+    # Create staging dir
     if os.path.isdir(os.getcwd() + "/staging") == False: # check for clone directory and make if doesn't exist
         os.mkdir(os.getcwd() + "/staging") 
     os.chdir(os.getcwd() + "/staging")
     stagingDir = os.getcwd()
 
-    # Create template repos and fill with homewor files from master repo
+    # Create template repos and fill with homework files from master repo
     print("\nCreating template repositories")
     for hw in hws:
         createTemplateRepo(orgName, hw, authKey, authName)
@@ -63,18 +63,22 @@ def splitRepo(cloneRoot, repoURL):
     for hw in hws:
         reposURL = "https://" + authKey + "@github.com/" + orgName + "/" + hw + ".git"
         print("\nCloning " + hw + " Template Repo:\n")
+        #clone specified template repo
         subprocess.run(["git", "clone", reposURL])
         print("\nFilling " + hw + " with Files:")
+        #copy in files from matching folder
         copy_tree(masterClone + "/" + hw, stagingDir + "/" + hw)
         print("Done.")
         os.chdir(stagingDir + "/" + hw)
         print("\nPushing " + hw + " Files:\n")
+        #add, commmit and push changes
         subprocess.run(["git", "add", "."], check=True, stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "commit", "-m", "Automatic population"], stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
         os.chdir(stagingDir)
     os.chdir(owd + cloneRoot)
 
+    #delete all files used in runtime
     os.chdir(owd)
     if os.path.exists(owd + cloneRoot):
         rmtree(owd + cloneRoot)
