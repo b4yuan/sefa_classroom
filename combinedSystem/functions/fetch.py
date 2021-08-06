@@ -20,17 +20,17 @@ def fetchLists(jsonFile):
     for entry in jsonFile:
         repoList.append(entry["name"])
     
-    template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$')
+    template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$') #template for student's repo name
     studentSet = set()
     hwSet = set()
     repos = []
     
     for repo in repoList:
         match = re.fullmatch(template, repo)
-        if match != None:
-            repos.append(match[0])
-            hwSet.add(match[1])
-            studentSet.add(match[2])
+        if match != None: #does not match any of the valid templates
+            repos.append(match[0]) #full match
+            hwSet.add(match[1]) #hw num
+            studentSet.add(match[2])#student name
     
     students = list(studentSet)
     hws = list(hwSet)
@@ -50,7 +50,7 @@ def fetchRepoPage(orgName, authName, authKey, pageNum):
     Returns:
     JSONfile: JSON file of repository names"""
 
-    url = "https://api.github.com/orgs/" + orgName + "/repos?per_page=100&page=" + str(pageNum)
+    url = "https://api.github.com/orgs/" + orgName + "/repos?per_page=100&page=" + str(pageNum) #specifies page num to fetch
     headers = {
         'Accept': 'application/vnd.github.v3+json',
     }
@@ -70,13 +70,13 @@ def fetchRepos(orgName, authName, authKey):
     JSONfile: JSON file of repository names"""
 
     pageNum = 1
-    fullJson = fetchRepoPage(orgName, authName, authKey, pageNum)
+    fullJson = fetchRepoPage(orgName, authName, authKey, pageNum) #fetch list for page 1
     pageJson = fullJson
-    while (pageJson != []):
+    while (pageJson != []): #the page contains repo info
         pageNum += 1
         pageJson = fetchRepoPage(orgName, authName, authKey, pageNum)
         for entry in pageJson:
-            fullJson.append(entry)
+            fullJson.append(entry) #compile page into master json
     return fullJson
 
 def fetchLimit(authName, authKey):
@@ -137,7 +137,7 @@ def fetchDueDate(profDir, hwNum):
         hws = [file for file in files if (os.path.isdir(profDir + "/" + file) and fetchHWInfo(None, file)[1] == hwNum)]
         if (len(hws) == 1):
             jsonFile = json.load(open(profDir + "/" + hws[0] + "/weights.json")) #open Json
-            return(jsonFile["due"])
+            return(jsonFile["due"]) #look for "due" field
         else:
             return None
     else:
@@ -181,15 +181,15 @@ def fetchHWInfo(num, hwName):
     (int): homework number found in string 
     """
 
-    template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)')
+    template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)') #accepted temlates for hw name
     match = re.fullmatch(template, hwName)
-    if match != None:
+    if match != None: #there was a match
         if (num == None):
-            return True, int(match[2])
+            return True, int(match[2]) #return extracted number
         elif (num == int(match[2])):
-            return True, None
+            return True, None  #the hw num matches the extracted num
         else:
-            return False, None
+            return False, None #the hw num does not match that of the hwname
     else:
         #print("Invalid hw name format:")
         return False, None
