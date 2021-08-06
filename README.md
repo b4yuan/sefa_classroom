@@ -5,28 +5,51 @@ Scripts to handle Github class room based grading!
 This section will go through everything needed to work with GitHub Classroom
 
 ### Setting up GitHub Classroom
-GitHub has extensive documentation to look at. Start [here](https://github.blog/2020-03-18-set-up-your-digital-classroom-with-github-classroom/).
+1. Go to <https://classroom.github.com>
+2. Login and click "New Classroom"
+3. Click "Create an Organization"
+4. Go through organization setup
+    * This organization belongs to:
+      * [x] My Personal Account
+      * [ ] A business or institution
+5. Select the new organization
+6. Follow listed steps to add TAs if desired
 
-### Setting up an Assignment
+GitHub also has extensive [documentation](https://github.blog/2020-03-18-set-up-your-digital-classroom-with-github-classroom/) to look at.
+
+### Setting up an Assignment in Github Classroom
 There are 2 ways to go about this using our system: set up a batch of assignments, add a single assignment.
 These methods are outlined below.
 Additionally, the following [video](https://www.youtube.com/watch?v=6QzKZ63KLss) can also be used for reference.
 
 #### Batch of Assignments
-FILL IN
+Note: Please refer to "Variable Configuration" before hand.
+
+If you have an existing repository of homeworks that you would like to use you can automatically create the template repositories by running: ```python3 combinedSystem/functions/splitRepo.py``` If no repo is specified, it will use the [default.](https://github.com/PurdueECE264/2020FallProblems-Lu)
+
 
 #### Single Assignment
-FILL IN
+Go to class organization page
+  1. Create a new repository
+  2. Add homework files you wish the student to have to repository (makefile, test cases, c files etc.)
+  3. Change setting of repository:
+      * [x] Template Repository
 
 #### Sending the Assignment Link to Students
-FILL IN
+Go to your [classroom](https://classroom.github.com/classrooms)
+1. Click "New Assignment"
+2. The assignment should be private and the student should **not** hav eadmin access
+3. Please specify the template repository created in your organization from the earlier sections
+4. Add Autograding tests
+   1. Add test, run C, Run Command: ```make testall```
+5. Share "invitation URL" with students through preferred communication channels
 
 
 ## Deploying the System
 This section will cover how to set up the system and grade assignments.
 
 ### Downloading/Set-Up
-Install necessary packages on the server or computer you are using. This can be done using :
+First, install necessary packages on the server or computer you are using. This can be done using :
 
 ```bash
 sudo apt-get update
@@ -77,6 +100,8 @@ This file should be run from a command line in a Linux based system. It will not
 - Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
 
+Throughout this process, feedback messages are written to a text file in filteredOutput.txt and grades are added to _profFiles\mastergrades.csv_ for easy reference.
+
 ### Grading Process
 The system works in two loops. The top-level loop grades each homework at a time - all student repositories are graded for one homework before moving on to the next homework. The bottom level loop grades each student's repository at a time - all steps are completed for one student's repository before moving on to the next. 
 
@@ -94,8 +119,6 @@ Grading Steps:
 6. The cloned repository is deleted from the local computer.
 Once all homeworks have been graded, the grades directory is also deleted.
 
-Throughout this process, feedback messages are written to a text file in filteredOutput.txt for easy reference. 
-
 ### Assignment Customization
 
 #### Test Case Weights
@@ -107,11 +130,9 @@ _weights.json_ contains information that is used during the grading process. It 
 
 This file can easily be generated using _jsonfile_generator.py_. The user will specify the weight values in the command line call, and the file will be created with the correct format. 
 
-The details of this file are completely up to the professor. The professor can choose to use the same _weights.json_ for every assignment, or can create different ones for different assignments.
+The details of this file are completely up to the professor. The professor can choose to use the same _weights.json_ for every assignment, or can create different ones for different assignments. This file must be located in the respective homework folder in profFiles. Example: HW03Cake -> _profFiles/hws/HW03Cake/weights.json_
 
-The grading script will take care of *** something about how test case weights dont have to add up to 100 ***
-
-*** Where to place the file ***
+The grading script will correctly assign test case weights regardless of their sum.
 
 #### Makefiles
 
