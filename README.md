@@ -22,8 +22,8 @@ FILL IN
 FILL IN
 
 
-## Grading
-This section will cover how to grade assignments with the system.
+## Deploying the System
+This section will cover how to set up the system and grade assignments.
 
 ### Downloading/Set-Up
 To use the grading system, this repository needs to be cloned to a server (or computer), which can be done using the following terminal command:
@@ -31,7 +31,7 @@ To use the grading system, this repository needs to be cloned to a server (or co
 
 Then, install all packages needed to run the grading system by running ```pip3 install -r requirements.txt``` in the terminal.
 
-Lastly, install valgrind on ther server or computer you are using. This can be done using ```apt-get install valgrind``` or ```sudo apt-get install valgrind```.
+Lastly, install valgrind on the server or computer you are using. This can be done using ```apt-get install valgrind``` or ```sudo apt-get install valgrind```.
 
 ### Variable Configuration
 Certain variables need to be specified by the professor in the _config.JSON_ file. 
