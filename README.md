@@ -38,7 +38,7 @@ Go to class organization page
 #### Sending the Assignment Link to Students
 Go to your [classroom](https://classroom.github.com/classrooms)
 1. Click "New Assignment"
-2. The assignment should be private and the student should **not** hav eadmin access
+2. The assignment should be private and the student should **not** have admin access
 3. Please specify the template repository created in your organization from the earlier sections
 4. Add Autograding tests
    1. Add test, run C, Run Command: ```make testall```
