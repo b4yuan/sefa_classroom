@@ -169,3 +169,5 @@ If students want to see their grade and feedback, they can simply navigate to th
 In gradeReport.txt the student can see their overall grade and the feedback for their submission, which lists where they 
 may have lost points and why. 
 
+#### Setting due dates
+The grading system makes use of Linux Cron in order to run the system at the appropiate time. Put the appropiate due dates in duedates.json. The JSON format and a precreated format must be followed to insert due dates. The duedates.json is a dictionary. The keys are the homework name, and the values are the date on which to execute the code. The arbitrary format for the values is as follows: "MM-DD-YEAR,HR:MN". The keys can be written in the same format as running the program manually. To remove a due date, simply exclude it from the JSON file.
