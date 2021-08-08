@@ -1,4 +1,4 @@
-# pas_githubclassroom
+# Automated Grading using GitHub Classroom
 Scripts to handle Github class room based grading!
 
 ## GitHub Classroom
@@ -18,14 +18,20 @@ This section will go through everything needed to work with GitHub Classroom
 GitHub also has extensive [documentation](https://github.blog/2020-03-18-set-up-your-digital-classroom-with-github-classroom/) to look at.
 
 ### Setting up an Assignment in Github Classroom
-There are 2 ways to go about this using our system: set up a batch of assignments, add a single assignment.
-These methods are outlined below.
-Additionally, the following [video](https://www.youtube.com/watch?v=6QzKZ63KLss) can also be used for reference.
+There are 2 ways to go about this using our system: 
+* set up a batch of assignments.
+* add a single assignment.
+
+These methods are outlined below. Additionally, the following [video](https://www.youtube.com/watch?v=6QzKZ63KLss) can also be used for reference.
 
 #### Batch of Assignments
-Note: Please refer to "Variable Configuration" before hand.
+Note: Please refer to [Variable Configuration](variable-configuration) before hand.
 
-If you have an existing repository of homeworks that you would like to use you can automatically create the template repositories by running: ```python3 combinedSystem/functions/splitRepo.py``` If no repo is specified, it will use the [default.](https://github.com/PurdueECE264/2020FallProblems-Lu)
+If you have an existing repository of homeworks that you would like to use you can automatically create the template repositories by running: 
+```
+python3 combinedSystem/functions/splitRepo.py
+``` 
+If no repo is specified, it will use [https://github.com/PurdueECE264/2020FallProblems-Lu](https://github.com/PurdueECE264/2020FallProblems-Lu)
 
 
 #### Single Assignment
@@ -34,19 +40,23 @@ Go to class organization page
   2. Add homework files you wish the student to have to repository (makefile, test cases, c files etc.)
   3. Change setting of repository:
       * [x] Template Repository
+  4. Add Autograding tests:
+     Add test run -> Run Command: ```make testall```
+
+Please make sure that **the assignment should be private and the student should __not__ have admin access**.
+
+For more details, refer [official documentation](https://docs.github.com/en/education/manage-coursework-with-github-classroom/teach-with-github-classroom/create-an-individual-assignment).
 
 #### Sending the Assignment Link to Students
 Go to your [classroom](https://classroom.github.com/classrooms)
-1. Click "New Assignment"
-2. The assignment should be private and the student should **not** have admin access
-3. Please specify the template repository created in your organization from the earlier sections
-4. Add Autograding tests
-   1. Add test, run C, Run Command: ```make testall```
-5. Share "invitation URL" with students through preferred communication channels
+
+1. Select the assignment you want to share with the students.
+2. Click on **Edit Assignment** (Pencil icon)
+3. Copy the invite link and share it with students. (Use BrightSpace to send this link as an email.)
 
 
 ## Deploying the System
-This section will cover how to set up the system and grade assignments.
+This section will cover how to set up our auto-grading system and grade assignments.
 
 ### Downloading/Set-Up
 First, install necessary packages on the server or computer you are using. This can be done using :
@@ -64,13 +74,13 @@ sudo apt-get install valgrind \
 To use the grading system, this repository needs to be cloned to a server (or computer), which can be done using the following terminal command:
 ```git clone https://github.com/PurdueCAM2Project/pas_githubclassroom```
 
-Then, install all packages needed to run the grading system by running ```pip3 install -r requirements.txt``` in the terminal.
+Then, install all packages needed to run the grading system by running ```sudo pip3 install -r requirements.txt``` in the terminal.
 
 ### Variable Configuration
-Certain variables need to be specified by the professor in the _config.JSON_ file. 
-- Organization name: name of the classroom.
-- Authentication username: The name of the GitHub account with access to the classroom.
-- Authentication key: A token tied to this account that allows for automation of important GitHub API features.
+Certain variables need to be specified by the professor in the `config.json` file. 
+- _Organization name_: name of the classroom.
+- _Authentication username_: The name of the GitHub account with access to the classroom.
+- _Authentication key_: A token tied to this account that allows for automation of important GitHub API features.
   - Setting up your GPG token:
   - Go to <https://github.com/settings/tokens>
   - Click '''Generate new token'''
@@ -78,7 +88,7 @@ Certain variables need to be specified by the professor in the _config.JSON_ fil
     * [x] repo
     * [x] admin:org
   - Generate and copy the token
-  - Paste token into _config.JSON_
+  - Paste token into `config.json`
 
 Other parameters are set by the system. These are the name of the tag that references submitted homeworks _(final_ver)_, the name of the file to which the grade and feedback are written _(gradeReport.txt)_, the location of the master list of homework directories as well as the location of the assignment data JSON file, configuration JSON file, and grade CSV file _(/profFiles)_, the directory in which repositories are cloned _(/clones)_, and the directory in which grade reports are intially created _(/grades)_. You do not need to change these unless desired.
 
