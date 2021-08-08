@@ -6,7 +6,7 @@ import argparse, os, subprocess
 
 #!!--------Set Up Variables From JSON File-----------!! 
 #Configname
-configJSON = "/profFiles/config.json"
+configJSON = os.getcwd() + "/profFiles/config.json"
 #get variables from JSON config file
 configInputs = getConfigInputs(configJSON)
 

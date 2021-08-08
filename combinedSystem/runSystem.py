@@ -8,17 +8,7 @@ from functions.rmtree import rmtree
 import argparse, os
 from datetime import datetime
 
-#!!--------Set Up Variables From JSON File-----------!! 
-#Configname
-configJSON = "/profFiles/config.json"
-#get variables from JSON config file
-configInputs = getConfigInputs(configJSON)
-
-#variables
-organization =  configInputs["organization"]  #json file
-authName = configInputs["authName"] #json file
-authKey = configInputs["authKey"] #json file
-
+#!!----------Static Variables------!!
 tagName = "final_ver"
 gradeFileName = "gradeReport.txt"
 profDir = "/profFiles"
@@ -32,15 +22,25 @@ outputFile.write("Ran on ")
 outputFile.write(datetime.now().strftime("%m-%d %H:%M:%S") + "\n")
 
 #!!----------Set Up Command Line Flag Input--------!!
-parser = argparse.ArgumentParser("specify homework assignments to grade")
+parser = argparse.ArgumentParser("specify run options")
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--hw_name", type = str, help= "specify the name of the homework to grade. example: python3 runSystem.py --hw_name hw02sort")
 group.add_argument("--hw_range", type = str, nargs = 2, help = "specify a range of homeworks to grade. example: python3 runSystem.py --hw_range hw02sort hw04file")
 group.add_argument("--grade_all", action="store_true", help = "specify this option to grade all homeworks. example: python3 runSystem.py --grade_all")
 parser.add_argument("-d", "--delete", action ="store_false", help="specify this option if you would like to NOT delete clones and grades folders after running. default is true")
+parser.add_argument("--config", type = str, nargs = 1, help = "specify the absolute path of a config.json file")
 args = parser.parse_args()
 
-[startIndex, endIndex, homeworkMasterList] = argParse(args, profDir + hwsDir, outputFile)
+[startIndex, endIndex, homeworkMasterList, configJSON] = argParse(args, profDir + hwsDir, profDir, outputFile)
+
+#!!--------Set Up Variables From JSON File-----------!! 
+#get variables from JSON config file
+configInputs = getConfigInputs(configJSON)
+
+#variables
+organization =  configInputs["organization"]  #json file
+authName = configInputs["authName"] #json file
+authKey = configInputs["authKey"] #json file
 
 #!!----------Data Tracking for Development--------!!
 [usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted

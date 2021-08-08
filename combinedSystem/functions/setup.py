@@ -5,12 +5,22 @@ import os, json, re
 
 def getConfigInputs(JSONFile):
 	dictJSON = {} 
-	with open(os.getcwd() + JSONFile, "r") as JFile:
+	with open(JSONFile, "r") as JFile:
 		dictJSON = json.load(JFile)
 	return dictJSON
 
-def argParse(args, profFiles, outputFile):
-    homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + profFiles)) #list of all homework directories
+def argParse(args, hwDir, profFiles, outputFile):
+    homeworkMasterList = getHomeworkList(os.path.join(os.getcwd() + hwDir)) #list of all homework directories
+
+    if args.config is not None: #user specified location for config json
+        if os.path.exists(args.config[0]) and os.path.isfile(args.config[0]): #is not a directory and exists
+            configJSON = args.config[0]
+            outputFile.write('\nUsing Custom Config File:\n' + configJSON + '\n')
+        else:
+            raise Exception('Custom Config Path Error')
+    else:
+        configJSON = os.getcwd() + profFiles + "/config.json" #default location of config file
+        outputFile.write('\nUsing Default Config File:\n' + configJSON + '\n')
 
     if args.grade_all == True: 
         startIndex = 0
@@ -20,23 +30,23 @@ def argParse(args, profFiles, outputFile):
     elif args.hw_range is not None:
         outputFile.write('\nGrading a range of homeworks: ')
 
-        if isAValidHomework(os.getcwd() + profFiles, args.hw_range[0])[0]: 
-            startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_range[0])[1]
+        if isAValidHomework(os.getcwd() + hwDir, args.hw_range[0])[0]: 
+            startIndex = isAValidHomework(os.getcwd() + hwDir, args.hw_range[0])[1]
             outputFile.write(homeworkMasterList[startIndex] + ' to ')
         else:
             print('Your start range homework name was not valid')
             raise Exception('Invalid Homework Name')
 
-        if isAValidHomework(os.getcwd() + profFiles, args.hw_range[1])[0]: 
-            endIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_range[1])[1]
+        if isAValidHomework(os.getcwd() + hwDir, args.hw_range[1])[0]: 
+            endIndex = isAValidHomework(os.getcwd() + hwDir, args.hw_range[1])[1]
             outputFile.write(homeworkMasterList[endIndex])
         else:
             print('Your end range homework name was not valid')
             raise Exception('Invalid Homework Name')
     
     else:
-        if isAValidHomework(os.getcwd() + profFiles, args.hw_name)[0]:
-            startIndex = isAValidHomework(os.getcwd() + profFiles, args.hw_name)[1]
+        if isAValidHomework(os.getcwd() + hwDir, args.hw_name)[0]:
+            startIndex = isAValidHomework(os.getcwd() + hwDir, args.hw_name)[1]
             outputFile.write('\nGrading ' + homeworkMasterList[startIndex])
         else:
             print('Your homework name was not valid')
@@ -44,7 +54,7 @@ def argParse(args, profFiles, outputFile):
         endIndex = startIndex
 
     outputFile.write('\n')
-    return startIndex, endIndex, homeworkMasterList
+    return startIndex, endIndex, homeworkMasterList, configJSON
 
 def getHomeworkList(HWDirectory):
 	dirNames = []

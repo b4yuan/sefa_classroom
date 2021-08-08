@@ -77,7 +77,7 @@ To use the grading system, this repository needs to be cloned to a server (or co
 Then, install all packages needed to run the grading system by running ```sudo pip3 install -r requirements.txt``` in the terminal.
 
 ### Variable Configuration
-Certain variables need to be specified by the professor in the `config.json` file. 
+Certain variables need to be specified by the professor in the `config.json` file. A template for this file can be found in `combinedSystem/profFiles/config.json`. This file will be used if another is not specified (see: _Running the System_).
 - _Organization name_: name of the classroom.
 - _Authentication username_: The name of the GitHub account with access to the classroom.
 - _Authentication key_: A token tied to this account that allows for automation of important GitHub API features.
@@ -109,6 +109,8 @@ This file should be run from a command line in a Linux based system. It will not
 
 - Grade all homeworks: Call the file with the tag `--grade_all`. This will grade all homeworks for which a professor-created example folder exists in the professor directory.   
 `python3 runSystem.py --grade_all`
+
+- Specify a custom config file with the tag `--config`. The input must be the **absolute** path. If this flag is not included, the default config file location will be used: `combinedSystem/profFiles/config.json`
 
 Throughout this process, feedback messages are written to a text file in filteredOutput.txt and grades are added to _profFiles\mastergrades.csv_ for easy reference.
 

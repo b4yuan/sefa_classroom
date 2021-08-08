@@ -1,0 +1,23 @@
+Ran on 08-08 13:14:59
+
+Using Custom Config File:
+/home/jack/Documents/Documents/config.json
+
+Grading HW04File
+
+--[[Currently grading : HW04File]]--
+
+[Evaluating repo: hw04-lvy15]
+  --Tags for this repo: final_ver, graded_ver
+
+[Evaluating repo: hw04-saulevans12]
+  --Tags for this repo: final_ver, graded_ver
+
+[Evaluating repo: hw04-johnr124]
+  --Tags for this repo: final_ver, graded_ver
+
+***Finished grading process***
+
+Requests Used this Runtime: 2
+Hourly Requests Left: 4958
+Total Runtime is: 0 Minutes and 2 Seconds

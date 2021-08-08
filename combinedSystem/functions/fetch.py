@@ -193,9 +193,3 @@ def fetchHWInfo(num, hwName):
     else:
         #print("Invalid hw name format:")
         return False, None
-
-if __name__ == "__main__":
-    #jsonFile = fetchRepos("cam3testclass", "myers395", "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")
-    #for entry in jsonFile:
-    #    print(entry["name"])
-    print(fetchLimit("myers395", "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"))
