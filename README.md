@@ -147,7 +147,7 @@ The details of this file are completely up to the professor. The professor can c
 The grading script will correctly assign test case weights regardless of their sum.
 
 ### Setting due dates
-The grading system makes use of Linux Cron in order to run the system at the appropiate time. Put the appropiate due dates in duedates.json. The JSON format and a precreated format must be followed to insert due dates. The duedates.json is a dictionary. The keys are the homework name, and the values are the date on which to execute the code. The arbitrary format for the values is as follows: "MM-DD-YEAR,HR:MN". The keys can be written in the same format as running the program manually. To remove a due date, simply exclude it from the JSON file.
+The grading system makes use of Linux Cron in order to run the system at the appropiate time. Put the appropiate due dates in duedates.json. The JSON format and a precreated format must be followed to insert due dates. The duedates.json is a dictionary. The keys are the homework name, and the values are the date on which to execute the code. The arbitrary format for the values is as follows: "MM-DD-YEAR,HR:MN". The keys can be written in the same format as running the program manually. To remove a due date, simply exclude it from the JSON file. In order to set the new due dates, run cronManager.py to set them into the crontab file. cronManager.py also needs to be modified to contain the correct username of the operating system (this needs to be done by an administrator). This is subject to change, as cronManager.py is not directly integrated into the full system yet and operates as an independent unit. 
 
 
 #### Makefiles
