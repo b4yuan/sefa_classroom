@@ -16,7 +16,7 @@ def getDueDateDict(jsonFile):
 def updateCronFile(cronDict, userName):
 	for key, value in cronDict.items():
 		cronSess = CronTab(user=userName)
-		cronJob = cronSess.new(command=str('python3 ../combinedSystem/runSystem.py --hw_name ' + key),comment=key )
+		cronJob = cronSess.new(command=str('python3 ../runSystem.py --hw_name ' + key),comment=key )
 		cronJob.minute.on(value[4])
 		print(value)
 		cronJob.hour.on(value[3])
@@ -37,7 +37,13 @@ def processDueDate(cronDict):
 		value.append(int(valBuffer.split(":")[1]))
 		cronDict[key] = value
 	return cronDict
-	 
+
+#cleanCronFile - gets rid of all due dates to keep consistent with JSON
+def cleanCronFile(userName):
+	cronSess = CronTab(user=userName)
+	cronSess.remove_all()
+	cronSess.write()
+
 #deleteDatesPassed - Deletes old due dates, so that they do not reoccur again
 def deleteDatesPassed(cronDict, userName):
 	for key, value in cronDict.items():
@@ -65,5 +71,9 @@ def deleteDatesPassed(cronDict, userName):
 		cronSess.write()
 	
 if __name__ == "__main__":
-	updateCronFile(processDueDate(getDueDateDict('duedates.json')), 'merrill8')
-	deleteDatesPassed(processDueDate(getDueDateDict('duedates.json')), 'merrill8')
+	#replace username with the appropiate name:
+	username = 'merrill8'
+	
+	cleanCronFile(username)
+	updateCronFile(processDueDate(getDueDateDict('duedates.json')), username)
+	deleteDatesPassed(processDueDate(getDueDateDict('duedates.json')), username)
