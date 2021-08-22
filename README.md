@@ -151,6 +151,7 @@ The grading system makes use of Linux Cron in order to run the system at the app
 
 
 #### Makefiles
+A new makefile is needed for each homework assignment. User need to manually write these Makefiles, but we have a Makefile template setted up to help the user write Makefiles. User only need to download the template and modify the template according to the guidance. User must follow the gridance, otherwise, our grading system will output unexpected result. Please go to the [Makefile_template](documentation/Makefile) for detail guidance.  
 
 ## Student Side
 This section will go over how students will access and submit assignments.
