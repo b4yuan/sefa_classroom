@@ -25,7 +25,7 @@ There are 2 ways to go about this using our system:
 These methods are outlined below. Additionally, the following [video](https://www.youtube.com/watch?v=6QzKZ63KLss) can also be used for reference.
 
 #### Batch of Assignments
-Note: Please refer to [Variable Configuration](### Variable Configuration) before hand.
+Note: Please refer to [Variable Configuration](###Variable Configuration) before hand.
 
 If you have an existing repository of homeworks that you would like to use you can automatically create the template repositories by running: 
 ```
