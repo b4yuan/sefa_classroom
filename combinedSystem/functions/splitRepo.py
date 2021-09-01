@@ -9,11 +9,10 @@ from setup import getConfigInputs
 
 def splitRepo(cloneRoot, repoURL):
 
-    parentDir = os.path.dirname(os.getcwd())
-    os.chdir(parentDir)
+    parentDir = os.getcwd()
 
     #Configname
-    configJSON = "/profFiles/config.json"
+    configJSON = parentDir + "/profFiles/config.json"
     #get variables from JSON config file
     configInputs = getConfigInputs(configJSON)
 

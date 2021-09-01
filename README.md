@@ -29,7 +29,7 @@ Note: Please refer to [Variable Configuration](variable-configuration) before ha
 
 If you have an existing repository of homeworks that you would like to use you can automatically create the template repositories by running: 
 ```
-python3 combinedSystem/functions/splitRepo.py
+python3 functions/splitRepo.py
 ``` 
 If no repo is specified, it will use [https://github.com/PurdueECE264/2020FallProblems-Lu](https://github.com/PurdueECE264/2020FallProblems-Lu)
 
