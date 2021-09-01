@@ -4,9 +4,11 @@ from functions.rmtree import rmtree
 
 import argparse, os, subprocess, pandas as pd
 
+parentDir = os.getcwd()
+
 #!!--------Set Up Variables From JSON File-----------!! 
 #Configname
-configJSON = "/profFiles/config.json"
+configJSON = parentDir + "/profFiles/config.json"
 #get variables from JSON config file
 configInputs = getConfigInputs(configJSON)
 
