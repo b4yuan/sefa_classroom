@@ -100,7 +100,7 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('^(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
         

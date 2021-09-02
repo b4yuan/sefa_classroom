@@ -20,7 +20,7 @@ def fetchLists(jsonFile):
     for entry in jsonFile:
         repoList.append(entry["name"])
     
-    template = re.compile('^([a-zA-Z0-9]+)[-]([a-zA-Z0-9]+)$') #template for student's repo name
+    template = re.compile('^(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
     studentSet = set()
     hwSet = set()
     repos = []
