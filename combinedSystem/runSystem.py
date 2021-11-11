@@ -1,5 +1,5 @@
 #!!--------Imports-----------!!
-from functions.setup import getConfigInputs, argParse
+from functions.setup import getConfigInputs, argParse, cleanDirs
 from functions.fetch import fetchLists, fetchRepos, fetchHWInfo, fetchLimit
 from functions.dataFrameHelper import updateDF, loadCSV, writeCSV
 from functions.gradeProcess import cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
@@ -33,6 +33,11 @@ args = parser.parse_args()
 
 [startIndex, endIndex, homeworkMasterList, configJSON] = argParse(args, profDir + hwsDir, profDir, outputFile)
 
+#!!----------Delete Clones and Grades Folders--------!!
+if args.delete != False: #it defaults to true
+    cleanDirs(clonesDir, gradesDir, outputFile)
+
+
 #!!--------Set Up Variables From JSON File-----------!! 
 #get variables from JSON config file
 configInputs = getConfigInputs(configJSON)
@@ -48,7 +53,7 @@ startTime = datetime.now()
 
 #!!----------Run Actual System--------!!
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
-
+print('No. of Students: {}\n'.format(len(students)))
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = fetchHWInfo(None, hwName)[1]
@@ -56,19 +61,19 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
     #!!----------Collect List of Students, Homeworks, and Repositories--------!!
     df = loadCSV(os.getcwd() + profDir + "/masterGrades.csv")
-    df = updateDF(hws, students, df) # adding rows and columns based on new students and hws in the class
+    df = updateDF([hwName], students, df) # adding rows and columns based on new students and current hw in the class
     writeCSV(os.getcwd() + profDir + "/masterGrades.csv", df)
 
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos: #for each repo
 
-        [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir + hwsDir, clonesDir, outputFile)
-        #[repos cloned to the server at this step, each repo and its hours late]
+        [needsToBeGraded, commitHash, daysLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir + hwsDir, clonesDir, outputFile)
+        #[repos cloned to the server at this step, each repo and its days late]
         #clones all repositories of students with the specified homework name and tag
 
         if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
-            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir)
+            startGradingProcess(repo, commitHash, daysLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir)
             outputFile.write('\n  --Successfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!
@@ -76,16 +81,16 @@ for x in range(startIndex, endIndex + 1): #for each homework
             outputFile.write('  --Successfully ran putGradesInRepos\n')
 
             #!!---------Add Grades to CSV For Prof Access--------!!
+            #adds new hws and students to a csv
+            #uses the grade directory to modify data points
             putGradesInCSV(profDir, gradesDir, gradeFileName, repo)
-                #adds new hws and students to a csv
-                #uses the grade directory to modify data points
             outputFile.write('  --Successfully ran putGradesInCSV\n')
 
             #!!---------Push Grade File to Student Repos--------!!
+            #also adds graded_ver tag
             pushChangeToRepos(clonesDir, gradeFileName, repo)
-                #also adds graded_ver tag
             outputFile.write('  --Successfully ran pushChangeToRepos\n')
-            outputFile.write('[Finished grading ' + repo + ']\n')            
+            outputFile.write('[Finished grading ' + repo + ']\n')          
 
             #!!---------Remove Local Repository--------!!
             if args.delete != False:
@@ -95,14 +100,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
 #!!----------Delete Clones and Grades Folders--------!!
 if args.delete != False: #it defaults to true
-    if os.path.exists(os.getcwd() + clonesDir):
-        rmtree('clones') 
-        outputFile.write('\n\nRemoved clones')
-            #removes all cloned folders
-    if os.path.exists(os.getcwd() + gradesDir):
-        rmtree('grades')
-        outputFile.write('\nRemoved grades')
-            #removes folder of grades
+    cleanDirs(clonesDir, gradesDir, outputFile)
 
 outputFile.write('\n***Finished grading process***')
 
