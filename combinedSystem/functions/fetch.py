@@ -20,7 +20,7 @@ def fetchLists(jsonFile):
     for entry in jsonFile:
         repoList.append(entry["name"])
     
-    template = re.compile('^(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
+    template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
     studentSet = set()
     hwSet = set()
     repos = []
@@ -169,19 +169,22 @@ def fetchHoursLate(subDate, dueDate):
     else:
         return timeDiff * -1
 
-def fetchHWInfo(num, hwName):
+def fetchHWInfo(num, hwName, raw_num = True):
     """Description: Confirms whether or not the submitted number matches the string provided, and returns number associated with provided string
     
     Parameters: 
     num (int): number of homework that is being graded
     hwName (str): string to check number against
+    raw_num (bool): Is this a raw number? or repo number?
 
     Returns:
     (boolean): whether or not the number and string provided match numbers
     (int): homework number found in string 
     """
-
-    template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)') #accepted temlates for hw name
+    if raw_num:
+        template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)') #accepted temlates for hw name
+    else:
+        template = re.compile('.*-spring2023-([a-zA-Z]*)([0-9]+)(.*)')
     match = re.fullmatch(template, hwName)
     if match != None: #there was a match
         if (num == None):

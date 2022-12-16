@@ -12,7 +12,7 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
     owd = os.getcwd()
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    if fetchHWInfo(hwNum, repo)[0]:
+    if fetchHWInfo(hwNum, repo, False)[0]:
         outputFile.write('\n[Evaluating repo: ' + repo + ']\n')
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         
@@ -100,7 +100,7 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('^(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
         
