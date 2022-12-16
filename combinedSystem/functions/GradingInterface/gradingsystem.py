@@ -128,19 +128,19 @@ def grade(path, weights):
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
         if comp is True:  # if the files match
-            list_final.append(f"Test case {i} is correct!")
+            list_final.append(f"Test case {i} is correct!\n")
             testcases_dict[f'test{i}']['error_log'] = f"Test case {i} is correct!"
             testcases_dict[f'test{i}']['passed'] = True
 
             passed += 1
         else:  # if the files don't mach
-            list_final.append(f"Test case {i} is wrong...")
+            list_final.append(f"Test case {i} is wrong...\n")
             testcases_dict[f'test{i}']['error_log'] = "Test case {i} is wrong..."
             testcases_dict[f'test{i}']['passed'] = False
 
             weights[f'test{i}'] = 0  # change the points earned to 0
 
-    list_final.append(f'{passed}/{numberoftestcases} test cases passed!')
+    list_final.append(f'{passed}/{numberoftestcases} test cases passed!\n')
 
     for key in weights.keys():  # divide each testcase by the total weight and multiply by 100 to make each testcase worth a percentage
         if key.startswith('test'):
@@ -155,17 +155,17 @@ def grade(path, weights):
     bytesLeaked, blocksLeaked = memcheck(path, valgrindstatements)  # check leaked memory for each testcase
 
     # print(bytesLeaked)
-    if bytesLeaked == -1:  # if bytes leaked is negative that means there was something wrong
-        list_final.append('error when executing Makefile... contact your professor about this issue (valgrind not called correctly, make sure it is installed on the server)')
+    if bytesLeaked is None:  # if bytes leaked is none
+        list_final.append('(valgrind not called correctly, make sure it is installed on the server). Ignoring.')
         return None, list_final, None
     # else:
     #     list_final.append('makefile executed correctly!')
 
     for i in range(len(bytesLeaked)):  # go through each testcase and say how many bytes were leaked
         if bytesLeaked[i] > 0:  # if there was memory leak
-            list_final.append(f'{bytesLeaked[i]} byte(s) of memory leak present in test case {i+1}')
+            list_final.append(f'{bytesLeaked[i]} byte(s) of memory leak present in test case {i+1}\n')
         if bytesLeaked[i] == 0:  # if there was no memory leak
-            list_final.append(f'No memory leak in test case {i+1}')
+            list_final.append(f'No memory leak in test case {i+1}\n')
 
     for i in range(numberoftestcases):  # subtract points for memory leak
         weights[f'test{i + 1}'] -= weights['mem_coef'] * bytesLeaked[i]
@@ -173,7 +173,7 @@ def grade(path, weights):
             weights[f'test{i + 1}'] = 0
 
     if debugging:
-        print('memcheck finished')
+        print('memcheck finished\n')
 
     os.system('make clean >/dev/null 2>&1')  # get rid of unwanted files
     os.remove('grade.txt')  # get rid of file now that grading is complete
@@ -222,6 +222,10 @@ def memcheck(makefile_dir, valgrindstatements):
             continue
         
         p = re.compile(r': ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
+
+        if not os.path.exists(tempfile):
+            print("valgrind not present.\n")
+            continue
 
         with open(tempfile, 'r') as f:
             text = f.read()

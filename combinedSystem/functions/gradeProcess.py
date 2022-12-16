@@ -25,6 +25,12 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
                 outputFile.write(', ' + tagList[x])
             outputFile.write('\n')
 
+        if tagName not in tagList:
+            outputFile.write("Target tag:" + str(tagName) + " not present. Skipping\n")
+
+        if 'graded_ver' in tagList:
+            outputFile.write("Already Graded this homework. graded_ver tag already present. Skipping\n")
+
         if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             repoURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
             
@@ -70,7 +76,7 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
         feedback = ['An error occured while grading your homework.', traceback.format_exc()]
         outputFile.write("\n    **An error occured while grading")
 
-    outputFile.write("\n    --Grade is " + str(grade))
+    outputFile.write("\n    --Grade is " + str(grade) + "\n")
     
     os.chdir(owd)
     

@@ -18,17 +18,17 @@
         },
         {
             "mem_coef": [
-                1.0
+                0.0
             ]
         },
         {
             "late_coef": [
-                10.0
+                0.0
             ]
         },
         {
             "grade_late_work": [
-                false
+                true
             ]
         }
     ]
