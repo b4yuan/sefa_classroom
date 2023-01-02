@@ -18,7 +18,10 @@ def fetchLists(jsonFile):
 
     repoList = []
     for entry in jsonFile:
-        repoList.append(entry["name"])
+        if "name" not in entry:
+            print("Invalid Repo information from github! Ignoring:" + str(entry))
+        else:
+            repoList.append(entry["name"])
     
     template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
     studentSet = set()

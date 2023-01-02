@@ -7,6 +7,8 @@ from functions.dataFrameHelper import loadCSV, writeCSV, editEntry
 #THIS FILE CONTAINS
 #cloneFromRepos, startGradingProcess, putGradesInRepos, putGradesInCSV, pushChangeToRepos
 
+GRADE_KEY = "Grade: "
+
 def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clonePath, outputFile): 
     newProfPath = os.getcwd() + profPath #must set before looping through repos
     owd = os.getcwd()
@@ -82,7 +84,7 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     
     gradefile = open(gradePath, "w") #creates grade report file
     gradefile.write("Graded on " + datetime.now().strftime("%m-%d %H:%M:%S"))
-    gradefile.write("\nGrade: " + str(grade))
+    gradefile.write("\n" + GRADE_KEY + str(grade))
     gradefile.write("%\nSubmission was " + str(hoursLate) + ' hours late.')
     gradefile.write('\nFeedback: ')
     for line in feedback:
@@ -91,6 +93,21 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     gradefile.close()
     
     outputFile.write('\n    --gradeReport.txt created')
+
+def getGradeFromReport(reportFile):
+    grade = "N/A"
+
+    if os.path.exists(reportFile):
+        fp = open(reportFile, "r")
+        for cl in fp.readlines():
+            cl = cl.strip()
+            if GRADE_KEY in cl:
+                perc = cl.split(GRADE_KEY)[1]
+                grade = perc.split("%")[0]
+                break
+        fp.close()
+
+    return grade
     
 def putGradesInRepos(gradesDir, clonesDir, fileName, repo):
 	owd = os.getcwd()
@@ -106,13 +123,12 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
         
         if os.path.exists(str(srcPath)):
-            grade = open(srcPath, "r").readlines()[1] # open grade file, get the first line
-            grade = grade.split(" ")[1].split("%")[0] #retrives just the number from the text file
+            grade = getGradeFromReport(str(srcPath))
             if grade == 'N/A':
                 df = editEntry(0, match[2], match[1], df)
             else:
