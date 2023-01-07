@@ -44,9 +44,9 @@ def grade(path, weights):
 
     filename = "hw"
     if result == 0:
-        list_final.append(f'{filename} compiled correctly! going to next step...')
+        list_final.append(f'{filename} compiled correctly! going to next step...\n')
     else:
-        list_final.append(f'{filename} did not compile correctly, please check your files')
+        list_final.append(f'{filename} did not compile correctly, please check your files\n')
         return None, list_final, None
         exit
     if debugging:
@@ -210,32 +210,37 @@ def memcheck(makefile_dir, valgrindstatements):
     bytesInUse = []  # bytes that are in use at the end of the program. each entry is a valgrindstatement
     blocks = []  # how many blocks leak memory. each entry is a valgrindstatement
 
-    for statement in valgrindstatements:  # run through the valgrind statements
-        #os.system(f'valgrind {statement} > {tempfile} 2>&1')
-        try:
-            checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1'], timeout=10)
-            # previous statement executes valgrind on the executable and writes the output to the tempfile
-            # also gets checked for a timeout obviously lmao
-        except TimeoutError:
-            bytesInUse.append(0)
-            blocks.append(0)
-            continue
-        
-        p = re.compile(r': ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
+    valgrindpath = os.popen('which valgrind').read().strip()
+    if not os.path.exists(valgrindpath):
+        print("valgrind not present.\n")
+    else:
+        for statement in valgrindstatements:  # run through the valgrind statements
+            #os.system(f'valgrind {statement} > {tempfile} 2>&1')
+            try:
+                checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1'], timeout=10)
+                # previous statement executes valgrind on the executable and writes the output to the tempfile
+                # also gets checked for a timeout obviously lmao
+            except TimeoutError:
+                bytesInUse.append(0)
+                blocks.append(0)
+                continue
 
-        if not os.path.exists(tempfile):
-            print("valgrind not present.\n")
-            continue
+            if not os.path.exists(tempfile):
+                bytesInUse.append(0)
+                blocks.append(0)
+                continue
 
-        with open(tempfile, 'r') as f:
-            text = f.read()
-            match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
-            if match is None:
-                return -1, -1  # return this if valgrind is not called properly (might happen bc i wrote this on mac)
-            bytesInUse.append(int(match.group(1).replace(',', '')))  # put regex groups from the match into variables and cast to integers
-            blocks.append(int(match.group(3)))
+            p = re.compile(r': ((\d*\,)*\d+) bytes in (\d+) blocks')  # regex for getting values from valgrind output
 
-        os.remove(tempfile)  # remove the files we created as they only pertain to this function
+            with open(tempfile, 'r') as f:
+                text = f.read()
+                match = p.search(text)  # use regex to get number of bytes leaked and in how many blocks
+                if match is None:
+                    return -1, -1  # return this if valgrind is not called properly (might happen bc i wrote this on mac)
+                bytesInUse.append(int(match.group(1).replace(',', '')))  # put regex groups from the match into variables and cast to integers
+                blocks.append(int(match.group(3)))
+
+            os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
 
