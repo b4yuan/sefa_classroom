@@ -117,7 +117,7 @@ def grade(path, weights):
         # this must be done by the professor
         # ex) diff output1.txt expected1.txt > grade.txt
         try:
-            checkfortimeout(os.system, args=[f'make test{i} >/dev/null 2>&1'])  # try to run a test
+            os.system(f'make test{i} >/dev/null 2>&1')  # try to run a test
         except TimeoutError:  # if it times out, end the process and go to the next testcase
             list_final.append(f'Test case {i} timed out')
             testcases_dict[f'test{i}']['error_log'] = f'Test case {i} timed out'  # set error_log field for the test[i] dict
@@ -217,7 +217,7 @@ def memcheck(makefile_dir, valgrindstatements):
         for statement in valgrindstatements:  # run through the valgrind statements
             #os.system(f'valgrind {statement} > {tempfile} 2>&1')
             try:
-                checkfortimeout(os.system, args=[f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1'], timeout=10)
+                os.system(f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1')
                 # previous statement executes valgrind on the executable and writes the output to the tempfile
                 # also gets checked for a timeout obviously lmao
             except TimeoutError:
@@ -243,30 +243,3 @@ def memcheck(makefile_dir, valgrindstatements):
             os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
-
-
-def checkfortimeout(func, args=None, timeout=5):
-    """
-    runs a function and raises TimeoutError if the specified time limit is reached
-    :param func: funciton that could timeout
-    :type func: function
-    :param args: arguments to pass to the function (defaults to None)
-    :type args: list
-    :param timeout: number of seconds to trigger a timeout (defaults to 5)
-    :type timeout: int
-    :return:
-    """
-
-    process1 = multiprocessing.Process(target=time.sleep, args=[timeout])  # sets timeout process
-    if args is None:  # sets process that might timeout
-        process2 = multiprocessing.Process(target=func)
-    else:
-        process2 = multiprocessing.Process(target=func, args=args)
-
-    process1.start()  # start both processes
-    process2.start()
-    while process1.is_alive():  # while the timeout process is still running
-        if process2.is_alive() is False:  # if the function is done running, return the function
-            return
-    process2.terminate()  # if the timeout process is finished and the function is not, raise an error
-    raise TimeoutError("the program timed out")
