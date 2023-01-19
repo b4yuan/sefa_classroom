@@ -41,13 +41,14 @@ configInputs = getConfigInputs(configJSON)
 organization =  configInputs["organization"]  #json file
 authName = configInputs["authName"] #json file
 authKey = configInputs["authKey"] #json file
+repoFilter = configInputs.get("repoFilter", None) #json file
 
 #!!----------Data Tracking for Development--------!!
 [usedStart, remaining] = fetchLimit(authName, authKey) #Used for tracking requests, can be deleted
 startTime = datetime.now()
 
 #!!----------Run Actual System--------!!
-[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey))  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
+[students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey), repoFilter)  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
 
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]

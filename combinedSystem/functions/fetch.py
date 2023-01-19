@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 #THIS FILE CONTAINS:
 #fetchLists, fetchRepos, fetchTags, fetchDueDate, fetchHoursLate, fetchHWInfo
 
-def fetchLists(jsonFile):
+def fetchLists(jsonFile, repoFilter=None):
     """Description: Obtains list of students and homeworks when given a JSON file of repositories
     
     Parameters: 
@@ -23,7 +23,7 @@ def fetchLists(jsonFile):
         else:
             repoList.append(entry["name"])
     
-    template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
+    template = re.compile(repoFilter or '.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
     studentSet = set()
     hwSet = set()
     repos = []
