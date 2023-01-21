@@ -11,6 +11,7 @@ from datetime import datetime
 #!!----------Static Variables------!!
 tagName = "final_ver"
 gradeFileName = "gradeReport.txt"
+failedTestsDir = "/failed_testcases"
 profDir = "/profFiles"
 gradesDir = "/grades"
 clonesDir = "/clones"
@@ -69,7 +70,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
         if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
-            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir)
+            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir, gradeFileName, failedTestsDir)
             outputFile.write('\n  --Successfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!
@@ -83,7 +84,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
             outputFile.write('  --Successfully ran putGradesInCSV\n')
 
             #!!---------Push Grade File to Student Repos--------!!
-            pushChangeToRepos(clonesDir, gradeFileName, repo)
+            pushChangeToRepos(clonesDir, gradeFileName, failedTestsDir, repo)
                 #also adds graded_ver tag
             outputFile.write('  --Successfully ran pushChangeToRepos\n')
             outputFile.write('[Finished grading ' + repo + ']\n')            
