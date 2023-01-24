@@ -56,17 +56,18 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
             return True, hoursLate
     return False, 0
 
-def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir, profDir):
+def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir, profDir, gradeFile, failedTestsDir):
     owd = os.getcwd()
 
     gradePath = owd + gradeDir + '/' + repo #path to grade directory
     clonePath = owd + cloneDir + '/' + repo
     profPath = owd + profDir + '/' + hwName #path to professor directory
+    failedPath = owd + cloneDir + '/' + repo + failedTestsDir #path to failed tests directory
 
     if not os.path.exists(gradePath):
         os.makedirs(gradePath) #creates repository folder in grades folder
 	
-    gradePath = gradePath + '/gradeReport.txt'
+    gradePath = gradePath + '/' + gradeFile
     
     outputFile.write("\n  --Calling grade_submission.py")
     
@@ -95,6 +96,17 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     
     outputFile.write('\n    --gradeReport.txt created')
 
+    # Copy failed test cases to failedTests folder
+    os.makedirs(failedPath, exist_ok=True)
+    for test_name, test_case in (obj.dict or {}).items():
+        if (isinstance(test_case, dict) and test_case.get('passed') == False):
+            files = re.findall(r'\.\/.* (inputs/.*) >', test_case.get('stdout'))
+            for file in files:
+                if os.path.exists(f"{profPath}/{file}"):
+                    shutil.copy(f"{profPath}/{file}", failedPath)
+    
+    outputFile.write(f'\n    --Failed test cases copied to {failedPath}')
+            
 def getGradeFromReport(reportFile):
     grade = "N/A"
 
@@ -141,13 +153,14 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
     else:
         print("Path Missing: " + str(gradesDir) + " or " + str(profDir))
 
-def pushChangeToRepos(clonesDir, fileName, repo):
+def pushChangeToRepos(clonesDir, gradeFile, failedTestsDir, repo):
     srcPath = os.getcwd() + clonesDir + '/' + repo
 
     if os.path.exists(srcPath):
         owd = os.getcwd()
         os.chdir(str(srcPath))
-        subprocess.run(["git", "add", fileName], check=True, stdout=subprocess.PIPE).stdout
+        subprocess.run(["git", "add", gradeFile], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(["git", "add", f'.{failedTestsDir}'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         message = "Grades updated for your homework."
         subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout

@@ -3,6 +3,7 @@ from distutils.ccompiler import new_compiler
 import filecmp
 import re
 import multiprocessing
+import subprocess
 import time
 
 
@@ -119,13 +120,13 @@ def grade(path, weights):
         # ex) diff output1.txt expected1.txt > grade.txt
         try:
             # os.system(f'make test{i} >/dev/null 2>&1')
-            checkfortimeout(f'make test{i} >/dev/null 2>&1') # try to run a test
+            cmd = checkfortimeout(f'make test{i}') # try to run a test
+            testcases_dict[f'test{i}']['stdout'] = cmd.stdout
         except TimeoutError:  # if it times out, end the process and go to the next testcase
             list_final.append(f'Test case {i} timed out')
             testcases_dict[f'test{i}']['error_log'] = f'Test case {i} timed out'  # set error_log field for the test[i] dict
             testcases_dict[f'test{i}']['passed'] = False  # set passed field for the test[i] dict
             weights[f'test{i}'] = 0  # change the points earned to 0   
-
             continue
 
         comp = filecmp.cmp('grade.txt', 'empty.txt', shallow=False)  # compare the files
@@ -133,13 +134,11 @@ def grade(path, weights):
             list_final.append(f"Test case {i} is correct!\n")
             testcases_dict[f'test{i}']['error_log'] = f"Test case {i} is correct!"
             testcases_dict[f'test{i}']['passed'] = True
-
             passed += 1
         else:  # if the files don't mach
             list_final.append(f"Test case {i} is wrong...\n")
             testcases_dict[f'test{i}']['error_log'] = "Test case {i} is wrong..."
             testcases_dict[f'test{i}']['passed'] = False
-
             weights[f'test{i}'] = 0  # change the points earned to 0
 
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!\n')
@@ -257,6 +256,7 @@ def checkfortimeout(shell_cmd, timeout=5):
     :raises: TimeoutError
     """
     try:
-        res = subprocess.run(shell_cmd, shell=True, timeout=timeout)
+        res = subprocess.run(shell_cmd, shell=True, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding='utf-8')
     except subprocess.TimeoutExpired:
         raise TimeoutError("the program timed out")
+    return res
