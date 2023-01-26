@@ -29,7 +29,7 @@ group.add_argument("--hw_name", type = str, help= "specify the name of the homew
 group.add_argument("--hw_range", type = str, nargs = 2, help = "specify a range of homeworks to grade. example: python3 runSystem.py --hw_range hw02sort hw04file")
 group.add_argument("--grade_all", action="store_true", help = "specify this option to grade all homeworks. example: python3 runSystem.py --grade_all")
 parser.add_argument("-d", "--delete", action ="store_true", help="specify this option if you would like to delete clones and grades folders after running. default is false")
-group.add_argument("-s", "--sanity", action="store_true", help = "specify this option to perform sanity check. example: python3 runSystem.py --hw_name hw02sort --sanity_check")
+parser.add_argument("-s", "--sanity", action="store_true", help = "specify this option to perform sanity check. example: python3 runSystem.py --hw_name hw02sort --sanity_check")
 parser.add_argument("--config", type = str, nargs = 1, help = "specify the absolute path of a config.json file")
 args = parser.parse_args()
 
