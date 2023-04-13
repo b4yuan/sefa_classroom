@@ -86,7 +86,7 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
     
     gradefile = open(gradePath, "w") #creates grade report file
     if dryrun:
-        gradefile.write("******\nTHIS IS A DRY RUN, NOT THE OFFICIAL GRADE REPORT.\n******\n")
+        gradefile.write("******\nTHIS IS A DRY RUN, NOT THE OFFICIAL GRADE REPORT.\n******\n\n")
     gradefile.write("Graded on " + datetime.now().strftime("%m-%d %H:%M:%S"))
     gradefile.write("\n" + GRADE_KEY + str(grade))
     gradefile.write("%\nSubmission was " + str(hoursLate) + ' hours late.')
