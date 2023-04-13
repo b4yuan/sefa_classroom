@@ -31,6 +31,7 @@ group.add_argument("--grade_all", action="store_true", help = "specify this opti
 parser.add_argument("-d", "--delete", action ="store_true", help="specify this option if you would like to delete clones and grades folders after running. default is false")
 parser.add_argument("-s", "--sanity", action="store_true", help = "specify this option to perform sanity check. example: python3 runSystem.py --hw_name hw02sort --sanity_check")
 parser.add_argument("--config", type = str, nargs = 1, help = "specify the absolute path of a config.json file")
+parser.add_argument("--dryrun", action="store_true", help="specify this option for a dry run without making any changes. example: python3 runSystem.py --hw_name hw02sort --dryrun")
 args = parser.parse_args()
 
 [startIndex, endIndex, homeworkMasterList, configJSON] = argParse(args, profDir + hwsDir, profDir, outputFile)
@@ -71,7 +72,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
         if (needsToBeGraded == True):
             #!!---------Run Grading Script--------!!
-            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir, gradeFileName, failedTestsDir)
+            startGradingProcess(repo, hoursLate, homeworkMasterList[x], outputFile, gradesDir, clonesDir, profDir + hwsDir, gradeFileName, failedTestsDir, args.dryrun)
             outputFile.write('\n  --Successfully ran startGradingProcess\n')
 
             #!!---------Put Grade Text File Into Cloned Repos--------!!
