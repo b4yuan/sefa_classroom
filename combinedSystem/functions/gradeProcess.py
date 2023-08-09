@@ -27,13 +27,10 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
                 outputFile.write(', ' + tagList[x])
             outputFile.write('\n')
 
-        if tagName not in tagList:
-            outputFile.write("Target tag:" + str(tagName) + " not present. Skipping\n")
-
         if 'graded_ver' in tagList:
             outputFile.write("Already Graded this homework. graded_ver tag already present. Skipping\n")
 
-        if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
+        if ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             repoURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
             
             if os.path.isdir(os.getcwd() + clonePath) == False: #create clones folder if it doesn't exist
@@ -41,11 +38,11 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
             
             os.chdir(os.getcwd() + clonePath)
 
-            subprocess.run(["git", "clone", "-b", tagName, str(repoURL)])
+            subprocess.run(["git", "clone", str(repoURL)])
 
             os.chdir(os.getcwd() + "/" + repo) #navigate to cloned repo
 
-            tagStr = 'git log -1 --format=%ai ' + tagName
+            tagStr = 'git log -1 --format=%ai '
             info = subprocess.check_output(tagStr.split()).decode()
             subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
             hoursLate = fetchHoursLate(subDate, fetchDueDate(newProfPath, hwNum))
