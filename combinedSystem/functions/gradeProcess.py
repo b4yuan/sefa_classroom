@@ -12,7 +12,6 @@ GRADE_KEY = "Grade: "
 def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clonePath, outputFile): 
     newProfPath = os.getcwd() + profPath #must set before looping through repos
     owd = os.getcwd()
-    print("stepped in cloneFromRepos")
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
     if fetchHWInfo(hwNum, repo, True)[0]: # but why TRUE?
@@ -155,7 +154,6 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
             if grade == 'N/A':
                 df = editEntry(0, match[2], match[1], df)
             else:
-                print(match)
                 df = editEntry(float(grade), match[2], match[1], df) # add grade to respective hw and student
         else:
             print("Grade does not exist: " +  str(srcPath))

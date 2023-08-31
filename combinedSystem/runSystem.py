@@ -53,7 +53,6 @@ startTime = datetime.now()
 #!!----------Run Actual System--------!!
 [students, hws, repos] = fetchLists(fetchRepos(organization, authName, authKey), repoFilter)  #fetchRepos returns json file of repos, then fetchLists returns list of students in class and lists of homeworks that exist
 num_graded = 0
-print(repos)
 for x in range(startIndex, endIndex + 1): #for each homework
     hwName = homeworkMasterList[x]
     hwNum = fetchHWInfo(None, hwName)[1]
@@ -66,7 +65,6 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos: #for each repo
-        print("stepped in")
         [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir + hwsDir, clonesDir, outputFile)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag
