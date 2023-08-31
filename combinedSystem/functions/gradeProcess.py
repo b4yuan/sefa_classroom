@@ -12,9 +12,10 @@ GRADE_KEY = "Grade: "
 def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clonePath, outputFile): 
     newProfPath = os.getcwd() + profPath #must set before looping through repos
     owd = os.getcwd()
+    print("stepped in cloneFromRepos")
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    if fetchHWInfo(hwNum, repo, False)[0]:
+    if fetchHWInfo(hwNum, repo, True)[0]: # but why TRUE?
         outputFile.write('\n[Evaluating repo: ' + repo + ']\n')
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         
@@ -145,7 +146,7 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
         
@@ -154,6 +155,7 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
             if grade == 'N/A':
                 df = editEntry(0, match[2], match[1], df)
             else:
+                print(match)
                 df = editEntry(float(grade), match[2], match[1], df) # add grade to respective hw and student
         else:
             print("Grade does not exist: " +  str(srcPath))
@@ -172,7 +174,7 @@ def pushChangeToRepos(clonesDir, gradeFile, failedTestsDir, repo):
         subprocess.run(["git", "add", f'.{failedTestsDir}'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         message = "Grades updated for your homework."
         subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout
-        subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
+        subprocess.run(["git", "push", "origin", "HEAD:refs/heads/main", "--force"], check=True, stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "tag", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #adds graded version tag
         subprocess.run(["git", "push", "origin", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #need to push the tag specifically, will not update tag with just a general push command
         os.chdir(owd)

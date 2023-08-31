@@ -121,7 +121,7 @@ def fetchTags(orgName, repoName, authName, authKey):
     tags = tags.split("refs/tags/")
     for x in range(1, len(tags)):
         tagList.append(tags[x].split('\n')[0])
-
+        
     return tagList
 
 def fetchDueDate(profDir, hwNum):
@@ -187,7 +187,7 @@ def fetchHWInfo(num, hwName, raw_num = True):
     if raw_num:
         template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)') #accepted temlates for hw name
     else:
-        template = re.compile('.*-spring2023-([a-zA-Z]*)([0-9]+)(.*)')
+        template = re.compile('.*-([a-zA-Z]*)([0-9]+)(.*)') # this will never step in... why?
     match = re.fullmatch(template, hwName)
     if match != None: #there was a match
         if (num == None):

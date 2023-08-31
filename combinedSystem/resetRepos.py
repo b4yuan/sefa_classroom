@@ -65,7 +65,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
     print('\nResetting hw ', hwName, '\n')
 
     for repo in repos: #for each repository
-        if fetchHWInfo(hwNum, repo, False)[0]:
+        if fetchHWInfo(hwNum, repo, True)[0]:
             #!!----Check for local repository and clone if does not exist----!!
             owd = os.getcwd()
 
@@ -97,7 +97,7 @@ for x in range(startIndex, endIndex + 1): #for each homework
                 os.chdir(owd + dirPath)
                 subprocess.run(["git", "rm", gradeFileName], check=True, stdout=subprocess.PIPE).stdout
                 subprocess.run(["git", "commit", "-m", "deleted gradeReport.txt"], stdout=subprocess.PIPE).stdout
-                subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
+                subprocess.run(["git", "push", "origin", "HEAD:refs/heads/main", "--force"], check=True, stdout=subprocess.PIPE).stdout
                 print('\nDeleted grade file for', repo, '\n')
             
             os.chdir(owd)
