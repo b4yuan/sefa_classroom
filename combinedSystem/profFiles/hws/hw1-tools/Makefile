@@ -10,7 +10,7 @@ sort: main.c sort.c
 ascsort: main.c sort.c
 	$(GCC) $(CFLAGS) $(TESTFLAGS)  -o $(EXEC) main.c sort.c
 	
-testall: test1 test2 test3
+testall: test1 test2 test3 test4 test5 test6
 
 test1: sort
 	./sort inputs/test1 > output1
@@ -23,6 +23,19 @@ test2: sort
 test3: sort
 	./sort inputs/test3 > output3
 	diff output3 expected/expected3 > grade.txt
+
+test4: ascsort
+	./ascsort inputs/test1 > output4
+	diff output4 expected/expected4 > grade.txt
+
+test5: ascsort
+	./ascsort inputs/test2 > output5
+	diff output5 expected/expected5 > grade.txt
+
+test6: ascsort
+	./ascsort inputs/test3 > output6
+	diff output6 expected/expected6 > grade.txt
+
 
 testfor: sort  # same as testall
 	for case in 1 2 3; do \

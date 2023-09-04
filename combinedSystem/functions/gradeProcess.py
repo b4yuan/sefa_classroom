@@ -128,7 +128,7 @@ def getGradeFromReport(reportFile):
                 grade = perc.split("%")[0]
                 break
         fp.close()
-
+    print(grade)
     return grade
     
 def putGradesInRepos(gradesDir, clonesDir, fileName, repo):
@@ -145,10 +145,11 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(hw[a-zA-Z0-9]+[-][a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
-        
+        print(match[1])
+        print(match[2])
         if os.path.exists(str(srcPath)):
             grade = getGradeFromReport(str(srcPath))
             if grade == 'N/A':

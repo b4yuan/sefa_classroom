@@ -153,8 +153,10 @@ def grade_submission(submission: str, test_case: str, hourslate=0, weights=None)
     user_submission = Submission(submission)  # this holds the path to the zip file
     submission_testcases = TestCase(test_case)
     user_submission.setup()  # unzips submission into a folder and sets folder path
+    print(os.listdir(submission))
 
     submission_testcases.copyfiles(user_submission.submission_folder_path)  # copies prof files to submission dir
+    print(os.listdir(submission))
 
     if weights is None:  # if no weights given
         for filename in os.listdir(test_case):  # cycle through files in the directory
