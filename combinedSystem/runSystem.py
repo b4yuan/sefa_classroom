@@ -65,7 +65,6 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
     #!!----------Clone Appropriate Repositories--------!!
     for repo in repos: #for each repo
-
         [needsToBeGraded, hoursLate] = cloneFromRepos(organization, repo, hwNum, tagName, authName, authKey, profDir + hwsDir, clonesDir, outputFile)
         #[repos cloned to the server at this step, each repo and its hours late]
         #clones all repositories of students with the specified homework name and tag

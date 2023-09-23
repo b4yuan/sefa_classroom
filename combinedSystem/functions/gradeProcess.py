@@ -14,7 +14,7 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
     owd = os.getcwd()
 
     subprocess.run(["git", "config", "--global", "advice.detachedHead", "false"], check=True) #Hide detatched head error
-    if fetchHWInfo(hwNum, repo, False)[0]:
+    if fetchHWInfo(hwNum, repo, True)[0]: # but why TRUE?
         outputFile.write('\n[Evaluating repo: ' + repo + ']\n')
         tagList = fetchTags(org, repo, authName, authKey) #Get the tags for a specific repository
         
@@ -27,13 +27,10 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
                 outputFile.write(', ' + tagList[x])
             outputFile.write('\n')
 
-        if tagName not in tagList:
-            outputFile.write("Target tag:" + str(tagName) + " not present. Skipping\n")
-
         if 'graded_ver' in tagList:
             outputFile.write("Already Graded this homework. graded_ver tag already present. Skipping\n")
 
-        if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
+        if ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             repoURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
             
             if os.path.isdir(os.getcwd() + clonePath) == False: #create clones folder if it doesn't exist
@@ -41,11 +38,11 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
             
             os.chdir(os.getcwd() + clonePath)
 
-            subprocess.run(["git", "clone", "-b", tagName, str(repoURL)])
+            subprocess.run(["git", "clone", str(repoURL)])
 
             os.chdir(os.getcwd() + "/" + repo) #navigate to cloned repo
 
-            tagStr = 'git log -1 --format=%ai ' + tagName
+            tagStr = 'git log -1 --format=%ai '
             info = subprocess.check_output(tagStr.split()).decode()
             subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
             hoursLate = fetchHoursLate(subDate, fetchDueDate(newProfPath, hwNum))
@@ -131,7 +128,7 @@ def getGradeFromReport(reportFile):
                 grade = perc.split("%")[0]
                 break
         fp.close()
-
+    print(grade)
     return grade
     
 def putGradesInRepos(gradesDir, clonesDir, fileName, repo):
@@ -148,10 +145,11 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(hw[a-zA-Z0-9]+[-][a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
-        
+        print(match[1])
+        print(match[2])
         if os.path.exists(str(srcPath)):
             grade = getGradeFromReport(str(srcPath))
             if grade == 'N/A':
@@ -175,7 +173,7 @@ def pushChangeToRepos(clonesDir, gradeFile, failedTestsDir, repo):
         subprocess.run(["git", "add", f'.{failedTestsDir}'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         message = "Grades updated for your homework."
         subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout
-        subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout
+        subprocess.run(["git", "push", "origin", "HEAD:refs/heads/main", "--force"], check=True, stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "tag", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #adds graded version tag
         subprocess.run(["git", "push", "origin", "graded_ver"], check=True, stdout=subprocess.PIPE).stdout #need to push the tag specifically, will not update tag with just a general push command
         os.chdir(owd)
