@@ -27,13 +27,10 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
                 outputFile.write(', ' + tagList[x])
             outputFile.write('\n')
 
-        if tagName not in tagList:
-            outputFile.write("Target tag:" + str(tagName) + " not present. Skipping\n")
-
         if 'graded_ver' in tagList:
             outputFile.write("Already Graded this homework. graded_ver tag already present. Skipping\n")
 
-        if (tagName in tagList) and ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
+        if ('graded_ver' not in tagList): #If the repo is marked to be graded and hasn't already been graded
             repoURL = "https://" + authKey + "@github.com/" + org + "/" + repo + ".git"
             
             if os.path.isdir(os.getcwd() + clonePath) == False: #create clones folder if it doesn't exist
@@ -41,11 +38,11 @@ def cloneFromRepos(org, repo, hwNum, tagName, authName, authKey, profPath, clone
             
             os.chdir(os.getcwd() + clonePath)
 
-            subprocess.run(["git", "clone", "-b", tagName, str(repoURL)])
+            subprocess.run(["git", "clone", str(repoURL)])
 
             os.chdir(os.getcwd() + "/" + repo) #navigate to cloned repo
 
-            tagStr = 'git log -1 --format=%ai ' + tagName
+            tagStr = 'git log -1 --format=%ai '
             info = subprocess.check_output(tagStr.split()).decode()
             subDate = info.split(' ')[0] + ' ' + info.split(' ')[1]
             hoursLate = fetchHoursLate(subDate, fetchDueDate(newProfPath, hwNum))
@@ -66,7 +63,8 @@ def startGradingProcess(repo, hoursLate, hwName, outputFile, gradeDir, cloneDir,
 
     if not os.path.exists(gradePath):
         os.makedirs(gradePath) #creates repository folder in grades folder
-	
+    os.makedirs(clonePath + '/error_report') #creates folder for error log
+
     gradePath = gradePath + '/' + gradeFile
     
     outputFile.write("\n  --Calling grade_submission.py")
@@ -148,7 +146,7 @@ def putGradesInCSV(profDir, gradesDir, fileName, repo):
 
     if (os.path.exists(owd + profDir) and os.path.exists(owd + gradesDir)):
         df = loadCSV(owd + profDir + "/masterGrades.csv") 
-        template = re.compile('.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
+        template = re.compile('.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') # regex template for getting hw and student from repo name
         srcPath = str(owd + gradesDir + "/" + repo + "/" + fileName)
         match = re.fullmatch(template, repo) # match template with repository name
         
@@ -173,6 +171,8 @@ def pushChangeToRepos(clonesDir, gradeFile, failedTestsDir, repo):
         os.chdir(str(srcPath))
         subprocess.run(["git", "add", gradeFile], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         subprocess.run(["git", "add", f'.{failedTestsDir}'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if os.path.exists(srcPath + '/error_report'):
+            subprocess.run(["git", "add", f'./error_report'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         message = "Grades updated for your homework."
         subprocess.run(["git", "commit", "-m", message], stdout=subprocess.PIPE).stdout
         subprocess.run(["git", "push", "origin", "HEAD:refs/heads/master", "--force"], check=True, stdout=subprocess.PIPE).stdout

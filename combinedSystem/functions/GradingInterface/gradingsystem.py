@@ -5,6 +5,7 @@ import re
 import multiprocessing
 import subprocess
 import time
+import shutil
 
 
 # Important!!!!!! If you want to use grade function, to go interface.py <-- line 132 of interface.py
@@ -28,7 +29,6 @@ def grade(path, weights):
     list_final = []  # list of feedback for the submission
 
     debugging = False  # set to True to enable debugging print statements
-
     os.chdir(path)  # change the directory to the path of the project
     os.system('make clean >/dev/null 2>&1')  # get rid of files not needed
 
@@ -42,13 +42,19 @@ def grade(path, weights):
         list_final.append('no files submitted')
         return None, list_final, None
 
-    result = os.system("make >/dev/null 2>&1")  # Run make to see if files compile
-
+    #result = os.system("make >/dev/null 2>&1")  # Run make to see if files compile
+    res = subprocess.run(["make"], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+    
     filename = "hw"
-    if result == 0:
+    if res.returncode == 0:
         list_final.append(f'{filename} compiled correctly! going to next step...\n')
     else:
         list_final.append(f'{filename} did not compile correctly, please check your files\n')
+        os.makedirs(path + '/error_report', exist_ok=True)
+        stderr_out = res.stderr.decode("utf-8")
+        with open(path + '/error_report/compilation_error.txt', 'w+') as comp_error: #add compiler error to repo
+            comp_error.write(stderr_out)
+        
         return None, list_final, None
         exit
     if debugging:
@@ -140,6 +146,13 @@ def grade(path, weights):
             testcases_dict[f'test{i}']['error_log'] = "Test case {i} is wrong..."
             testcases_dict[f'test{i}']['passed'] = False
             weights[f'test{i}'] = 0  # change the points earned to 0
+            shutil.copy(path + '/grade.txt', path + '/error_report' + '/test_' + str(i) + '_error.txt')
+            #with open('test_' + str(i) + '_error.txt', 'w+') as file_to_write, open('grade.txt', 'r') as file_to_read: #add diff output to repo if output is wrong
+            #    for line in file_to_read:
+            #        file_to_write.write(line)
+            #os.rename(path + '/test_' + str(i) + '_error.txt', path + '/error_report' + '/test_' + str(i) + '_error.txt')
+                
+
 
     list_final.append(f'{passed}/{numberoftestcases} test cases passed!\n')
 
@@ -215,7 +228,7 @@ def memcheck(makefile_dir, valgrindstatements):
     if not os.path.exists(valgrindpath):
         print("valgrind not present.\n")
     else:
-        for statement in valgrindstatements:  # run through the valgrind statements
+        for i, statement in enumerate(valgrindstatements):  # run through the valgrind statements
             # os.system(f'valgrind {statement} > {tempfile} 2>&1')
             try:
                 checkfortimeout(f'valgrind --tool=memcheck --log-file={tempfile} --leak-check=full --verbose {statement} >/dev/null 2>&1', timeout=10)
@@ -242,7 +255,12 @@ def memcheck(makefile_dir, valgrindstatements):
                 bytesInUse.append(int(match.group(1).replace(',',
                                                              '')))  # put regex groups from the match into variables and cast to integers
                 blocks.append(int(match.group(3)))
-
+            if bytesInUse[-1] > 0:
+                shutil.copy(tempfile, makefile_dir + '/error_report' + '/test_' + str(i + 1) + '_leak.txt')
+                #with open('test_' + str(i + 1) + '_leak.txt', 'w+') as file_to_write, open(tempfile, 'r') as file_to_read: #if bytes are leaked add valgrind report to repo
+                #    for line in file_to_read:
+                #        file_to_write.write(line)
+                #os.rename(makefile_dir + '/test_' + str(i + 1) + '_leak.txt', makefile_dir + '/error_report' + '/test_' + str(i + 1) + '_leak.txt')
             os.remove(tempfile)  # remove the files we created as they only pertain to this function
 
     return bytesInUse, blocks
