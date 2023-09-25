@@ -81,8 +81,8 @@ for x in range(startIndex, endIndex + 1): #for each homework
 
             tagList = fetchTags(organization, repo, authName, authKey)
 
-            if not os.path.exists(owd + dirPath) and 'final_ver' in tagList and 'graded_ver' in tagList:
-                subprocess.run(["git", "clone", "-b", tagName, str(repoURL)]) #clone repo
+            if not os.path.exists(owd + dirPath) and 'graded_ver' in tagList:
+                subprocess.run(["git", "clone", str(repoURL)]) #clone repo
                 os.chdir(owd + dirPath)
 
             #!!----Delete graded tag-----!!

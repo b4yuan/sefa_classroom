@@ -23,7 +23,7 @@ def fetchLists(jsonFile, repoFilter=None):
         else:
             repoList.append(entry["name"])
     
-    template = re.compile(repoFilter or '.*(spring2023-hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
+    template = re.compile(repoFilter or '.*(hw[a-zA-Z0-9]+)[-]([a-zA-Z0-9-]+)$') #template for student's repo name
     studentSet = set()
     hwSet = set()
     repos = []
@@ -187,7 +187,7 @@ def fetchHWInfo(num, hwName, raw_num = True):
     if raw_num:
         template = re.compile('^([a-zA-Z]*)([0-9]+)(.*)') #accepted temlates for hw name
     else:
-        template = re.compile('.*-spring2023-([a-zA-Z]*)([0-9]+)(.*)')
+        template = re.compile('.*([a-zA-Z]*)([0-9]+)(.*)')
     match = re.fullmatch(template, hwName)
     if match != None: #there was a match
         if (num == None):
